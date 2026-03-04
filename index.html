@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OMGoracle - Luxury Candles</title>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
+
+body{
+font-family: 'Segoe UI', sans-serif;
+background:#0b0b0b;
+color:white;
+overflow-x:hidden;
+}
+
+/* NAVBAR */
+
+nav{
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:20px 8%;
+background:linear-gradient(to right,#0b0b0b,#111);
+border-bottom:1px solid rgba(212,175,55,0.3);
+}
+
+.logo{
+color:#D4AF37;
+font-size:24px;
+font-weight:bold;
+}
+
+nav ul{
+display:flex;
+list-style:none;
+gap:30px;
+}
+
+nav ul li a{
+color:#ddd;
+text-decoration:none;
+transition:0.3s;
+}
+
+nav ul li a:hover{
+color:#D4AF37;
+}
+
+/* HERO */
+
+.hero{
+min-height:100vh;
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:60px 8%;
+background:
+linear-gradient(rgba(0,0,0,0.6),rgba(0,0,0,0.8)),
+url('hero.jpg');
+background-size:cover;
+background-position:center;
+}
+
+.hero-text{
+max-width:500px;
+}
+
+.hero-text h1{
+font-size:48px;
+color:#D4AF37;
+margin-bottom:20px;
+}
+
+.hero-text p{
+color:#ccc;
+margin-bottom:30px;
+}
+
+.btn{
+padding:12px 30px;
+border:2px solid #D4AF37;
+background:transparent;
+color:#D4AF37;
+cursor:pointer;
+transition:0.3s;
+border-radius:5px;
+}
+
+.btn:hover{
+background:#D4AF37;
+color:black;
+}
+
+/* SECTION TITLE */
+
+.section-title{
+text-align:center;
+color:#D4AF37;
+font-size:28px;
+margin:80px 0 40px;
+position:relative;
+}
+
+.section-title::before,
+.section-title::after{
+content:"";
+position:absolute;
+top:50%;
+width:80px;
+height:1px;
+background:#D4AF37;
+}
+
+.section-title::before{
+left:calc(50% - 140px);
+}
+
+.section-title::after{
+right:calc(50% - 140px);
+}
+
+/* PRODUCTS */
+
+.products{
+padding:0 8% 80px;
+}
+
+.product-grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+gap:30px;
+}
+
+.card{
+background:#111;
+padding:20px;
+border-radius:15px;
+border:1px solid rgba(212,175,55,0.2);
+transition:0.3s;
+text-align:center;
+}
+
+.card:hover{
+transform:translateY(-10px);
+box-shadow:0 0 25px rgba(212,175,55,0.4);
+border-color:#D4AF37;
+}
+
+.card img{
+width:100%;
+border-radius:10px;
+margin-bottom:15px;
+}
+
+.price{
+color:#D4AF37;
+font-weight:bold;
+margin:10px 0;
+}
+
+/* ABOUT */
+
+.about{
+padding:80px 8%;
+background:
+linear-gradient(rgba(0,0,0,0.8),rgba(0,0,0,0.9)),
+url('about.jpg');
+background-size:cover;
+background-position:center;
+}
+
+.about p{
+max-width:600px;
+color:#ccc;
+margin-top:20px;
+}
+
+/* WHY CHOOSE */
+
+.features{
+padding:80px 8%;
+text-align:center;
+background:#0b0b0b;
+}
+
+.feature-grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+gap:30px;
+margin-top:40px;
+}
+
+.feature{
+padding:20px;
+border:1px solid rgba(212,175,55,0.2);
+border-radius:10px;
+transition:0.3s;
+}
+
+.feature:hover{
+border-color:#D4AF37;
+box-shadow:0 0 15px rgba(212,175,55,0.3);
+}
+
+/* FOOTER */
+
+footer{
+text-align:center;
+padding:30px;
+background:#111;
+color:#D4AF37;
+border-top:1px solid rgba(212,175,55,0.3);
+}
+
+@media(max-width:900px){
+.hero{
+flex-direction:column;
+text-align:center;
+}
+}
+
+</style>
+</head>
+
+<body>
+
+<nav>
+<div class="logo">OMGoracle</div>
+<ul>
+<li><a href="#">Home</a></li>
+<li><a href="#">Shop</a></li>
+<li><a href="#">About</a></li>
+<li><a href="#">Contact</a></li>
+</ul>
+</nav>
+
+<section class="hero">
+<div class="hero-text">
+<h1>Light That Defines Luxury</h1>
+<p>Premium handcrafted candles designed for elegance and peace.</p>
+<button class="btn">Shop Now</button>
+</div>
+</section>
+
+<h2 class="section-title">Best Sellers</h2>
+
+<section class="products">
+<div class="product-grid">
+
+<div class="card">
+<img src="p1.jpg">
+<h3>Eternal Bliss</h3>
+<p class="price">₹799</p>
+<button class="btn">Add to Cart</button>
+</div>
+
+<div class="card">
+<img src="p2.jpg">
+<h3>Vanilla Dream</h3>
+<p class="price">₹899</p>
+<button class="btn">Add to Cart</button>
+</div>
+
+<div class="card">
+<img src="p3.jpg">
+<h3>Mystic Oud</h3>
+<p class="price">₹1099</p>
+<button class="btn">Add to Cart</button>
+</div>
+
+</div>
+</section>
+
+<section class="about">
+<h2 class="section-title">About OMGoracle</h2>
+<p>OMGoracle brings handcrafted premium candles designed for elegance, peace and luxury.</p>
+</section>
+
+<section class="features">
+<h2 class="section-title">Why Choose Us</h2>
+<div class="feature-grid">
+<div class="feature">Long Burning</div>
+<div class="feature">Natural Wax</div>
+<div class="feature">Perfect for Gifts</div>
+<div class="feature">Premium Fragrance</div>
+</div>
+</section>
+
+<footer>
+Official Launch – 23 March 🎂 | OMGoracle
+</footer>
+
+</body>
+</html>
