@@ -1,4 +1,3 @@
-```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,7 +7,7 @@
 
 <title>OMGoracle Luxury Candles</title>
 
-<link rel="icon" type="image/jpeg" href="logo.jpg">
+<link rel="icon" type="logo.jpg.jpeg" href="logo.jpg.jpeg">
 
 <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
@@ -189,16 +188,15 @@ box-shadow:0 0 15px #d4af37;
 
 <ul>
 
-<li><a href="#">Home</a></li>
+<li><a href="#Home">Home</a></li>
 <li><a href="#shop">Shop</a></li>
 
-<li class="cart">
-🛒 (<span id="cart-count">0</span>)
+<li class="cart"><a href="#cart">Cart 🛒</a> (<span id="cart-count">0</span>)
 </li>
 
-<li><a href="#" onclick="showLogin()">Login</a></li>
+<li><a href="#login" onclick="showLogin()">Login</a></li>
 
-<li><a href="#" onclick="showTracking()">Track Order</a></li>
+<li><a href="#track order" onclick="showTracking()">Track Order</a></li>
 
 </ul>
 
@@ -378,7 +376,7 @@ doc.save("OMGoracle_invoice.pdf")
 
 function sendWhatsApp(){
 
-let phone="91XXXXXXXXXX"
+let phone="9122535159"
 
 let message="New Order from OMGoracle:%0A"
 
@@ -388,7 +386,7 @@ message+=p.name+" - ₹"+p.price+"%0A"
 
 message+="Total: ₹"+total
 
-let url="https://wa.me/"+phone+"?text="+message
+let url="https://wa.me/+919122535159"+"?text="+message
 
 window.open(url,'_blank')
 
@@ -417,4 +415,4 @@ document.getElementById("trackResult").innerText=
 
 </body>
 </html>
-```
+
