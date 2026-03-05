@@ -1,4 +1,4 @@
-
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,7 +8,7 @@
 
 <title>OMGoracle Luxury Candles</title>
 
-<link rel="icon" href="logo.png">
+<link rel="icon" type="image/jpeg" href="logo.jpg">
 
 <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
@@ -27,11 +27,13 @@ display:flex;
 justify-content:space-between;
 padding:15px 8%;
 background:black;
+align-items:center;
 }
 
 .logo{
 color:#d4af37;
 font-size:22px;
+font-weight:bold;
 }
 
 nav ul{
@@ -50,27 +52,39 @@ text-decoration:none;
 
 .cart{
 color:#d4af37;
+font-weight:bold;
 }
 
 .hero{
+position:relative;
+height:90vh;
+overflow:hidden;
 display:flex;
-flex-wrap:wrap;
 align-items:center;
 justify-content:center;
-padding:40px;
+text-align:center;
 }
 
-.hero img{
-width:320px;
-border-radius:10px;
+.hero-video{
+position:absolute;
+top:0;
+left:0;
+width:100%;
+height:100%;
+object-fit:cover;
+z-index:-1;
 }
 
 .hero-text{
-margin-left:40px;
+position:relative;
+background:rgba(0,0,0,0.5);
+padding:30px;
+border-radius:10px;
 }
 
 .hero-text h1{
 color:#d4af37;
+font-size:32px;
 }
 
 .btn{
@@ -78,6 +92,8 @@ border:1px solid #d4af37;
 padding:10px 20px;
 color:#d4af37;
 text-decoration:none;
+display:inline-block;
+margin-top:15px;
 }
 
 .section{
@@ -89,16 +105,38 @@ text-align:center;
 display:flex;
 flex-direction:column;
 align-items:center;
-gap:20px;
+gap:25px;
 }
 
 .card{
 background:#111;
 padding:20px;
 width:230px;
-border-radius:10px;
+border-radius:12px;
+transition:transform 0.5s, box-shadow 0.5s;
+transform-style:preserve-3d;
 }
 
+.card:hover{
+transform:rotateY(10deg) rotateX(10deg) scale(1.05);
+box-shadow:0 20px 40px rgba(212,175,55,0.4);
+}
+
+.card img{
+width:100%;
+border-radius:10px;
+transition:transform 0.5s;
+}
+
+.card:hover img{
+transform:translateZ(20px);
+}
+
+.card h3,
+.card p,
+.card button{
+transform:translateZ(20px);
+}
 .card img{
 width:100%;
 border-radius:8px;
@@ -117,13 +155,6 @@ cursor:pointer;
 margin-top:10px;
 }
 
-footer{
-text-align:center;
-padding:20px;
-background:black;
-color:#aaa;
-}
-
 .panel{
 display:none;
 padding:30px;
@@ -135,6 +166,17 @@ padding:8px;
 margin:5px;
 }
 
+footer{
+text-align:center;
+padding:20px;
+background:black;
+color:#aaa;
+}
+button:hover{
+background:#d4af37;
+color:black;
+box-shadow:0 0 15px #d4af37;
+}
 </style>
 
 </head>
@@ -151,21 +193,23 @@ margin:5px;
 <li><a href="#shop">Shop</a></li>
 
 <li class="cart">
-🛒 <span id="cart-count">0</span>
+🛒 (<span id="cart-count">0</span>)
 </li>
 
 <li><a href="#" onclick="showLogin()">Login</a></li>
+
+<li><a href="#" onclick="showTracking()">Track Order</a></li>
 
 </ul>
 
 </nav>
 
 
-<!-- HERO -->
-
 <section class="hero">
 
-<img src="blackcandle.jpg">
+<video autoplay muted loop playsinline class="hero-video">
+<source src="about.mp4" type="video/mp4">
+</video>
 
 <div class="hero-text">
 
@@ -178,10 +222,6 @@ margin:5px;
 </div>
 
 </section>
-
-
-<!-- PRODUCTS -->
-
 <section id="shop" class="section">
 
 <h2>Best Sellers</h2>
@@ -189,41 +229,24 @@ margin:5px;
 <div class="products">
 
 <div class="card">
-
-<img src="candle1.jpg">
-
+<img src="blackcandle.jpg">
 <h3>Eternal Bliss</h3>
-
 <p class="price">₹799</p>
-
 <button onclick="addCart('Eternal Bliss',799)">Add to Cart</button>
-
 </div>
 
-
 <div class="card">
-
-<img src="candle2.jpg">
-
+<img src="pinkcandle.jpg">
 <h3>Vania Dream</h3>
-
 <p class="price">₹899</p>
-
 <button onclick="addCart('Vania Dream',899)">Add to Cart</button>
-
 </div>
 
-
 <div class="card">
-
-<img src="candle3.jpg">
-
+<img src="blackcandle.jpg">
 <h3>Mystic Oud</h3>
-
 <p class="price">₹1099</p>
-
 <button onclick="addCart('Mystic Oud',1099)">Add to Cart</button>
-
 </div>
 
 </div>
@@ -235,15 +258,12 @@ margin:5px;
 </section>
 
 
-<!-- LOGIN PANEL -->
-
 <div id="loginPanel" class="panel">
 
 <h2>Customer Login</h2>
 
-<input id="email" placeholder="Email">
-
-<input id="pass" placeholder="Password">
+<input placeholder="Email">
+<input placeholder="Password">
 
 <br>
 
@@ -252,9 +272,7 @@ margin:5px;
 </div>
 
 
-<!-- TRACKING -->
-
-<div id="tracking" class="panel">
+<div id="trackingPanel" class="panel">
 
 <h2>Order Tracking</h2>
 
@@ -278,15 +296,12 @@ Official Launch — 23 March | © OMGoracle
 
 <script>
 
-/* CART SYSTEM */
-
 let cart=[]
 let total=0
 
 function addCart(name,price){
 
 cart.push({name,price})
-
 total+=price
 
 document.getElementById("cart-count").innerText=cart.length
@@ -295,32 +310,23 @@ alert("Added to Cart")
 
 }
 
-
-/* LOGIN */
-
 function showLogin(){
-
 document.getElementById("loginPanel").style.display="block"
-
 }
 
 function login(){
-
-alert("Login Success")
-
+alert("Login Successful")
 }
 
-
-/* CHECKOUT */
+function showTracking(){
+document.getElementById("trackingPanel").style.display="block"
+}
 
 function checkout(){
 
 if(cart.length==0){
-
 alert("Cart Empty")
-
 return
-
 }
 
 var options = {
@@ -338,19 +344,16 @@ description:"Luxury Candle Purchase",
 handler:function(){
 
 generateInvoice()
+sendWhatsApp()
 
 }
 
 }
 
 var rzp=new Razorpay(options)
-
 rzp.open()
 
 }
-
-
-/* INVOICE PDF */
 
 function generateInvoice(){
 
@@ -363,31 +366,50 @@ doc.text("OMGoracle Invoice",20,20)
 let y=40
 
 cart.forEach(p=>{
-
 doc.text(p.name+" - ₹"+p.price,20,y)
-
 y+=10
-
 })
 
 doc.text("Total ₹"+total,20,y+10)
 
 doc.save("OMGoracle_invoice.pdf")
 
-alert("Payment Successful")
-
 }
 
+function sendWhatsApp(){
 
-/* ORDER TRACKING */
+let phone="91XXXXXXXXXX"
+
+let message="New Order from OMGoracle:%0A"
+
+cart.forEach(p=>{
+message+=p.name+" - ₹"+p.price+"%0A"
+})
+
+message+="Total: ₹"+total
+
+let url="https://wa.me/"+phone+"?text="+message
+
+window.open(url,'_blank')
+
+}
 
 function track(){
 
 let id=document.getElementById("trackId").value
 
-document.getElementById("trackResult").innerText=
+let status=[
+"Order Confirmed",
+"Packed",
+"Shipped",
+"Out for Delivery",
+"Delivered"
+]
 
-"Order "+id+" is being prepared 🚚"
+let random=status[Math.floor(Math.random()*status.length)]
+
+document.getElementById("trackResult").innerText=
+"Order "+id+" Status: "+random
 
 }
 
