@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
 
 <meta charset="UTF-8">
@@ -20,32 +19,29 @@ box-sizing:border-box;
 font-family:Segoe UI;
 }
 
-html,body{
-width:100%;
-overflow-x:hidden;
+body{
 background:#0b0b0b;
 color:white;
+overflow-x:hidden;
 }
 
 /* NAVBAR */
 
 nav{
-position:fixed;
 width:100%;
-top:0;
-left:0;
 display:flex;
 justify-content:space-between;
 align-items:center;
 padding:20px 8%;
-background:rgba(0,0,0,0.6);
-backdrop-filter:blur(6px);
+background:#000;
+position:fixed;
+top:0;
 z-index:1000;
 }
 
 .logo{
 color:#D4AF37;
-font-size:22px;
+font-size:24px;
 font-weight:bold;
 }
 
@@ -56,53 +52,38 @@ list-style:none;
 }
 
 nav a{
-text-decoration:none;
 color:#ddd;
+text-decoration:none;
 }
 
 /* HERO */
 
 .hero{
-position:relative;
 width:100%;
-height:100vh;
+min-height:100vh;
 display:flex;
 align-items:center;
-padding-left:8%;
-overflow:hidden;
+justify-content:space-between;
+padding:0 8%;
+background:linear-gradient(90deg,#000,#111);
 }
 
-.hero video{
-position:absolute;
-top:0;
-left:0;
-width:100%;
-height:100%;
-object-fit:cover;
-z-index:-2;
+.hero-content{
+max-width:500px;
 }
 
-.hero-overlay{
-position:absolute;
-top:0;
-left:0;
-width:100%;
-height:100%;
-background:linear-gradient(
-to right,
-rgba(0,0,0,0.9),
-rgba(0,0,0,0.2)
-);
-z-index:-1;
-}
-
-.hero h1{
+.hero-content h1{
 font-size:60px;
-margin-bottom:20px;
+line-height:1.2;
 }
 
-.hero span{
+.hero-content span{
 color:#D4AF37;
+}
+
+.hero-content p{
+margin:20px 0;
+color:#ccc;
 }
 
 .btn{
@@ -112,6 +93,11 @@ padding:12px 30px;
 border-radius:30px;
 font-weight:bold;
 cursor:pointer;
+}
+
+.hero-image img{
+width:450px;
+max-width:100%;
 }
 
 /* PRODUCTS */
@@ -136,6 +122,13 @@ gap:40px;
 background:#111;
 padding:20px;
 border-radius:15px;
+border:1px solid rgba(212,175,55,0.2);
+transition:.3s;
+}
+
+.card:hover{
+transform:translateY(-8px);
+box-shadow:0 0 20px rgba(212,175,55,.4);
 }
 
 .card img{
@@ -158,7 +151,7 @@ width:350px;
 height:100%;
 background:#111;
 padding:30px;
-transition:0.4s;
+transition:.4s;
 overflow:auto;
 }
 
@@ -176,13 +169,6 @@ color:#D4AF37;
 margin:10px 0;
 }
 
-/* TRACK */
-
-.track{
-padding:120px 8%;
-text-align:center;
-}
-
 input{
 width:100%;
 padding:10px;
@@ -193,6 +179,13 @@ border-radius:6px;
 color:white;
 }
 
+/* TRACK */
+
+.track{
+padding:120px 8%;
+text-align:center;
+}
+
 footer{
 text-align:center;
 padding:30px;
@@ -201,12 +194,9 @@ color:#D4AF37;
 }
 
 </style>
-
 </head>
 
 <body>
-
-<!-- NAVBAR -->
 
 <nav>
 
@@ -227,17 +217,22 @@ color:#D4AF37;
 
 <section class="hero">
 
-<video autoplay muted loop playsinline>
-<source src="about.mp4">
-</video>
+<div class="hero-content">
 
-<div class="hero-overlay"></div>
+<h1>Light That Defines <span>Luxury</span></h1>
 
-<div>
-
-<h1>Luxury <span>Candles</span></h1>
+<p>
+Discover handcrafted candles that elevate your senses
+with elegance and exquisite fragrance.
+</p>
 
 <button class="btn" onclick="scrollShop()">Shop Now</button>
+
+</div>
+
+<div class="hero-image">
+
+<img src="blackcandle.jpg">
 
 </div>
 
@@ -448,5 +443,4 @@ window.open("https://wa.me/919122535159?text=Hello OMGoracle I want to order can
 </script>
 
 </body>
-
 </html>
