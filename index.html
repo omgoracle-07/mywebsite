@@ -5,12 +5,18 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>OMGoracle Luxury Candles</title>
+<title>OMGoracle | Luxury Candles</title>
+
+<link rel="icon" href="logo.png">
 
 <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
 <style>
+
+html{
+scroll-behavior:smooth;
+}
 
 *{
 margin:0;
@@ -22,21 +28,32 @@ font-family:Segoe UI;
 body{
 background:#0b0b0b;
 color:white;
-overflow-x:hidden;
+}
+
+/* ANNOUNCEMENT BAR */
+
+.announcement{
+background:#D4AF37;
+color:black;
+text-align:center;
+padding:8px;
+font-size:14px;
 }
 
 /* NAVBAR */
 
 nav{
-width:100%;
 display:flex;
 justify-content:space-between;
 align-items:center;
-padding:20px 8%;
-background:#000;
+padding:18px 8%;
+background:rgba(0,0,0,0.6);
+backdrop-filter:blur(12px);
 position:fixed;
+width:100%;
 top:0;
 z-index:1000;
+border-bottom:1px solid rgba(212,175,55,0.2);
 }
 
 .logo{
@@ -49,6 +66,7 @@ nav ul{
 display:flex;
 gap:25px;
 list-style:none;
+align-items:center;
 }
 
 nav a{
@@ -56,16 +74,38 @@ color:#ddd;
 text-decoration:none;
 }
 
+nav a:hover{
+color:#D4AF37;
+}
+
 /* HERO */
 
 .hero{
-width:100%;
-min-height:100vh;
+height:100vh;
 display:flex;
 align-items:center;
 justify-content:space-between;
 padding:0 8%;
-background:linear-gradient(90deg,#000,#111);
+position:relative;
+overflow:hidden;
+}
+
+.hero-video{
+position:absolute;
+width:100%;
+height:100%;
+object-fit:cover;
+top:0;
+left:0;
+z-index:-2;
+}
+
+.hero-overlay{
+position:absolute;
+width:100%;
+height:100%;
+background:linear-gradient(to right,rgba(0,0,0,0.9),rgba(0,0,0,0.2));
+z-index:-1;
 }
 
 .hero-content{
@@ -78,7 +118,9 @@ line-height:1.2;
 }
 
 .hero-content span{
-color:#D4AF37;
+background:linear-gradient(45deg,#FFD700,#D4AF37);
+-webkit-background-clip:text;
+color:transparent;
 }
 
 .hero-content p{
@@ -87,17 +129,23 @@ color:#ccc;
 }
 
 .btn{
-background:#D4AF37;
+background:linear-gradient(45deg,#FFD700,#D4AF37);
 border:none;
 padding:12px 30px;
 border-radius:30px;
 font-weight:bold;
 cursor:pointer;
+transition:.3s;
+}
+
+.btn:hover{
+transform:scale(1.07);
+box-shadow:0 0 15px rgba(212,175,55,.8);
 }
 
 .hero-image img{
-width:450px;
-max-width:100%;
+width:420px;
+filter:drop-shadow(0 0 30px rgba(212,175,55,.6));
 }
 
 /* PRODUCTS */
@@ -110,6 +158,7 @@ text-align:center;
 .products h2{
 color:#D4AF37;
 margin-bottom:40px;
+font-size:36px;
 }
 
 .grid{
@@ -123,12 +172,12 @@ background:#111;
 padding:20px;
 border-radius:15px;
 border:1px solid rgba(212,175,55,0.2);
-transition:.3s;
+transition:.4s;
 }
 
 .card:hover{
-transform:translateY(-8px);
-box-shadow:0 0 20px rgba(212,175,55,.4);
+transform:translateY(-10px);
+box-shadow:0 0 25px rgba(212,175,55,.5);
 }
 
 .card img{
@@ -139,6 +188,7 @@ border-radius:10px;
 .price{
 color:#D4AF37;
 margin:10px 0;
+font-size:18px;
 }
 
 /* CART */
@@ -150,9 +200,10 @@ top:0;
 width:350px;
 height:100%;
 background:#111;
-padding:30px;
+padding:25px;
 transition:.4s;
 overflow:auto;
+z-index:2000;
 }
 
 .cart.active{
@@ -160,14 +211,25 @@ right:0;
 }
 
 .cart-item{
+display:flex;
+justify-content:space-between;
 border-bottom:1px solid #333;
 padding:10px 0;
 }
 
-.total{
-color:#D4AF37;
-margin:10px 0;
+.qty{
+display:flex;
+gap:8px;
 }
+
+.qty button{
+padding:2px 8px;
+background:#D4AF37;
+border:none;
+cursor:pointer;
+}
+
+/* INPUT */
 
 input{
 width:100%;
@@ -186,17 +248,48 @@ padding:120px 8%;
 text-align:center;
 }
 
-footer{
-text-align:center;
-padding:30px;
-background:#111;
+.track h2{
 color:#D4AF37;
+}
+
+/* FOOTER */
+
+footer{
+background:#111;
+padding:40px;
+text-align:center;
+margin-top:60px;
+color:#aaa;
+}
+
+footer h3{
+color:#D4AF37;
+margin-bottom:10px;
+}
+
+/* WHATSAPP FLOAT */
+
+.whatsapp{
+position:fixed;
+bottom:20px;
+right:20px;
+background:#25D366;
+color:white;
+padding:14px 18px;
+border-radius:50%;
+font-size:22px;
+cursor:pointer;
+box-shadow:0 0 10px rgba(0,0,0,0.5);
 }
 
 </style>
 </head>
 
 <body>
+
+<div class="announcement">
+Free Shipping on Orders Above ₹1500
+</div>
 
 <nav>
 
@@ -207,7 +300,7 @@ color:#D4AF37;
 <li><a href="#">Home</a></li>
 <li><a href="#shop">Shop</a></li>
 <li><a href="#track">Track</a></li>
-<li onclick="toggleCart()">🛒</li>
+<li onclick="toggleCart()" style="cursor:pointer">🛒</li>
 
 </ul>
 
@@ -217,14 +310,17 @@ color:#D4AF37;
 
 <section class="hero">
 
+<video autoplay muted loop class="hero-video">
+<source src="hero.mp4" type="video/mp4">
+</video>
+
+<div class="hero-overlay"></div>
+
 <div class="hero-content">
 
 <h1>Light That Defines <span>Luxury</span></h1>
 
-<p>
-Discover handcrafted candles that elevate your senses
-with elegance and exquisite fragrance.
-</p>
+<p>Premium handcrafted candles for a luxurious lifestyle.</p>
 
 <button class="btn" onclick="scrollShop()">Shop Now</button>
 
@@ -254,9 +350,7 @@ with elegance and exquisite fragrance.
 
 <p class="price">₹899</p>
 
-<button class="btn" onclick="addToCart('Black Edition',899)">
-Add to Cart
-</button>
+<button class="btn" onclick="addToCart('Black Edition',899)">Add to Cart</button>
 
 </div>
 
@@ -268,9 +362,7 @@ Add to Cart
 
 <p class="price">₹999</p>
 
-<button class="btn" onclick="addToCart('Pink Luxury',999)">
-Add to Cart
-</button>
+<button class="btn" onclick="addToCart('Pink Luxury',999)">Add to Cart</button>
 
 </div>
 
@@ -282,7 +374,7 @@ Add to Cart
 
 <section class="track" id="track">
 
-<h2>Track Your Order</h2>
+<h2>Track Order</h2>
 
 <input type="text" id="trackInput" placeholder="Enter Order ID">
 
@@ -302,27 +394,31 @@ Add to Cart
 
 <div id="items"></div>
 
-<p class="total">
-Total ₹<span id="total">0</span>
-</p>
+<p>Total ₹<span id="total">0</span></p>
 
 <h3>Checkout</h3>
 
-<input type="text" placeholder="Name" id="name">
-<input type="tel" placeholder="Phone" id="phone">
-<input type="text" placeholder="Address" id="address">
+<input type="text" placeholder="Name">
+<input type="tel" placeholder="Phone">
+<input type="text" placeholder="Address">
 
-<br>
+<br><br>
 
 <button class="btn" onclick="payNow()">Pay with Razorpay</button>
 
-<button class="btn" onclick="whatsappOrder()">WhatsApp Order</button>
-
 </div>
+
+<!-- WHATSAPP -->
+
+<div class="whatsapp" onclick="whatsappOrder()">💬</div>
 
 <footer>
 
-OMGoracle Luxury Candles
+<h3>OMGoracle Luxury Candles</h3>
+
+<p>Handcrafted premium candles designed to elevate your lifestyle.</p>
+
+<p>© 2026 OMGoracle</p>
 
 </footer>
 
@@ -340,7 +436,17 @@ document.getElementById("shop").scrollIntoView({behavior:"smooth"})
 
 function addToCart(name,price){
 
-cart.push({name,price})
+let item=cart.find(p=>p.name===name)
+
+if(item){
+
+item.qty++
+
+}else{
+
+cart.push({name,price,qty:1})
+
+}
 
 updateCart()
 
@@ -351,16 +457,46 @@ function updateCart(){
 let html=""
 let total=0
 
-cart.forEach(item=>{
+cart.forEach((item,i)=>{
 
-html+=`<div class="cart-item">${item.name} ₹${item.price}</div>`
+total+=item.price*item.qty
 
-total+=item.price
+html+=`
+
+<div class="cart-item">
+
+${item.name} ₹${item.price}
+
+<div class="qty">
+
+<button onclick="changeQty(${i},-1)">-</button>
+
+${item.qty}
+
+<button onclick="changeQty(${i},1)">+</button>
+
+</div>
+
+</div>
+
+`
 
 })
 
 document.getElementById("items").innerHTML=html
 document.getElementById("total").innerText=total
+
+}
+
+function changeQty(i,change){
+
+cart[i].qty+=change
+
+if(cart[i].qty<=0){
+cart.splice(i,1)
+}
+
+updateCart()
 
 }
 
@@ -371,11 +507,8 @@ let total=document.getElementById("total").innerText
 var options={
 
 key:"rzp_test_SNNhs7RaPBITes",
-
 amount:total*100,
-
 currency:"INR",
-
 name:"OMGoracle",
 
 handler:function(){
@@ -385,8 +518,6 @@ let orderID="OMG"+Math.floor(Math.random()*100000)
 localStorage.setItem("orderID",orderID)
 
 alert("Payment Success! Order ID: "+orderID)
-
-generateInvoice(orderID)
 
 }
 
@@ -401,7 +532,6 @@ rzp.open()
 function trackOrder(){
 
 let id=document.getElementById("trackInput").value
-
 let saved=localStorage.getItem("orderID")
 
 if(id===saved){
@@ -413,22 +543,6 @@ document.getElementById("trackResult").innerText="Order Shipped 🚚"
 document.getElementById("trackResult").innerText="Order Not Found"
 
 }
-
-}
-
-function generateInvoice(id){
-
-const {jsPDF}=window.jspdf
-
-let doc=new jsPDF()
-
-doc.text("OMGoracle Invoice",20,20)
-
-doc.text("Order ID: "+id,20,40)
-
-doc.text("Thank you for shopping",20,60)
-
-doc.save("invoice.pdf")
 
 }
 
