@@ -8,6 +8,7 @@
 <title>OMGoracle Luxury Candles</title>
 
 <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
 <style>
 
@@ -15,13 +16,13 @@
 margin:0;
 padding:0;
 box-sizing:border-box;
+scroll-behavior:smooth;
+font-family:Segoe UI;
 }
 
 body{
-font-family:'Segoe UI',sans-serif;
 background:#0b0b0b;
 color:white;
-overflow-x:hidden;
 }
 
 /* NAVBAR */
@@ -46,46 +47,31 @@ font-weight:bold;
 
 nav ul{
 display:flex;
+gap:25px;
 list-style:none;
-gap:30px;
-align-items:center;
 }
 
-nav ul li a{
+nav a{
 text-decoration:none;
 color:#ddd;
 }
 
-.cart-icon{
-cursor:pointer;
-position:relative;
-}
-
-.cart-count{
-position:absolute;
-top:-8px;
-right:-10px;
-background:#D4AF37;
-color:black;
-font-size:12px;
-padding:2px 6px;
-border-radius:50%;
+nav a:hover{
+color:#D4AF37;
 }
 
 /* HERO */
 
 .hero{
-position:relative;
 height:100vh;
 display:flex;
 align-items:center;
 padding-left:8%;
+position:relative;
 }
 
 .hero video{
 position:absolute;
-top:0;
-left:0;
 width:100%;
 height:100%;
 object-fit:cover;
@@ -94,107 +80,73 @@ z-index:-2;
 
 .hero-overlay{
 position:absolute;
-top:0;
-left:0;
 width:100%;
 height:100%;
-background:linear-gradient(
-to right,
-rgba(0,0,0,0.9) 35%,
-rgba(0,0,0,0.2)
-);
+background:linear-gradient(to right,rgba(0,0,0,0.9),rgba(0,0,0,0.2));
 z-index:-1;
 }
 
-.hero-content{
-max-width:600px;
-}
-
-.hero-content h1{
+.hero h1{
 font-size:60px;
-margin-bottom:20px;
 }
 
-.hero-content span{
+.hero span{
 color:#D4AF37;
 }
 
+/* BUTTON */
+
 .btn{
-padding:14px 35px;
 background:#D4AF37;
 border:none;
-color:black;
-font-weight:bold;
-border-radius:40px;
+padding:12px 30px;
+border-radius:30px;
 cursor:pointer;
-transition:0.3s;
-}
-
-.btn:hover{
-background:white;
+font-weight:bold;
 }
 
 /* PRODUCTS */
 
 .products{
-padding:100px 8%;
+padding:120px 8%;
 text-align:center;
-}
-
-.section-title{
-color:#D4AF37;
-font-size:32px;
-margin-bottom:50px;
 }
 
 .grid{
 display:grid;
 grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
-gap:30px;
+gap:40px;
 }
 
 .card{
 background:#111;
 padding:20px;
 border-radius:15px;
-transition:0.3s;
 border:1px solid rgba(212,175,55,0.2);
-}
-
-.card:hover{
-transform:translateY(-10px);
-box-shadow:0 0 25px rgba(212,175,55,0.4);
-border-color:#D4AF37;
 }
 
 .card img{
 width:100%;
 border-radius:10px;
-margin-bottom:15px;
 }
 
 .price{
 color:#D4AF37;
-font-weight:bold;
 margin:10px 0;
 }
 
-.qty{
-width:60px;
-padding:5px;
-}
+/* CART */
 
 .cart{
 position:fixed;
-top:0;
 right:-400px;
+top:0;
 width:350px;
 height:100%;
 background:#111;
 padding:30px;
 transition:0.4s;
-z-index:2000;
-overflow-y:auto;
+overflow:auto;
 }
 
 .cart.active{
@@ -206,16 +158,24 @@ border-bottom:1px solid #333;
 padding:10px 0;
 }
 
-.remove{
-color:red;
-cursor:pointer;
-font-size:13px;
-}
-
 .total{
 color:#D4AF37;
 margin:10px 0;
-font-size:18px;
+}
+
+/* TRACK */
+
+.track{
+padding:120px 8%;
+text-align:center;
+}
+
+.track-box{
+background:#111;
+padding:30px;
+max-width:500px;
+margin:auto;
+border-radius:10px;
 }
 
 input{
@@ -224,6 +184,8 @@ padding:10px;
 margin-top:10px;
 border:none;
 border-radius:6px;
+background:#222;
+color:white;
 }
 
 footer{
@@ -246,16 +208,9 @@ color:#D4AF37;
 <ul>
 
 <li><a href="#">Home</a></li>
-<li><a href="#">Shop</a></li>
-<li><a href="#">About</a></li>
-
-<li class="cart-icon" onclick="toggleCart()">
-
-🛒
-
-<span class="cart-count" id="count">0</span>
-
-</li>
+<li><a href="#shop">Shop</a></li>
+<li><a href="#track">Track</a></li>
+<li onclick="toggleCart()">🛒</li>
 
 </ul>
 
@@ -266,28 +221,20 @@ color:#D4AF37;
 <section class="hero">
 
 <video autoplay muted loop>
-<source src="about.mp4" type="video/mp4">
+<source src="about.mp4">
 </video>
 
 <div class="hero-overlay"></div>
 
-<div class="hero-content">
-
 <h1>Luxury <span>Candles</span></h1>
-
-<p>Handcrafted candles designed for elegance.</p>
-
-<button class="btn">Shop Now</button>
-
-</div>
 
 </section>
 
 <!-- PRODUCTS -->
 
-<section class="products">
+<section class="products" id="shop">
 
-<h2 class="section-title">Best Sellers</h2>
+<h2>Best Sellers</h2>
 
 <div class="grid">
 
@@ -299,14 +246,7 @@ color:#D4AF37;
 
 <p class="price">₹899</p>
 
-Qty
-
-<input type="number" id="q1" value="1" class="qty">
-
-<br><br>
-
-<button class="btn"
-onclick="addToCart('Black Edition',899,'q1')">
+<button class="btn" onclick="addToCart('Black Edition',899)">
 Add to Cart
 </button>
 
@@ -320,18 +260,31 @@ Add to Cart
 
 <p class="price">₹999</p>
 
-Qty
-
-<input type="number" id="q2" value="1" class="qty">
-
-<br><br>
-
-<button class="btn"
-onclick="addToCart('Pink Luxury',999,'q2')">
+<button class="btn" onclick="addToCart('Pink Luxury',999)">
 Add to Cart
 </button>
 
 </div>
+
+</div>
+
+</section>
+
+<!-- TRACK ORDER -->
+
+<section class="track" id="track">
+
+<h2>Track Your Order</h2>
+
+<div class="track-box">
+
+<input type="text" id="trackInput" placeholder="Enter Order ID">
+
+<br><br>
+
+<button class="btn" onclick="trackOrder()">Track</button>
+
+<p id="trackResult"></p>
 
 </div>
 
@@ -351,21 +304,21 @@ Total ₹<span id="total">0</span>
 
 <h3>Checkout</h3>
 
-<input type="text" placeholder="Full Name" id="name">
+<input type="text" placeholder="Name" id="name">
 <input type="tel" placeholder="Phone" id="phone">
 <input type="text" placeholder="Address" id="address">
 
 <br>
 
-<button class="btn" onclick="payNow()">
-Pay with Razorpay
-</button>
+<button class="btn" onclick="payNow()">Pay with Razorpay</button>
+
+<button class="btn" onclick="whatsappOrder()">WhatsApp Order</button>
 
 </div>
 
 <footer>
 
-Official Launch – 23 March 🎂 | OMGoracle
+OMGoracle Luxury Candles
 
 </footer>
 
@@ -377,11 +330,9 @@ function toggleCart(){
 document.getElementById("cart").classList.toggle("active")
 }
 
-function addToCart(name,price,id){
+function addToCart(name,price){
 
-let qty=document.getElementById(id).value
-
-cart.push({name,price,qty})
+cart.push({name,price})
 
 updateCart()
 
@@ -392,58 +343,22 @@ function updateCart(){
 let html=""
 let total=0
 
-cart.forEach((item,index)=>{
+cart.forEach(item=>{
 
-let cost=item.price*item.qty
+html+=`<div class="cart-item">${item.name} ₹${item.price}</div>`
 
-total+=cost
-
-html+=`
-
-<div class="cart-item">
-
-${item.name} x ${item.qty}
-
-<br>
-
-₹${cost}
-
-<br>
-
-<span class="remove" onclick="removeItem(${index})">
-Remove
-</span>
-
-</div>
-
-`
+total+=item.price
 
 })
 
 document.getElementById("items").innerHTML=html
-
-document.getElementById("count").innerText=cart.length
-
 document.getElementById("total").innerText=total
-
-}
-
-function removeItem(i){
-
-cart.splice(i,1)
-
-updateCart()
 
 }
 
 function payNow(){
 
 let total=document.getElementById("total").innerText
-
-if(total==0){
-alert("Cart Empty")
-return
-}
 
 var options={
 
@@ -455,21 +370,16 @@ currency:"INR",
 
 name:"OMGoracle",
 
-description:"Luxury Candle Purchase",
-
 handler:function(){
-alert("Payment Successful!")
-cart=[]
-updateCart()
-},
 
-prefill:{
-name:document.getElementById("name").value,
-contact:document.getElementById("phone").value
-},
+let orderID="OMG"+Math.floor(Math.random()*100000)
 
-theme:{
-color:"#D4AF37"
+localStorage.setItem("orderID",orderID)
+
+alert("Payment Success! Order ID: "+orderID)
+
+generateInvoice(orderID)
+
 }
 
 }
@@ -477,6 +387,48 @@ color:"#D4AF37"
 var rzp=new Razorpay(options)
 
 rzp.open()
+
+}
+
+function trackOrder(){
+
+let id=document.getElementById("trackInput").value
+
+let saved=localStorage.getItem("orderID")
+
+if(id===saved){
+
+document.getElementById("trackResult").innerText="Order Shipped 🚚"
+
+}else{
+
+document.getElementById("trackResult").innerText="Order Not Found"
+
+}
+
+}
+
+function generateInvoice(id){
+
+const {jsPDF}=window.jspdf
+
+let doc=new jsPDF()
+
+doc.text("OMGoracle Invoice",20,20)
+
+doc.text("Order ID: "+id,20,40)
+
+doc.text("Thank you for shopping",20,60)
+
+doc.save("invoice.pdf")
+
+}
+
+function whatsappOrder(){
+
+let total=document.getElementById("total").innerText
+
+window.open("https://wa.me/919122535159?text=I want to order candles worth ₹"+total)
 
 }
 
