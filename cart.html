@@ -1,0 +1,159 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<title>Your Cart</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+
+body{
+background:#0f0f0f;
+color:white;
+font-family:Arial;
+padding:40px;
+}
+
+h2{
+color:gold;
+}
+
+.item{
+background:#1a1a1a;
+padding:15px;
+margin-bottom:15px;
+border:1px solid gold;
+border-radius:10px;
+}
+
+button{
+padding:8px 15px;
+background:gold;
+border:none;
+border-radius:15px;
+cursor:pointer;
+font-weight:bold;
+margin-top:5px;
+}
+
+.total{
+font-size:18px;
+margin-top:20px;
+color:gold;
+}
+
+.remove-btn{
+background:red;
+color:white;
+}
+
+</style>
+</head>
+
+<body>
+
+<h2>🛒 Your Cart</h2>
+
+<div id="cartItems"></div>
+
+<div class="total" id="totalPrice"></div>
+
+<br>
+<button onclick="placeOrder()">Place Order</button>
+
+<br><br>
+<a href="index.html" style="color:gold;">⬅ Back to Home</a>
+
+<script>
+
+let cart = JSON.parse(localStorage.getItem("cart")) || [];
+let container = document.getElementById("cartItems");
+let totalBox = document.getElementById("totalPrice");
+
+function renderCart(){
+
+container.innerHTML="";
+let total=0;
+
+if(cart.length===0){
+container.innerHTML="<p>Cart is empty!</p>";
+totalBox.innerHTML="";
+return;
+}
+
+cart.forEach((item,index)=>{
+
+total+=Number(item.price);
+
+container.innerHTML+=`
+
+<div class="item">
+
+<strong>${item.productName}</strong><br>
+₹${item.price}
+
+<br>
+
+<button class="remove-btn" onclick="removeItem(${index})">
+Remove
+</button>
+
+</div>
+
+`;
+
+});
+
+totalBox.innerHTML="Total: ₹"+total;
+
+}
+
+function removeItem(index){
+
+cart.splice(index,1);
+
+localStorage.setItem("cart",JSON.stringify(cart));
+
+renderCart();
+
+}
+
+function placeOrder(){
+
+if(cart.length===0){
+
+alert("Cart is empty!");
+return;
+
+}
+
+let orders = JSON.parse(localStorage.getItem("orders")) || [];
+
+let orderId = "ORD" + Math.floor(Math.random()*100000);
+
+orders.push({
+
+id:orderId,
+items:cart,
+date:new Date().toLocaleString(),
+status:"Order Confirmed"
+
+});
+
+localStorage.setItem("orders",JSON.stringify(orders));
+
+localStorage.removeItem("cart");
+
+alert("Order placed successfully! Order ID: "+orderId);
+
+window.location.href="orders.html";
+
+}
+
+renderCart();
+
+</script>
+
+</body>
+</html>
+

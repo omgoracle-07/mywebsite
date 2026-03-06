@@ -1,0 +1,562 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>OMGoracle Luxury Candles</title>
+
+<link rel="icon" href="logo.jpg">
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+<style>
+
+/* GLOBAL */
+
+body{
+margin:0;
+font-family:Segoe UI;
+background:#000;
+color:white;
+}
+
+*{
+box-sizing:border-box;
+}
+
+/* NAVBAR */
+
+nav{
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:15px 40px;
+background:black;
+position:fixed;
+top:0;
+width:100%;
+z-index:1000;
+}
+
+.logo img{
+height:45px;
+}
+
+nav ul{
+display:flex;
+list-style:none;
+}
+
+nav ul li{
+margin-left:20px;
+}
+
+nav a{
+color:white;
+text-decoration:none;
+}
+
+.cart{
+color:#d4af37;
+font-weight:bold;
+}
+
+/* HERO */
+
+.hero{
+position:relative;
+margin-top:70px;
+height:100vh;
+display:flex;
+align-items:center;
+justify-content:center;
+overflow:hidden;
+}
+
+.hero-video{
+position:absolute;
+top:0;
+left:0;
+width:100%;
+height:100%;
+object-fit:cover;
+z-index:-1;
+}
+
+.hero-text{
+background:rgba(0,0,0,0.55);
+padding:40px;
+border-radius:12px;
+text-align:center;
+backdrop-filter:blur(6px);
+}
+
+.hero-text h1{
+color:#d4af37;
+font-size:36px;
+}
+
+.btn{
+border:1px solid #d4af37;
+padding:10px 25px;
+color:#d4af37;
+text-decoration:none;
+display:inline-block;
+margin-top:15px;
+}
+
+/* SHOP LAYOUT */
+
+.section{
+padding:60px;
+background:#0b0b0b;
+}
+
+.shop-layout{
+display:flex;
+gap:40px;
+align-items:flex-start;
+}
+
+/* DEVELOPER CARD */
+
+.dev-section{
+position:sticky;
+top:100px;
+width:260px;
+height:fit-content;
+background:#040404;
+border-radius:20px;
+display:flex;
+justify-content:center;
+align-items:center;
+perspective:1200px;
+}
+
+.card{
+width:220px;
+padding:25px;
+background:rgba(255,255,255,0.05);
+backdrop-filter:blur(15px);
+border-radius:20px;
+text-align:center;
+border:1px solid rgba(255,255,255,0.1);
+box-shadow:
+0 0 20px #ff00cc,
+0 0 40px #ff00cc;
+transform-style:preserve-3d;
+transition:transform 0.2s ease;
+}
+
+.profile{
+width:90px;
+height:90px;
+border-radius:50%;
+border:3px solid #ff00cc;
+margin-bottom:10px;
+}
+
+.socials{
+display:flex;
+justify-content:center;
+gap:10px;
+margin-top:10px;
+}
+
+.socials a{
+width:35px;
+height:35px;
+display:flex;
+align-items:center;
+justify-content:center;
+background:#111;
+border-radius:50%;
+color:white;
+transition:0.3s;
+}
+
+.socials a:hover{
+background:#ff00cc;
+color:black;
+transform:scale(1.2);
+}
+
+/* PRODUCTS */
+
+.products{
+flex:1;
+display:flex;
+flex-wrap:wrap;
+gap:30px;
+}
+
+.card-product{
+background:#111;
+padding:20px;
+width:230px;
+border-radius:12px;
+transition:transform .5s,box-shadow .5s;
+}
+
+.card-product:hover{
+transform:scale(1.05);
+box-shadow:0 20px 40px rgba(212,175,55,0.3);
+}
+
+.card-product img{
+width:100%;
+height:160px;
+object-fit:cover;
+border-radius:8px;
+}
+
+.price{
+color:#d4af37;
+}
+
+button{
+border:1px solid #d4af37;
+background:none;
+color:#d4af37;
+padding:8px 20px;
+cursor:pointer;
+margin-top:10px;
+}
+
+button:hover{
+background:#d4af37;
+color:black;
+}
+
+/* FOOTER */
+
+footer{
+text-align:center;
+padding:20px;
+background:black;
+color:#aaa;
+}
+
+/* MOBILE */
+
+@media(max-width:900px){
+
+.shop-layout{
+flex-direction:column;
+}
+
+.dev-section{
+position:relative;
+width:100%;
+margin-bottom:30px;
+}
+
+}
+/* LUXURY LOGO */
+
+.logo img{
+height:50px;
+transition:0.4s;
+filter:drop-shadow(0 0 5px gold);
+}
+
+/* HOVER EFFECT */
+
+.logo img:hover{
+
+transform:scale(1.08);
+
+filter:
+drop-shadow(0 0 5px gold)
+drop-shadow(0 0 15px gold)
+drop-shadow(0 0 30px orange);
+
+}
+
+/* GOLD SHINE ANIMATION */
+
+.logo{
+position:relative;
+overflow:hidden;
+}
+
+.logo::after{
+
+content:"";
+position:absolute;
+top:0;
+left:-100%;
+width:50%;
+height:100%;
+
+background:linear-gradient(
+120deg,
+transparent,
+rgba(255,255,255,0.6),
+transparent
+);
+
+animation:shine 4s infinite;
+
+}
+
+@keyframes shine{
+
+0%{left:-100%}
+100%{left:200%}
+
+}
+/* GOLD CURSOR LIGHT */
+
+.cursor-light{
+position:fixed;
+width:300px;
+height:300px;
+
+background:radial-gradient(
+circle,
+rgba(255,215,0,0.25) 0%,
+rgba(255,215,0,0.1) 30%,
+transparent 70%
+);
+
+pointer-events:none;
+transform:translate(-50%,-50%);
+mix-blend-mode:screen;
+z-index:9999;
+
+transition:0.05s linear;
+}
+</style>
+
+</head>
+
+<body>
+<div class="cursor-light"></div>
+<nav>
+
+<div class="logo">
+<img src="images/logo/logo.jpg" alt="OMGoracle">
+</div>
+<ul>
+<li><a href="#">Home</a></li>
+<li><a href="#shop">Shop</a></li>
+
+<li class="cart">
+🛒 (<span id="cart-count">0</span>)
+</li>
+
+<li><a href="#" onclick="logout()">Logout</a></li>
+</ul>
+
+</nav>
+
+
+<section class="hero">
+
+<video autoplay muted loop playsinline class="hero-video">
+<source src="images/about.mp4" type="video/mp4">
+</video>
+
+<div class="hero-text">
+
+<h1>Light That Defines Luxury</h1>
+<p>Premium handcrafted candles designed for elegance and peace.</p>
+
+<a href="#shop" class="btn">Shop Now</a>
+
+</div>
+
+</section>
+
+
+<section id="shop" class="section">
+
+<h2 style="color:#d4af37;text-align:center;">Best Sellers</h2>
+
+<div class="shop-layout">
+
+<!-- DEVELOPER CARD -->
+
+<div class="dev-section">
+
+<div class="card" id="card">
+
+<img src="images/profile/mypic.jpg" class="profile">
+
+<h2>Om Prakash</h2>
+<h3>Web Developer</h3>
+
+<p style="font-size:13px;">
+Creator of OMGoracle Website
+</p>
+
+<div class="socials">
+
+<a href="#"><i class="fa-brands fa-github"></i></a>
+<a href="#"><i class="fa-brands fa-instagram"></i></a>
+<a href="#"><i class="fa-brands fa-linkedin"></i></a>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- PRODUCTS -->
+
+<div class="products">
+
+<div class="card-product">
+<img src="blackcandle.jpg">
+<h3>Eternal Bliss</h3>
+<p class="price">₹799</p>
+<button onclick="addCart('Eternal Bliss',799)">Add to Cart</button>
+</div>
+
+<div class="card-product">
+<img src="pinkcandle.jpg">
+<h3>Vania Dream</h3>
+<p class="price">₹899</p>
+<button onclick="addCart('Vania Dream',899)">Add to Cart</button>
+</div>
+
+<div class="card-product">
+<img src="blackcandle.jpg">
+<h3>Mystic Oud</h3>
+<p class="price">₹1099</p>
+<button onclick="addCart('Mystic Oud',1099)">Add to Cart</button>
+</div>
+
+</div>
+
+</div>
+
+<br>
+
+<center>
+<button onclick="checkout()">Checkout</button>
+</center>
+
+</section>
+
+
+<footer>
+
+Official Launch — 23 March | © OMGoracle
+
+</footer>
+
+
+<script>
+
+/* 3D CARD EFFECT */
+
+const card=document.getElementById("card")
+
+document.addEventListener("mousemove",(e)=>{
+
+let x=(window.innerWidth/2 - e.pageX)/25
+let y=(window.innerHeight/2 - e.pageY)/25
+
+card.style.transform=`rotateY(${x}deg) rotateX(${y}deg)`
+
+})
+
+
+let cart=[]
+let total=0
+
+function addCart(name,price){
+
+cart.push({name,price})
+total+=price
+
+document.getElementById("cart-count").innerText=cart.length
+
+alert(name+" added to cart")
+
+}
+
+function checkout(){
+
+if(cart.length==0){
+alert("Cart Empty")
+return
+}
+
+var options={
+
+key:"rzp_test_SNNhs7RaPBITes",
+
+amount:total*100,
+
+currency:"INR",
+
+name:"OMGoracle",
+
+description:"Luxury Candle Purchase",
+
+handler:function(){
+
+generateInvoice()
+
+}
+
+}
+
+var rzp=new Razorpay(options)
+
+rzp.open()
+
+}
+
+function generateInvoice(){
+
+const {jsPDF}=window.jspdf
+
+let doc=new jsPDF()
+
+doc.text("OMGoracle Invoice",20,20)
+
+let y=40
+
+cart.forEach(p=>{
+doc.text(p.name+" - ₹"+p.price,20,y)
+y+=10
+})
+
+doc.text("Total ₹"+total,20,y+10)
+
+doc.save("OMGoracle_invoice.pdf")
+
+}
+
+function logout(){
+
+localStorage.removeItem("loggedIn")
+window.location.href="login.html"
+
+}
+/* GOLD CURSOR LIGHT */
+
+const cursorLight = document.querySelector(".cursor-light");
+
+document.addEventListener("mousemove", (e)=>{
+
+cursorLight.style.left = e.clientX + "px";
+cursorLight.style.top = e.clientY + "px";
+
+});
+</script>
+
+</body>
+</html>
+
