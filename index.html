@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,8 +7,6 @@
 
 <title>OMGoracle Luxury Candles</title>
 
-<link rel="icon" href="logo.jpg">
-
 <link rel="stylesheet"
 href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
@@ -18,17 +15,16 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
 
 <style>
 
-
-/* GLOBAL */
-
 *{
+margin:0;
+padding:0;
 box-sizing:border-box;
 }
 
 body{
-max-width:1200px;
-width:100%;
-margin:auto;
+font-family:sans-serif;
+background:#0b0b0b;
+color:white;
 }
 
 /* NAVBAR */
@@ -39,23 +35,24 @@ justify-content:space-between;
 align-items:center;
 padding:15px 40px;
 background:black;
-position:fixed;
+position:sticky;
 top:0;
-width:100%;
 z-index:1000;
 }
 
 .logo img{
 height:45px;
+filter:drop-shadow(0 0 5px gold);
+}
+  img{
+max-width:100%;
+height:auto;
 }
 
 nav ul{
 display:flex;
+gap:20px;
 list-style:none;
-}
-
-nav ul li{
-margin-left:20px;
 }
 
 nav a{
@@ -64,82 +61,80 @@ text-decoration:none;
 }
 
 .cart{
-color:#d4af37;
+color:gold;
 font-weight:bold;
 }
 
 /* HERO */
 
 .hero{
-position:relative;
-margin-top:70px;
-height:100vh;
+height:60vh;
 display:flex;
+flex-direction:column;
 align-items:center;
 justify-content:center;
-overflow:hidden;
-}
-
-.hero-video{
-position:absolute;
-top:0;
-left:0;
-width:100%;
-height:100%;
-object-fit:cover;
-z-index:-1;
-}
-
-.hero-text{
-background:rgba(0,0,0,0.55);
-padding:40px;
-border-radius:12px;
 text-align:center;
-backdrop-filter:blur(6px);
 }
 
-.hero-text h1{
-color:#d4af37;
+.hero h1{
+color:gold;
 font-size:36px;
 }
 
-.btn{
-border:1px solid #d4af37;
-padding:10px 25px;
-color:#d4af37;
-text-decoration:none;
-display:inline-block;
-margin-top:15px;
-}
+/* PRODUCTS */
 
-/* SHOP LAYOUT */
-
-.section{
+.products{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+gap:25px;
 padding:60px;
-background:#0b0b0b;
 }
 
-.shop-layout{
-display:flex;
-gap:40px;
-align-items:flex-start;
+.product{
+background:#111;
+padding:20px;
+border-radius:10px;
+text-align:center;
+transition:.4s;
 }
 
-/* DEVELOPER CARD */
+.product:hover{
+transform:scale(1.05);
+box-shadow:0 20px 40px rgba(212,175,55,0.3);
+}
 
-.dev-section{
-position:sticky;
-top:100px;
-width:260px;
-height:fit-content;
-background:#040404;
-border-radius:20px;
+.product img{
+width:100%;
+height:160px;
+object-fit:cover;
+border-radius:8px;
+}
+
+.price{
+color:gold;
+}
+
+button{
+border:1px solid gold;
+background:none;
+color:gold;
+padding:8px 20px;
+cursor:pointer;
+margin-top:10px;
+}
+
+button:hover{
+background:gold;
+color:black;
+}
+
+/* DEVELOPER */
+
+.developer{
 display:flex;
 justify-content:center;
-align-items:center;
-perspective:1200px;
+padding:80px;
 }
-
 .card{
 width:220px;
 padding:25px;
@@ -154,7 +149,6 @@ box-shadow:
 0 0 40px #ff00cc;
 
 transition:transform 0.2s ease;
-
 transform-style:preserve-3d;
 
 position:relative;
@@ -162,10 +156,14 @@ overflow:hidden;
 }
 
 .profile{
-width:80px;
+width:90px;
+height:90px;
 border-radius:50%;
+border:3px solid #ff00cc;
 margin-bottom:10px;
 }
+
+/* PARTICLES */
 
 .particles{
 position:absolute;
@@ -191,28 +189,27 @@ box-shadow:
 300px 60px gold,
 400px 200px gold;
 
-animation:particlesMove 10s linear infinite;
+animation:particlesMove 8s linear infinite;
 }
 
 @keyframes particlesMove{
-0%{
-transform:translateY(0);
+
+0%{transform:translateY(0)}
+100%{transform:translateY(-400px)}
+
 }
 
-100%{
-transform:translateY(-400px);
+footer{
+text-align:center;
+padding:20px;
+background:black;
+color:#aaa;
 }
+  .logo img{
+height:45px;
+filter:drop-shadow(0 0 5px gold);
 }
-
-.profile{
-width:90px;
-height:90px;
-border-radius:50%;
-border:3px solid #ff00cc;
-margin-bottom:10px;
-}
-
-.socials{
+ .socials{
 display:flex;
 justify-content:center;
 gap:10px;
@@ -236,311 +233,55 @@ background:#ff00cc;
 color:black;
 transform:scale(1.2);
 }
-
-/* PRODUCTS */
-
-.products{
-flex:1;
-display:flex;
-flex-wrap:wrap;
-gap:30px;
+.checkout{
+margin:40px auto;
+display:block;
+font-size:16px;
+padding:12px 30px;
 }
-
-.card-product{
-background:#111;
-padding:20px;
-width:230px;
-border-radius:12px;
-transition:transform .5s,box-shadow .5s;
-}
-
-.card-product:hover{
-transform:scale(1.05);
-box-shadow:0 20px 40px rgba(212,175,55,0.3);
-}
-
-.card-product img{
-width:100%;
-height:160px;
-object-fit:cover;
-border-radius:8px;
-}
-
-.price{
-color:#d4af37;
-}
-
-button{
-border:1px solid #d4af37;
-background:none;
-color:#d4af37;
-padding:8px 20px;
-cursor:pointer;
-margin-top:10px;
-}
-
-button:hover{
-background:#d4af37;
-color:black;
-}
-
-/* FOOTER */
-
-footer{
-text-align:center;
-padding:20px;
-background:black;
-color:#aaa;
-}
-
-/* MOBILE */
-
-@media(max-width:768px){
-
-.shop-layout{
-flex-direction:column;
-}
-.product{
-width:100%;
-}
-}
-
-.dev-section{
-position:relative;
-width:100%;
-margin-bottom:30px;
-}
-
-}
-/* LUXURY LOGO */
-
-.logo img{
-height:50px;
-transition:0.4s;
-filter:drop-shadow(0 0 5px gold);
-}
-
-/* HOVER EFFECT */
-
-.logo img:hover{
-
-transform:scale(1.08);
-
-filter:
-drop-shadow(0 0 5px gold)
-drop-shadow(0 0 15px gold)
-drop-shadow(0 0 30px orange);
-
-}
-
-/* GOLD SHINE ANIMATION */
-
-.logo{
-position:relative;
-overflow:hidden;
-}
-
-.logo::after{
-
-content:"";
-position:absolute;
-top:0;
-left:-100%;
-width:50%;
-height:100%;
-
-background:linear-gradient(
-120deg,
-transparent,
-rgba(255,255,255,0.6),
-transparent
-);
-
-animation:shine 4s infinite;
-
-}
-
-@keyframes shine{
-
-0%{left:-100%}
-100%{left:200%}
-
-}
-/* GOLD CURSOR LIGHT */
-
-.cursor-light{
-position:fixed;
-width:300px;
-height:300px;
-
-background:radial-gradient(
-circle,
-rgba(255,215,0,0.25) 0%,
-rgba(255,215,0,0.1) 30%,
-transparent 70%
-);
-
-pointer-events:none;
-transform:translate(-50%,-50%);
-mix-blend-mode:screen;
-z-index:9999;
-
-transition:0.05s linear;
-}
-  .bg-animation{
-position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
-background:
-radial-gradient(circle at 20% 30%, #ff00cc33, transparent 40%),
-radial-gradient(circle at 80% 70%, #00f0ff33, transparent 40%),
-radial-gradient(circle at 50% 50%, #ffcc0033, transparent 40%);
-z-index:-1;
-animation:bgMove 10s infinite alternate ease-in-out;
-}
-
-@keyframes bgMove{
-
-0%{
-background-position:0% 0%,100% 100%,50% 50%;
-}
-
-100%{
-background-position:20% 30%,80% 70%,60% 40%;
-}
-
-}
-  img{
-max-width:100%;
-height:auto;
-}
-  @media (max-width:768px){
-
-body{
-padding:10px;
-}
-
-h1{
-font-size:22px;
-}
-
-.product{
-width:100%;
-}
-
-}
-  *{
-box-sizing:border-box;
-}
- 
-
-/* aapka purana CSS code */
-
-/* BACKGROUND ANIMATION */
-
-.bg-animation{
-position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
-background:
-radial-gradient(circle at 20% 30%, #ff00cc33, transparent 40%),
-radial-gradient(circle at 80% 70%, #00f0ff33, transparent 40%),
-radial-gradient(circle at 50% 50%, #ffcc0033, transparent 40%);
-z-index:-1;
-animation:bgMove 10s infinite alternate ease-in-out;
-}
-
-@keyframes bgMove{
-
-0%{
-background-position:0% 0%,100% 100%,50% 50%;
-}
-
-100%{
-background-position:20% 30%,80% 70%,60% 40%;
-}
-
-}
-  .mouse-light{
-position:fixed;
-width:300px;
-height:300px;
-border-radius:50%;
-background:radial-gradient(circle,
-rgba(255,215,0,0.25) 0%,
-rgba(255,215,0,0.1) 30%,
-transparent 70%
-);
-
-pointer-events:none;
-transform:translate(-50%,-50%);
-mix-blend-mode:screen;
-z-index:9999;
-
-transition:0.05s linear;
-}
-
-
 </style>
 
 </head>
 
 <body>
-  <div class="bg-animation"></div>
-  <div class="mouse-light"></div>
-<div class="cursor-light"></div>
+
 <nav>
 
 <div class="logo">
-<img src="logo.jpg" alt="OMGoracle">
+<img src="logo.jpg">
 </div>
+
 <ul>
+
 <li><a href="#">Home</a></li>
-<li><a href="#shop">Shop</a></li>
+<li><a href="#products">Products</a></li>
+<li><a href="#developer">Developer</a></li>
 
 <li class="cart">
 🛒 (<span id="cart-count">0</span>)
 </li>
 
-<li><a href="#" onclick="logout()">Logout</a></li>
 </ul>
 
 </nav>
 
-
 <section class="hero">
 
-<video autoplay muted loop playsinline class="hero-video">
-<source src="about.mp4" type="video/mp4">
-</video>
-
-<div class="hero-text">
-
-<h1>Light That Defines Luxury</h1>
-<p>Premium handcrafted candles designed for elegance and peace.</p>
-
-<a href="#shop" class="btn">Shop Now</a>
-
-</div>
+<h1>Luxury Candle Collection</h1>
+<p>Premium handcrafted fragrance candles</p>
 
 </section>
 
+<section id="products" class="products"></section>
 
-<section id="shop" class="section">
+<center>
+<button class="checkout" onclick="checkout()">Checkout</button>
+</center>
 
-<h2 style="color:#d4af37;text-align:center;">Best Sellers</h2>
-
-<div class="shop-layout">
-
-<!-- DEVELOPER CARD -->
-
-<div class="dev-section">
+<section id="developer" class="developer">
 
 <div class="card" id="card">
+
 <div class="particles"></div>
 
 <img src="mypic.jpg" class="profile">
@@ -548,9 +289,7 @@ transition:0.05s linear;
 <h2>Om Prakash</h2>
 <h3>Web Developer</h3>
 
-<p style="font-size:13px;">
-Creator of OMGoracle Website
-</p>
+<p>Creator of OMGoracle Website</p>
 
 <div class="socials">
 
@@ -562,71 +301,45 @@ Creator of OMGoracle Website
 
 </div>
 
-</div>
-
-<!-- PRODUCTS -->
-
-<div class="products">
-
-<div class="card-product">
-<img src="product1.jpg">
-<h3>Eternal Bliss</h3>
-<p class="price">₹799</p>
-<button onclick="addCart('Eternal Bliss',799)">Add to Cart</button>
-</div>
-
-<div class="card-product">
-<img src="product2.jpg">
-<h3>Vania Dream</h3>
-<p class="price">₹899</p>
-<button onclick="addCart('Vania Dream',899)">Add to Cart</button>
-</div>
-
-<div class="card-product">
-<img src="product1.jpg">
-<h3>Mystic Oud</h3>
-<p class="price">₹1099</p>
-<button onclick="addCart('Mystic Oud',1099)">Add to Cart</button>
-</div>
-
-</div>
-
-</div>
-
-<br>
-
-<center>
-<button onclick="checkout()">Checkout</button>
-</center>
-
 </section>
-
-
 <footer>
 
 Official Launch — 23 March | © OMGoracle
 
 </footer>
 
-
 <script>
 
-/* 3D CARD EFFECT */
-
-const card=document.getElementById("card")
-
-document.addEventListener("mousemove",(e)=>{
-
-let x=(window.innerWidth/2 - e.pageX)/25
-let y=(window.innerHeight/2 - e.pageY)/25
-
-card.style.transform=`rotateY(${x}deg) rotateX(${y}deg)`
-
-})
-
+const productsContainer=document.querySelector(".products")
 
 let cart=[]
 let total=0
+
+for(let i=1;i<=20;i++){
+
+let price=500+i*20
+
+let product=`
+
+<div class="product">
+
+<img src="product${i}.jpg">
+
+<h3>Candle ${i}</h3>
+
+<p class="price">₹${price}</p>
+
+<button onclick="addCart('Candle ${i}',${price})">
+Add to Cart
+</button>
+
+</div>
+
+`
+
+productsContainer.innerHTML+=product
+
+}
 
 function addCart(name,price){
 
@@ -692,24 +405,7 @@ doc.text("Total ₹"+total,20,y+10)
 doc.save("OMGoracle_invoice.pdf")
 
 }
-
-function logout(){
-
-localStorage.removeItem("loggedIn")
-window.location.href="login.html"
-
-}
-/* GOLD CURSOR LIGHT */
-
-const cursorLight = document.querySelector(".cursor-light");
-
-document.addEventListener("mousemove", (e)=>{
-
-cursorLight.style.left = e.clientX + "px";
-cursorLight.style.top = e.clientY + "px";
-
-});
- 
+  
 
 const card = document.getElementById("card");
 
@@ -734,20 +430,10 @@ card.style.transform =
 card.addEventListener("mouseleave",()=>{
 card.style.transform="rotateX(0) rotateY(0)";
 });
-  const light = document.querySelector(".mouse-light");
 
-document.addEventListener("mousemove",(e)=>{
-
-light.style.left = e.clientX + "px";
-light.style.top = e.clientY + "px";
-
-});
 
 
 </script>
 
 </body>
 </html>
-
-
-
