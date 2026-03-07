@@ -18,17 +18,17 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
 
 <style>
 
-/* GLOBAL */
 
-body{
-margin:0;
-font-family:Segoe UI;
-background:#000;
-color:white;
-}
+/* GLOBAL */
 
 *{
 box-sizing:border-box;
+}
+
+body{
+max-width:1200px;
+width:100%;
+margin:auto;
 }
 
 /* NAVBAR */
@@ -148,11 +148,60 @@ backdrop-filter:blur(15px);
 border-radius:20px;
 text-align:center;
 border:1px solid rgba(255,255,255,0.1);
+
 box-shadow:
 0 0 20px #ff00cc,
 0 0 40px #ff00cc;
-transform-style:preserve-3d;
+
 transition:transform 0.2s ease;
+
+transform-style:preserve-3d;
+
+position:relative;
+overflow:hidden;
+}
+
+.profile{
+width:80px;
+border-radius:50%;
+margin-bottom:10px;
+}
+
+.particles{
+position:absolute;
+top:0;
+left:0;
+width:100%;
+height:100%;
+pointer-events:none;
+}
+
+.particles::before{
+content:"";
+position:absolute;
+width:4px;
+height:4px;
+background:gold;
+border-radius:50%;
+
+box-shadow:
+20px 30px gold,
+120px 80px gold,
+200px 150px gold,
+300px 60px gold,
+400px 200px gold;
+
+animation:particlesMove 10s linear infinite;
+}
+
+@keyframes particlesMove{
+0%{
+transform:translateY(0);
+}
+
+100%{
+transform:translateY(-400px);
+}
 }
 
 .profile{
@@ -246,10 +295,14 @@ color:#aaa;
 
 /* MOBILE */
 
-@media(max-width:900px){
+@media(max-width:768px){
 
 .shop-layout{
 flex-direction:column;
+}
+.product{
+width:100%;
+}
 }
 
 .dev-section{
@@ -334,11 +387,111 @@ z-index:9999;
 
 transition:0.05s linear;
 }
+  .bg-animation{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:
+radial-gradient(circle at 20% 30%, #ff00cc33, transparent 40%),
+radial-gradient(circle at 80% 70%, #00f0ff33, transparent 40%),
+radial-gradient(circle at 50% 50%, #ffcc0033, transparent 40%);
+z-index:-1;
+animation:bgMove 10s infinite alternate ease-in-out;
+}
+
+@keyframes bgMove{
+
+0%{
+background-position:0% 0%,100% 100%,50% 50%;
+}
+
+100%{
+background-position:20% 30%,80% 70%,60% 40%;
+}
+
+}
+  img{
+max-width:100%;
+height:auto;
+}
+  @media (max-width:768px){
+
+body{
+padding:10px;
+}
+
+h1{
+font-size:22px;
+}
+
+.product{
+width:100%;
+}
+
+}
+  *{
+box-sizing:border-box;
+}
+ 
+
+/* aapka purana CSS code */
+
+/* BACKGROUND ANIMATION */
+
+.bg-animation{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:
+radial-gradient(circle at 20% 30%, #ff00cc33, transparent 40%),
+radial-gradient(circle at 80% 70%, #00f0ff33, transparent 40%),
+radial-gradient(circle at 50% 50%, #ffcc0033, transparent 40%);
+z-index:-1;
+animation:bgMove 10s infinite alternate ease-in-out;
+}
+
+@keyframes bgMove{
+
+0%{
+background-position:0% 0%,100% 100%,50% 50%;
+}
+
+100%{
+background-position:20% 30%,80% 70%,60% 40%;
+}
+
+}
+  .mouse-light{
+position:fixed;
+width:300px;
+height:300px;
+border-radius:50%;
+background:radial-gradient(circle,
+rgba(255,215,0,0.25) 0%,
+rgba(255,215,0,0.1) 30%,
+transparent 70%
+);
+
+pointer-events:none;
+transform:translate(-50%,-50%);
+mix-blend-mode:screen;
+z-index:9999;
+
+transition:0.05s linear;
+}
+
+
 </style>
 
 </head>
 
 <body>
+  <div class="bg-animation"></div>
+  <div class="mouse-light"></div>
 <div class="cursor-light"></div>
 <nav>
 
@@ -388,6 +541,7 @@ transition:0.05s linear;
 <div class="dev-section">
 
 <div class="card" id="card">
+<div class="particles"></div>
 
 <img src="mypic.jpg" class="profile">
 
@@ -555,9 +709,45 @@ cursorLight.style.left = e.clientX + "px";
 cursorLight.style.top = e.clientY + "px";
 
 });
+ 
+
+const card = document.getElementById("card");
+
+card.addEventListener("mousemove",(e)=>{
+
+const rect = card.getBoundingClientRect();
+
+const x = e.clientX - rect.left;
+const y = e.clientY - rect.top;
+
+const centerX = rect.width/2;
+const centerY = rect.height/2;
+
+const rotateX = (y-centerY)/10;
+const rotateY = (centerX-x)/10;
+
+card.style.transform =
+`rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+
+});
+
+card.addEventListener("mouseleave",()=>{
+card.style.transform="rotateX(0) rotateY(0)";
+});
+  const light = document.querySelector(".mouse-light");
+
+document.addEventListener("mousemove",(e)=>{
+
+light.style.left = e.clientX + "px";
+light.style.top = e.clientY + "px";
+
+});
+
+
 </script>
 
 </body>
 </html>
+
 
 
