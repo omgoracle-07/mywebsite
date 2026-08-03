@@ -1,0 +1,10 @@
+# ==========================================
+# OMGoracle AI Cyber Cafe
+# robots.txt
+# ==========================================
+
+User-agent: *
+
+Allow: /
+
+Sitemap: https://omgoracle.com/sitemap.xml
