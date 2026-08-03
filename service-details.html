@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Service Details</title>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial,sans-serif;
+}
+
+body{
+background:#f5f7fb;
+padding:40px;
+}
+
+.container{
+max-width:900px;
+margin:auto;
+}
+
+.card{
+background:#fff;
+border-radius:18px;
+padding:30px;
+box-shadow:0 10px 30px rgba(0,0,0,.08);
+}
+
+.backBtn{
+display:inline-block;
+margin-bottom:20px;
+text-decoration:none;
+color:#0d6efd;
+font-weight:bold;
+}
+
+.serviceIcon{
+font-size:70px;
+color:#0d6efd;
+margin-bottom:20px;
+}
+
+h1{
+margin-bottom:10px;
+}
+
+.desc{
+color:#555;
+line-height:1.7;
+margin-bottom:25px;
+}
+
+.info{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+gap:15px;
+margin-bottom:25px;
+}
+
+.box{
+background:#f8f9fa;
+padding:18px;
+border-radius:12px;
+border:1px solid #e9ecef;
+}
+
+.box h3{
+font-size:15px;
+margin-bottom:8px;
+}
+
+.box p{
+font-size:18px;
+font-weight:bold;
+color:#0d6efd;
+}
+
+.documents{
+margin-top:20px;
+}
+
+.documents ul{
+padding-left:20px;
+line-height:2;
+}
+
+.btns{
+display:flex;
+gap:15px;
+margin-top:30px;
+flex-wrap:wrap;
+}
+
+.applyBtn,
+.whatsappBtn{
+
+flex:1;
+padding:15px;
+text-align:center;
+text-decoration:none;
+border-radius:10px;
+font-weight:bold;
+color:white;
+}
+
+.applyBtn{
+background:#0d6efd;
+}
+
+.whatsappBtn{
+background:#25D366;
+}
+
+.applyBtn:hover{
+background:#084ec1;
+}
+
+.whatsappBtn:hover{
+background:#159947;
+}
+
+</style>
+
+</head>
+
+<body>
+  
+<div class="container">
+
+<div class="card">
+
+<a href="services.html" class="backBtn">
+← Back to Services
+</a>
+
+<div class="serviceIcon">
+<i id="serviceIcon" class="fa-solid fa-id-card"></i>
+</div>
+
+<h1 id="serviceTitle"></h1>
+
+<p class="desc" id="serviceDesc"></p>
+
+<div class="info">
+
+<div class="box">
+<h3>Service Charge</h3>
+<p id="serviceCharge"></p>
+</div>
+
+<div class="box" id="govFeeBox">
+<h3>Government Fee</h3>
+<p id="govFee"></p>
+</div>
+
+<div class="box">
+<h3>Processing Time</h3>
+<p id="processingTime"></p>
+</div>
+
+</div>
+
+<div class="documents">
+
+<h2>Required Documents</h2>
+
+<ul id="documentsList"></ul>
+</div>
+
+<div class="btns">
+
+<a href="#" class="applyBtn">
+Apply Now
+</a>
+
+<a href="#" class="whatsappBtn">
+WhatsApp Support
+</a>
+
+</div>
+
+</div>
+
+</div>
+<script>
+
+const params = new URLSearchParams(window.location.search);
+const serviceName = decodeURIComponent(params.get("service"));
+
+async function loadService(){
+
+    const response = await fetch("data/services.json");
+
+    const services = await response.json();
+
+    const service = services.find(item => item.name === serviceName);
+
+    if(!service){
+
+        document.getElementById("serviceTitle").textContent = "Service Not Found";
+        return;
+
+    }
+
+    document.getElementById("serviceIcon").className =
+    `fa-solid ${service.icon}`;
+
+    document.getElementById("serviceTitle").textContent =
+    service.name;
+
+    document.getElementById("serviceDesc").textContent =
+    service.description;
+
+    document.getElementById("serviceCharge").textContent =
+    service.charge;
+
+    document.getElementById("processingTime").textContent =
+    service.processingTime;
+
+    if(service.governmentFee && service.governmentFee !== "N/A"){
+
+        document.getElementById("govFeeBox").style.display = "block";
+        document.getElementById("govFee").textContent =
+        service.governmentFee;
+
+    }else{
+
+        document.getElementById("govFeeBox").style.display = "none";
+
+    }
+
+    const docs = document.getElementById("documentsList");
+
+    docs.innerHTML = "";
+
+    service.documents.forEach(doc=>{
+
+        docs.innerHTML += `<li>✔ ${doc}</li>`;
+
+    });
+
+}
+
+loadService();
+
+if(service){
+
+    document.getElementById("serviceIcon").className =
+    `fa-solid ${service.icon}`;
+
+    document.getElementById("serviceTitle").textContent =
+    service.title;
+
+    document.getElementById("serviceDesc").textContent =
+    service.desc;
+
+    document.getElementById("serviceCharge").textContent =
+    service.charge;
+
+    document.getElementById("processingTime").textContent =
+    service.time;
+
+    if("governmentFee" && "governmentFee" !== "N/A"){
+
+        document.getElementById("govFeeBox").style.display = "block";
+        document.getElementById("govFee").textContent = service.fee;
+
+    }else{
+
+        document.getElementById("govFeeBox").style.display = "none";
+
+    }
+
+    // Required Documents
+    const docs = document.getElementById("documentsList");
+
+    docs.innerHTML = "";
+
+    service.documents.forEach(doc => {
+
+        docs.innerHTML += `<li>✔ ${doc}</li>`;
+
+    });
+
+}
+</script>
+</body>
+</html>

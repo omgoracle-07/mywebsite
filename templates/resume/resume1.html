@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Resume Builder - Template 1 | OMGoracle AI Cyber Cafe</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Poppins',sans-serif;
+}
+
+body{
+background:#eef2f7;
+display:flex;
+height:100vh;
+overflow:hidden;
+}
+
+/* ===========================
+LEFT PANEL
+=========================== */
+
+.editor{
+width:700px;
+background:#ffffff;
+overflow-y:auto;
+padding:25px;
+box-shadow:0 0 15px rgba(0,0,0,.12);
+z-index:10;
+}
+
+.editor h1{
+font-size:24px;
+margin-bottom:5px;
+color:#1565c0;
+}
+
+.editor p{
+font-size:13px;
+color:#666;
+margin-bottom:20px;
+}
+
+.section{
+margin-bottom:28px;
+}
+
+.section h2{
+font-size:30px;
+margin-bottom:15px;
+color:#1565c0;
+border-left:5px solid #1565c0;
+padding-left:10px;
+}
+
+label{
+display:block;
+font-size:13px;
+font-weight:600;
+margin-top:12px;
+margin-bottom:6px;
+}
+
+input,
+textarea{
+width:100%;
+padding:14px;
+border:1px solid #ccc;
+border-radius:8px;
+outline:none;
+font-size:15px;
+transition:.3s;
+}
+
+input:focus,
+textarea:focus{
+border-color:#1565c0;
+box-shadow:0 0 5px rgba(21,101,192,.3);
+}
+
+textarea{
+resize:none;
+height:120px;
+}
+
+/* ===========================
+BUTTONS
+=========================== */
+
+.buttonGroup{
+display:flex;
+gap:10px;
+margin-top:20px;
+}
+
+button{
+flex:1;
+padding:12px;
+border:none;
+border-radius:8px;
+cursor:pointer;
+font-size:14px;
+font-weight:600;
+transition:.3s;
+}
+
+#printBtn{
+background:#1565c0;
+color:white;
+}
+
+#pdfBtn{
+background:#2e7d32;
+color:white;
+}
+
+button:hover{
+transform:translateY(-2px);
+}
+
+/* ===========================
+RIGHT PANEL
+=========================== */
+
+.previewArea{
+flex:1;
+display:flex;
+justify-content:center;
+align-items:flex-start;
+overflow:auto;
+padding:40px;
+}
+
+/* ===========================
+A4 RESUME
+=========================== */
+
+.resume{
+width:210mm;
+min-height:297mm;
+background:white;
+display:flex;
+box-shadow:0 5px 20px rgba(0,0,0,.18);
+}
+
+/* ===========================
+LEFT RESUME
+=========================== */
+
+.leftResume{
+width:30%;
+background:#1565c0;
+color:white;
+padding:30px 22px;
+}
+
+.photoBox{
+width:150px;
+height:150px;
+margin:auto;
+border-radius:50%;
+overflow:hidden;
+border:5px solid white;
+background:#ffffff33;
+display:flex;
+justify-content:center;
+align-items:center;
+}
+
+.photoBox img{
+width:100%;
+height:100%;
+object-fit:cover;
+}
+
+.resumeSection{
+margin-top:30px;
+}
+
+.resumeSection h3{
+font-size:18px;
+margin-bottom:10px;
+padding-bottom:5px;
+border-bottom:2px solid rgba(255,255,255,.3);
+}
+
+.resumeSection p{
+font-size:13px;
+line-height:24px;
+word-break:break-word;
+}
+
+/* ===========================
+RIGHT RESUME
+=========================== */
+
+.rightResume{
+width:70%;
+padding:40px;
+}
+
+#resumeName{
+font-size:34px;
+font-weight:700;
+color:#1565c0;
+}
+
+#resumeRole{
+font-size:18px;
+margin-top:5px;
+color:#666;
+margin-bottom:25px;
+}
+
+.heading{
+font-size:18px;
+color:#1565c0;
+margin-top:25px;
+margin-bottom:10px;
+padding-bottom:5px;
+border-bottom:2px solid #1565c0;
+}
+
+.text{
+font-size:14px;
+line-height:26px;
+color:#444;
+}
+
+/* ===========================
+PRINT
+=========================== */
+
+@media print{
+
+.editor{
+display:none;
+}
+
+.previewArea{
+padding:0;
+margin:0;
+}
+
+.resume{
+box-shadow:none;
+width:210mm;
+height:297mm;
+margin:0;
+}
+
+body{
+background:white;
+}
+
+button{
+display:none;
+}
+.leftResume{
+    background:#166aca !important;
+    color:#fff !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+}
+
+.rightResume{
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+}
+
+*{
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+}
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="editor">
+
+<h1>Resume Builder</h1>
+<p>OMGoracle AI Cyber Cafe</p>
+
+<div class="section">
+<label>Upload Photo</label>
+<input type="file" id="photoInput" accept="image/*">
+<h2>Personal Details</h2>
+
+<label>Full Name</label>
+<input
+type="text"
+id="nameInput"
+placeholder="Enter your full name">
+
+<label>Job Role</label>
+<input
+type="text"
+id="roleInput"
+placeholder="Software Developer">
+
+<label>Phone</label>
+<input
+type="text"
+id="phoneInput"
+placeholder="+91 XXXXX XXXXX">
+
+<label>Email</label>
+<input
+type="email"
+id="emailInput"
+placeholder="example@gmail.com">
+
+<label>Website</label>
+<input
+type="text"
+id="websiteInput"
+placeholder="www.website.com">
+
+<label>Address</label>
+<textarea
+id="addressInput"
+placeholder="Full Address"></textarea>
+
+<label>Profile</label>
+<textarea
+id="profileInput"
+placeholder="Write profile summary"></textarea>
+<label>Profile</label>
+<textarea id="profileInput"></textarea>
+
+<!-- Education code यहाँ paste करना है -->
+
+<div class="section">
+...
+</div>
+</div>
+<div class="section">
+
+<h2>Education</h2>
+
+<div id="educationInputs">
+
+<div class="educationItem">
+
+<label>College / School</label>
+<input type="text" class="eduCollege" placeholder="ABC College">
+
+<label>Degree</label>
+<input type="text" class="eduDegree" placeholder="B.Tech CSE">
+
+<label>Start Year</label>
+<input type="text" class="eduStart" placeholder="2026">
+
+<label>End Year</label>
+<input type="text" class="eduEnd" placeholder="2030">
+
+<label>Percentage / CGPA</label>
+<input type="text" class="eduMarks" placeholder="8.5 CGPA">
+
+</div>
+
+</div>
+
+<button type="button" id="addEducation">
++ Add Education
+</button>
+
+</div>
+
+<div class="buttonGroup">
+
+<button id="printBtn">
+🖨 Print
+</button>
+
+<button id="pdfBtn">
+📄 PDF
+</button>
+
+</div>
+
+</div>
+
+<div class="previewArea">
+
+<div class="resume">
+
+<div class="leftResume">
+
+<div class="photoBox">
+<img src="https://via.placeholder.com/150" id="resumePhoto">
+</div>
+
+<div class="resumeSection">
+
+<h3>Contact</h3>
+
+<p id="resumePhone">+91 XXXXX XXXXX</p>
+
+<p id="resumeEmail">example@gmail.com</p>
+
+<p id="resumeWebsite">www.website.com</p>
+
+<p id="resumeAddress">
+Your Address
+</p>
+
+</div>
+
+<div class="resumeSection">
+
+<h3>Skills</h3>
+
+<p id="skillBox">
+HTML<br>
+CSS<br>
+JavaScript
+</p>
+
+</div>
+
+</div>
+
+<div class="rightResume">
+
+<h1 id="resumeName">
+Your Name
+</h1>
+
+<p id="resumeRole">
+Software Developer
+</p>
+
+<h2 class="heading">
+Profile
+</h2>
+
+<p class="text" id="resumeProfile">
+Write your professional profile here...
+</p>
+<h2 class="heading">
+Education
+</h2>
+
+<div id="educationPreview">
+
+<div>
+
+<h3>B.Tech CSE</h3>
+
+<p>ABC College</p>
+
+<p>2026 - 2030</p>
+
+<p>CGPA : 8.5</p>
+
+<br>
+
+</div>
+
+</div>
+
+<!-- Part 1B se Education, Experience, Skills,
+Photo Upload aur Live JavaScript start hoga -->
+
+</div>
+
+</div>
+
+</div>
+
+<script>
+    // ===========================
+// PART 1B - JAVASCRIPT
+// ===========================
+
+const nameInput=document.getElementById("nameInput");
+const roleInput=document.getElementById("roleInput");
+const phoneInput=document.getElementById("phoneInput");
+const emailInput=document.getElementById("emailInput");
+const websiteInput=document.getElementById("websiteInput");
+const addressInput=document.getElementById("addressInput");
+const profileInput=document.getElementById("profileInput");
+
+const resumeName=document.getElementById("resumeName");
+const resumeRole=document.getElementById("resumeRole");
+const resumePhone=document.getElementById("resumePhone");
+const resumeEmail=document.getElementById("resumeEmail");
+const resumeWebsite=document.getElementById("resumeWebsite");
+const resumeAddress=document.getElementById("resumeAddress");
+const resumeProfile=document.getElementById("resumeProfile");
+
+nameInput.addEventListener("input",()=>{
+resumeName.innerText=nameInput.value || "Your Name";
+});
+
+roleInput.addEventListener("input",()=>{
+resumeRole.innerText=roleInput.value || "Software Developer";
+});
+
+phoneInput.addEventListener("input",()=>{
+resumePhone.innerText=phoneInput.value || "+91 XXXXX XXXXX";
+});
+
+emailInput.addEventListener("input",()=>{
+resumeEmail.innerText=emailInput.value || "example@gmail.com";
+});
+
+websiteInput.addEventListener("input",()=>{
+resumeWebsite.innerText=websiteInput.value || "www.website.com";
+});
+
+addressInput.addEventListener("input",()=>{
+resumeAddress.innerText=addressInput.value || "Your Address";
+});
+
+profileInput.addEventListener("input",()=>{
+resumeProfile.innerText=profileInput.value || "Write your professional profile here...";
+});
+
+// ===========================
+// PRINT
+// ===========================
+
+document.getElementById("printBtn").onclick=function(){
+window.print();
+};
+
+// ===========================
+// PDF
+// ===========================
+
+document.getElementById("pdfBtn").onclick=function(){
+window.print();
+};
+
+// ===========================
+// LOCAL STORAGE
+// ===========================
+
+const fields=[
+"nameInput",
+"roleInput",
+"phoneInput",
+"emailInput",
+"websiteInput",
+"addressInput",
+"profileInput"
+];
+
+fields.forEach(id=>{
+
+const el=document.getElementById(id);
+
+if(localStorage.getItem(id)){
+el.value=localStorage.getItem(id);
+el.dispatchEvent(new Event("input"));
+}
+
+el.addEventListener("input",()=>{
+localStorage.setItem(id,el.value);
+});
+
+});
+
+// ===========================
+// PAGE LOAD
+// ===========================
+
+window.onload=function(){
+
+fields.forEach(id=>{
+
+const el=document.getElementById(id);
+
+el.dispatchEvent(new Event("input"));
+
+});
+
+};
+// Photo Upload
+
+const photoInput = document.getElementById("photoInput");
+const resumePhoto = document.getElementById("resumePhoto");
+
+photoInput.addEventListener("change", function(){
+
+    const file = this.files[0];
+
+    if(file){
+
+        const reader = new FileReader();
+
+        reader.onload = function(e){
+
+            resumePhoto.src = e.target.result;
+
+        };
+
+        reader.readAsDataURL(file);
+
+    }
+
+});
+
+
+
+</script>
+
+</body>
+</html>

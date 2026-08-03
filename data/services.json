@@ -1,0 +1,708 @@
+[
+  {
+    "name": "PAN Card",
+    "category": "Government",
+    "icon": "fa-id-card",
+    "description": "New PAN Card Apply, Correction & Reprint.",
+    "charge": "₹99",
+    "governmentFee": "₹107",
+    "processingTime": "15 Minutes",
+    "documents": [
+      "Aadhaar Card",
+      "Passport Size Photo",
+      "Signature"
+    ],
+    "eligibility": [
+      "Indian Citizen"
+    ],
+    "benefits": [
+      "Fast Processing",
+      "Online Support",
+      "Secure Application"
+    ]
+  },
+
+  {
+    "name": "Aadhaar Services",
+    "category": "Government",
+    "icon": "fa-address-card",
+    "description": "Aadhaar Update, Download & Related Services.",
+    "charge": "₹49",
+    "governmentFee": "N/A",
+    "processingTime": "10 Minutes",
+    "documents": [
+      "Aadhaar Number",
+      "Registered Mobile Number"
+    ],
+    "eligibility": [
+      "Valid Aadhaar Holder"
+    ],
+    "benefits": [
+      "Quick Download",
+      "Fast Update"
+    ]
+  },
+
+  {
+    "name": "Passport Service",
+    "category": "Government",
+    "icon": "fa-passport",
+    "description": "Passport Registration & Appointment.",
+    "charge": "₹199",
+    "governmentFee": "As Per Government",
+    "processingTime": "1-2 Days",
+    "documents": [
+      "Aadhaar Card",
+      "Address Proof",
+      "Photo"
+    ],
+    "eligibility": [
+      "Indian Citizen"
+    ],
+    "benefits": [
+      "Appointment Booking",
+      "Document Verification"
+    ]
+  },
+
+  {
+    "name": "Driving Licence",
+    "category": "Government",
+    "icon": "fa-car",
+    "description": "Learning & Driving Licence Services.",
+    "charge": "₹199",
+    "governmentFee": "As Per Government",
+    "processingTime": "1 Day",
+    "documents": [
+      "Aadhaar Card",
+      "Age Proof",
+      "Photo"
+    ],
+    "eligibility": [
+      "18+ Years"
+    ],
+    "benefits": [
+      "Online Application",
+      "Fast Processing"
+    ]
+  },
+
+  {
+    "name": "Voter ID",
+    "category": "Government",
+    "icon": "fa-id-badge",
+    "description": "New Voter ID & Correction.",
+    "charge": "₹99",
+    "governmentFee": "Free",
+    "processingTime": "30 Minutes",
+    "documents": [
+      "Aadhaar Card",
+      "Address Proof"
+    ],
+    "eligibility": [
+      "18+ Years"
+    ],
+    "benefits": [
+      "Online Registration"
+    ]
+  },
+
+  {
+    "name": "Income Certificate",
+    "category": "Government",
+    "icon": "fa-building-columns",
+    "description": "Income Certificate Application.",
+    "charge": "₹80",
+    "governmentFee": "As Per State",
+    "processingTime": "2-5 Days",
+    "documents": [
+      "Aadhaar Card",
+      "Income Proof",
+      "Photo"
+    ],
+    "eligibility": [
+      "Resident of State"
+    ],
+    "benefits": [
+      "Government Scheme Support"
+    ]
+  },
+
+  {
+    "name": "Caste Certificate",
+    "category": "Government",
+    "icon": "fa-users",
+    "description": "SC/ST/OBC/EBC Certificate.",
+    "charge": "₹80",
+    "governmentFee": "As Per State",
+    "processingTime": "2-5 Days",
+    "documents": [
+      "Aadhaar Card",
+      "Residence Proof",
+      "Photo"
+    ],
+    "eligibility": [
+      "Eligible Category"
+    ],
+    "benefits": [
+      "Government Benefits"
+    ]
+  },
+
+  {
+    "name": "Residence Certificate",
+    "category": "Government",
+    "icon": "fa-house",
+    "description": "Residence Certificate Apply.",
+    "charge": "₹80",
+    "governmentFee": "As Per State",
+    "processingTime": "2-5 Days",
+    "documents": [
+      "Aadhaar Card",
+      "Address Proof"
+    ],
+    "eligibility": [
+      "Resident of State"
+    ],
+    "benefits": [
+      "Government Verification"
+    ]
+  },
+
+  {
+    "name": "Birth Certificate",
+    "category": "Government",
+    "icon": "fa-baby",
+    "description": "Birth Certificate Services.",
+    "charge": "₹120",
+    "governmentFee": "As Per Government",
+    "processingTime": "3-7 Days",
+    "documents": [
+      "Hospital Record",
+      "Parents Aadhaar"
+    ],
+    "eligibility": [
+      "Birth Registration"
+    ],
+    "benefits": [
+      "Official Certificate"
+    ]
+  },
+
+  {
+    "name": "Death Certificate",
+    "category": "Government",
+    "icon": "fa-file-circle-check",
+    "description": "Death Certificate Apply.",
+    "charge": "₹120",
+    "governmentFee": "As Per Government",
+    "processingTime": "3-7 Days",
+    "documents": [
+      "Hospital Certificate",
+      "Applicant Aadhaar"
+    ],
+    "eligibility": [
+      "Legal Applicant"
+    ],
+    "benefits": [
+      "Official Government Record"
+    ]
+  }
+  ,
+{
+  "name": "Resume Builder",
+  "category": "Education",
+  "icon": "fa-file-lines",
+  "description": "Professional ATS Friendly Resume Builder.",
+  "charge": "₹49",
+  "governmentFee": "N/A",
+  "processingTime": "5 Minutes",
+  "documents": [
+    "Personal Details",
+    "Education",
+    "Skills",
+    "Experience (Optional)"
+  ],
+  "eligibility": [
+    "Anyone"
+  ],
+  "benefits": [
+    "ATS Friendly",
+    "Instant PDF",
+    "Professional Design"
+  ]
+},
+
+{
+  "name": "AI Resume",
+  "category": "AI",
+  "icon": "fa-robot",
+  "description": "Generate Resume using AI.",
+  "charge": "₹99",
+  "governmentFee": "N/A",
+  "processingTime": "2 Minutes",
+  "documents": [
+    "Personal Details",
+    "Education",
+    "Skills"
+  ],
+  "eligibility": [
+    "Anyone"
+  ],
+  "benefits": [
+    "AI Generated",
+    "Professional Content"
+  ]
+},
+
+{
+  "name": "AI Cover Letter",
+  "category": "AI",
+  "icon": "fa-envelope-open-text",
+  "description": "Generate Professional Cover Letter.",
+  "charge": "₹49",
+  "governmentFee": "N/A",
+  "processingTime": "2 Minutes",
+  "documents": [
+    "Job Role",
+    "Experience",
+    "Skills"
+  ],
+  "eligibility": [
+    "Anyone"
+  ],
+  "benefits": [
+    "AI Written",
+    "Job Ready"
+  ]
+},
+
+{
+  "name": "AI Chat",
+  "category": "AI",
+  "icon": "fa-comments",
+  "description": "Ask Questions with AI Assistant.",
+  "charge": "Free",
+  "governmentFee": "N/A",
+  "processingTime": "Instant",
+  "documents": [],
+  "eligibility": [
+    "Anyone"
+  ],
+  "benefits": [
+    "24x7 Support",
+    "Instant Answers"
+  ]
+},
+
+{
+  "name": "College Admission",
+  "category": "Education",
+  "icon": "fa-school",
+  "description": "College Admission Guidance & Registration.",
+  "charge": "₹199",
+  "governmentFee": "As Per College",
+  "processingTime": "30 Minutes",
+  "documents": [
+    "10th Marksheet",
+    "12th Marksheet",
+    "Photo",
+    "Aadhaar Card"
+  ],
+  "eligibility": [
+    "As Per College Rules"
+  ],
+  "benefits": [
+    "Admission Guidance",
+    "Document Verification"
+  ]
+},
+
+{
+  "name": "Scholarship Form",
+  "category": "Education",
+  "icon": "fa-graduation-cap",
+  "description": "Apply for Scholarship Schemes.",
+  "charge": "₹99",
+  "governmentFee": "N/A",
+  "processingTime": "20 Minutes",
+  "documents": [
+    "Aadhaar Card",
+    "Income Certificate",
+    "Bank Passbook",
+    "Marksheet"
+  ],
+  "eligibility": [
+    "Eligible Students"
+  ],
+  "benefits": [
+    "Government Scholarships",
+    "Easy Application"
+  ]
+},
+
+{
+  "name": "Job Application",
+  "category": "Career",
+  "icon": "fa-briefcase",
+  "description": "Online Job Form Filling Service.",
+  "charge": "₹99",
+  "governmentFee": "As Per Recruitment",
+  "processingTime": "20 Minutes",
+  "documents": [
+    "Resume",
+    "Photo",
+    "Signature",
+    "Certificates"
+  ],
+  "eligibility": [
+    "As Per Job Notification"
+  ],
+  "benefits": [
+    "Error-Free Form",
+    "Expert Support"
+  ]
+},
+
+{
+  "name": "Internship Application",
+  "category": "Career",
+  "icon": "fa-laptop-code",
+  "description": "Apply for Internship Programs.",
+  "charge": "₹49",
+  "governmentFee": "N/A",
+  "processingTime": "15 Minutes",
+  "documents": [
+    "Resume",
+    "College ID",
+    "Photo"
+  ],
+  "eligibility": [
+    "Students"
+  ],
+  "benefits": [
+    "Quick Apply",
+    "Career Support"
+  ]
+}
+,
+{
+  "name": "PDF to Word",
+  "category": "PDF Tools",
+  "icon": "fa-file-word",
+  "description": "Convert PDF into Editable Word Document.",
+  "charge": "₹29",
+  "governmentFee": "N/A",
+  "processingTime": "Instant",
+  "documents": [
+    "PDF File"
+  ],
+  "eligibility": ["Anyone"],
+  "benefits": [
+    "Editable Document",
+    "Fast Conversion"
+  ]
+},
+
+{
+  "name": "Word to PDF",
+  "category": "PDF Tools",
+  "icon": "fa-file-pdf",
+  "description": "Convert Word File into PDF.",
+  "charge": "₹29",
+  "governmentFee": "N/A",
+  "processingTime": "Instant",
+  "documents": [
+    "Word File (.doc/.docx)"
+  ],
+  "eligibility": ["Anyone"],
+  "benefits": [
+    "High Quality PDF",
+    "Fast Conversion"
+  ]
+},
+
+{
+  "name": "Merge PDF",
+  "category": "PDF Tools",
+  "icon": "fa-object-group",
+  "description": "Merge Multiple PDF Files.",
+  "charge": "₹19",
+  "governmentFee": "N/A",
+  "processingTime": "Instant",
+  "documents": [
+    "Two or More PDF Files"
+  ],
+  "eligibility": ["Anyone"],
+  "benefits": [
+    "Combine PDFs",
+    "Quick Processing"
+  ]
+},
+
+{
+  "name": "Split PDF",
+  "category": "PDF Tools",
+  "icon": "fa-scissors",
+  "description": "Split PDF into Multiple Files.",
+  "charge": "₹19",
+  "governmentFee": "N/A",
+  "processingTime": "Instant",
+  "documents": [
+    "PDF File"
+  ],
+  "eligibility": ["Anyone"],
+  "benefits": [
+    "Extract Pages",
+    "Fast Processing"
+  ]
+},
+
+{
+  "name": "Compress PDF",
+  "category": "PDF Tools",
+  "icon": "fa-file-zipper",
+  "description": "Reduce PDF File Size.",
+  "charge": "₹19",
+  "governmentFee": "N/A",
+  "processingTime": "Instant",
+  "documents": [
+    "PDF File"
+  ],
+  "eligibility": ["Anyone"],
+  "benefits": [
+    "Smaller File Size",
+    "Maintain Quality"
+  ]
+},
+
+{
+  "name": "Image Compressor",
+  "category": "Image Tools",
+  "icon": "fa-image",
+  "description": "Compress Images without Losing Quality.",
+  "charge": "₹19",
+  "governmentFee": "N/A",
+  "processingTime": "Instant",
+  "documents": [
+    "Image File"
+  ],
+  "eligibility": ["Anyone"],
+  "benefits": [
+    "Smaller Size",
+    "Fast Compression"
+  ]
+},
+
+{
+  "name": "Background Remover",
+  "category": "Image Tools",
+  "icon": "fa-eraser",
+  "description": "Remove Image Background Automatically.",
+  "charge": "₹29",
+  "governmentFee": "N/A",
+  "processingTime": "Instant",
+  "documents": [
+    "Image File"
+  ],
+  "eligibility": ["Anyone"],
+  "benefits": [
+    "AI Background Removal",
+    "HD Output"
+  ]
+},
+
+{
+  "name": "Passport Photo Maker",
+  "category": "Image Tools",
+  "icon": "fa-camera",
+  "description": "Create Passport Size Photos.",
+  "charge": "₹29",
+  "governmentFee": "N/A",
+  "processingTime": "2 Minutes",
+  "documents": [
+    "Photo"
+  ],
+  "eligibility": ["Anyone"],
+  "benefits": [
+    "Multiple Sizes",
+    "Print Ready"
+  ]
+},
+
+{
+  "name": "QR Code Generator",
+  "category": "Utility",
+  "icon": "fa-qrcode",
+  "description": "Generate Custom QR Codes.",
+  "charge": "Free",
+  "governmentFee": "N/A",
+  "processingTime": "Instant",
+  "documents": [],
+  "eligibility": ["Anyone"],
+  "benefits": [
+    "Instant QR",
+    "High Resolution"
+  ]
+},
+
+{
+  "name": "Barcode Generator",
+  "category": "Utility",
+  "icon": "fa-barcode",
+  "description": "Generate Printable Barcodes.",
+  "charge": "Free",
+  "governmentFee": "N/A",
+  "processingTime": "Instant",
+  "documents": [],
+  "eligibility": ["Anyone"],
+  "benefits": [
+    "Printable Barcode",
+    "High Quality"
+  ]
+}
+,
+{
+  "name": "Mobile Recharge",
+  "category": "Recharge",
+  "icon": "fa-mobile-screen",
+  "description": "Prepaid & Postpaid Mobile Recharge.",
+  "charge": "₹10",
+  "governmentFee": "N/A",
+  "processingTime": "Instant",
+  "documents": ["Mobile Number"],
+  "eligibility": ["Anyone"],
+  "benefits": ["Instant Recharge"]
+},
+
+{
+  "name": "DTH Recharge",
+  "category": "Recharge",
+  "icon": "fa-tv",
+  "description": "Recharge All DTH Services.",
+  "charge": "₹10",
+  "governmentFee": "N/A",
+  "processingTime": "Instant",
+  "documents": ["Customer ID"],
+  "eligibility": ["Anyone"],
+  "benefits": ["Instant Recharge"]
+},
+
+{
+  "name": "Electricity Bill Payment",
+  "category": "Bill Payment",
+  "icon": "fa-bolt",
+  "description": "Pay Electricity Bills Online.",
+  "charge": "₹15",
+  "governmentFee": "N/A",
+  "processingTime": "Instant",
+  "documents": ["Consumer Number"],
+  "eligibility": ["Anyone"],
+  "benefits": ["Instant Payment"]
+},
+
+{
+  "name": "Water Bill Payment",
+  "category": "Bill Payment",
+  "icon": "fa-faucet",
+  "description": "Pay Water Bills Online.",
+  "charge": "₹15",
+  "governmentFee": "N/A",
+  "processingTime": "Instant",
+  "documents": ["Consumer Number"],
+  "eligibility": ["Anyone"],
+  "benefits": ["Instant Payment"]
+},
+
+{
+  "name": "Train Ticket Booking",
+  "category": "Travel",
+  "icon": "fa-train",
+  "description": "Book Railway Tickets.",
+  "charge": "₹50",
+  "governmentFee": "IRCTC Charges Extra",
+  "processingTime": "10 Minutes",
+  "documents": ["Passenger Details"],
+  "eligibility": ["Anyone"],
+  "benefits": ["Quick Booking"]
+},
+
+{
+  "name": "Bus Ticket Booking",
+  "category": "Travel",
+  "icon": "fa-bus",
+  "description": "Book Bus Tickets.",
+  "charge": "₹30",
+  "governmentFee": "N/A",
+  "processingTime": "5 Minutes",
+  "documents": ["Passenger Details"],
+  "eligibility": ["Anyone"],
+  "benefits": ["Instant Booking"]
+},
+
+{
+  "name": "Flight Ticket Booking",
+  "category": "Travel",
+  "icon": "fa-plane",
+  "description": "Book Domestic & International Flights.",
+  "charge": "₹200",
+  "governmentFee": "Airline Charges Extra",
+  "processingTime": "15 Minutes",
+  "documents": ["Government ID"],
+  "eligibility": ["Anyone"],
+  "benefits": ["Best Fare"]
+},
+
+{
+  "name": "Money Transfer",
+  "category": "Banking",
+  "icon": "fa-money-bill-transfer",
+  "description": "Send Money Securely.",
+  "charge": "As Per Amount",
+  "governmentFee": "N/A",
+  "processingTime": "Instant",
+  "documents": ["Bank Details"],
+  "eligibility": ["Anyone"],
+  "benefits": ["Safe Transfer"]
+},
+
+{
+  "name": "AEPS Banking",
+  "category": "Banking",
+  "icon": "fa-building-columns",
+  "description": "Cash Withdrawal & Balance Check.",
+  "charge": "As Per Transaction",
+  "governmentFee": "N/A",
+  "processingTime": "Instant",
+  "documents": ["Aadhaar Number", "Fingerprint"],
+  "eligibility": ["Aadhaar Linked Bank Account"],
+  "benefits": ["Secure Banking"]
+},
+
+{
+  "name": "Photocopy & Print",
+  "category": "Cyber Cafe",
+  "icon": "fa-print",
+  "description": "Color & Black/White Printing.",
+  "charge": "₹2 Onwards",
+  "governmentFee": "N/A",
+  "processingTime": "Instant",
+  "documents": ["Document File"],
+  "eligibility": ["Anyone"],
+  "benefits": ["High Quality Print"]
+},
+
+{
+  "name": "Lamination",
+  "category": "Cyber Cafe",
+  "icon": "fa-file",
+  "description": "Document Lamination Service.",
+  "charge": "₹20",
+  "governmentFee": "N/A",
+  "processingTime": "5 Minutes",
+  "documents": ["Document"],
+  "eligibility": ["Anyone"],
+  "benefits": ["Water Resistant Protection"]
+}
+
+]

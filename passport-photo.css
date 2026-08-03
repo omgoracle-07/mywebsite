@@ -1,0 +1,445 @@
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Poppins',sans-serif;
+}
+
+body{
+    background:#090909;
+    color:#ffffff;
+    overflow-x:hidden;
+}
+
+/* Header */
+
+header{
+    width:100%;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:18px 8%;
+    background:rgba(15,15,15,.95);
+    backdrop-filter:blur(12px);
+    position:sticky;
+    top:0;
+    z-index:1000;
+    border-bottom:1px solid rgba(255,255,255,.08);
+}
+
+.logo h2{
+    color:#FFD700;
+    font-size:28px;
+    font-weight:700;
+}
+
+nav{
+    display:flex;
+    gap:25px;
+}
+
+nav a{
+    color:white;
+    text-decoration:none;
+    font-size:16px;
+    transition:.3s;
+}
+
+nav a:hover{
+    color:#FFD700;
+}
+
+/* Hero */
+
+.hero{
+    text-align:center;
+    padding: 25px 20px;
+}
+
+.hero h1{
+    font-size:48px;
+    color:#FFD700;
+    margin-bottom:15px;
+}
+
+.hero p{
+    color:#d5d5d5;
+    font-size:18px;
+    max-width:750px;
+    margin:auto;
+    line-height:1.8;
+}
+
+/* Main Container */
+
+.main-container{
+    width:90%;
+    max-width:1400px;
+    margin:auto;
+    padding:20px auto;
+}
+/* ===========================
+   Upload & Preview Layout
+=========================== */
+
+.photo-tool{
+    display:grid;
+    grid-template-columns:220px 1fr 180px;
+    gap:15px;
+    align-items:start;
+}
+
+/* Glass Cards */
+
+.upload-card,
+.size-card,
+.preview-card,
+.tool-card,
+.editor-card{
+
+    background:rgba(255,255,255,.05);
+
+    border:1px solid rgba(255,255,255,.08);
+
+    border-radius:20px;
+
+    padding:22px;
+
+    backdrop-filter:blur(18px);
+
+    box-shadow:0 10px 30px rgba(0,0,0,.35);
+
+    margin-bottom:20px;
+
+    transition:.35s;
+}
+
+.upload-card:hover,
+.size-card:hover,
+.preview-card:hover,
+.tool-card:hover,
+.editor-card:hover{
+
+    transform:translateY(-6px);
+
+    border-color:#FFD700;
+
+    box-shadow:0 0 25px rgba(255,215,0,.25);
+
+}
+
+.upload-card h2,
+.size-card h2,
+.preview-card h2,
+.tool-card h2,
+.editor-card h2{
+
+    color:#FFD700;
+
+    margin-bottom:15px;
+
+    font-size:22px;
+}
+
+.upload-card p{
+
+    color:#cfcfcf;
+
+    margin-bottom:18px;
+
+    line-height:1.6;
+}
+
+/* ===========================
+   Inputs
+=========================== */
+
+input[type=file],
+select{
+
+    width:100%;
+
+    padding:12px;
+
+    border:none;
+
+    outline:none;
+
+    border-radius:10px;
+
+    background:#1a1a1a;
+
+    color:#fff;
+
+    margin-top:10px;
+}
+/* ===========================
+   Preview Box
+=========================== */
+
+.preview-box{
+
+    width:100%;
+
+    height:420px;
+
+    background:#111;
+
+    border:2px dashed rgba(255,215,0,.35);
+
+    border-radius:18px;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    overflow:hidden;
+
+    position:relative;
+
+}
+
+.preview-box img{
+
+    max-width:100%;
+
+    max-height:100%;
+
+    display:none;
+
+    transition:.35s;
+
+}
+
+#emptyText{
+
+    color:#9d9d9d;
+
+    font-size:18px;
+
+    text-align:center;
+
+}
+
+/* ===========================
+   Buttons
+=========================== */
+
+button{
+
+    width:100%;
+
+    padding:13px;
+
+    border:none;
+
+    border-radius:12px;
+
+    cursor:pointer;
+
+    font-size:16px;
+
+    font-weight:600;
+
+    margin-top:12px;
+
+    background:linear-gradient(135deg,#FFD700,#ffb700);
+
+    color:#111;
+
+    transition:.35s;
+}
+
+button:hover{
+
+    transform:translateY(-3px);
+
+    box-shadow:0 10px 25px rgba(255,215,0,.35);
+
+}
+
+button:active{
+
+    transform:scale(.97);
+
+}
+
+/* Quick Tool Buttons */
+
+.tool-card button{
+
+    margin-bottom:10px;
+
+}
+
+/* Background Buttons */
+
+.background-buttons{
+
+    display:grid;
+
+    grid-template-columns:repeat(2,1fr);
+
+    gap:10px;
+
+    margin-top:15px;
+
+}
+
+.bg-btn{
+
+    margin-top:0;
+
+}
+/* ===========================
+   Range Sliders
+=========================== */
+
+input[type="range"]{
+
+    width:100%;
+
+    margin-top:15px;
+
+    accent-color:#FFD700;
+
+    cursor:pointer;
+
+}
+
+/* ===========================
+   Editor Section
+=========================== */
+
+.editor-section{
+
+    display:grid;
+
+    grid-template-columns:repeat(5,1fr);
+
+    gap:22px;
+
+    margin-top:15px;
+
+}
+
+/* ===========================
+   Smooth Animation
+=========================== */
+
+@keyframes fadeUp{
+
+    from{
+
+        opacity:0;
+
+        transform:translateY(25px);
+
+    }
+
+    to{
+
+        opacity:1;
+
+        transform:translateY(0);
+
+    }
+
+}
+
+.upload-card,
+.size-card,
+.preview-card,
+.tool-card,
+.editor-card{
+    padding:12px;
+    min-height:120px;
+    animation:fadeUp .8s ease;
+
+}
+
+/* ===========================
+   Responsive Design
+=========================== */
+
+@media(max-width:1100px){
+
+    .photo-tool{
+
+        grid-template-columns:1fr;
+
+    }
+
+    .preview-box{
+
+        height:450px;
+
+    }
+
+}
+
+@media(max-width:768px){
+
+    header{
+
+        flex-direction:column;
+
+        gap:15px;
+
+        padding:10px 40px;
+
+    }
+
+    nav{
+
+        flex-wrap:wrap;
+
+        justify-content:center;
+
+    }
+
+    .hero h1{
+
+        font-size:32px;
+        margin-bottom: 8px;
+
+    }
+
+    .hero p{
+
+        font-size:15px;
+
+    }
+
+    .preview-box{
+
+        height:320px;
+
+    }
+
+}
+
+@media(max-width:500px){
+
+    .background-buttons{
+
+        grid-template-columns:1fr;
+
+    }
+
+    button{
+
+        font-size:15px;
+
+        padding:12px;
+
+    }
+
+}
+#previewImage{
+    max-width:100%;
+    max-height:100%;
+    display:none;
+}

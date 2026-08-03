@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>OMGoracle AI Chat</title>
+
+<link rel="stylesheet" href="ai-chat.css">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+
+</head>
+
+<body>
+
+<div class="container">
+
+<!-- =========================
+SIDEBAR START
+========================= -->
+
+<aside class="sidebar">
+
+<div class="logo">
+
+<h2>🤖 OMGoracle AI</h2>
+
+<p>Your Smart Digital Assistant</p>
+
+</div>
+
+<button class="new-chat">
+
+<i class="fas fa-plus"></i>
+
+New Chat
+
+</button>
+
+<div class="menu">
+
+<a href="#">
+<i class="fas fa-comments"></i>
+Chat History
+</a>
+
+<a href="#">
+<i class="fas fa-file-alt"></i>
+Resume Builder
+</a>
+
+<a href="#">
+<i class="fas fa-id-card"></i>
+PAN Card Help
+</a>
+
+<a href="#">
+<i class="fas fa-camera"></i>
+Passport Photo
+</a>
+
+<a href="#">
+<i class="fas fa-file-pdf"></i>
+PDF Tools
+</a>
+
+<a href="#">
+<i class="fas fa-language"></i>
+Translator
+</a>
+
+<a href="#">
+<i class="fas fa-user"></i>
+Profile
+</a>
+
+<a href="index.html">
+<i class="fas fa-home"></i>
+Back to Home
+</a>
+
+</div>
+
+</aside>
+
+<!-- =========================
+MAIN CHAT START
+========================= -->
+
+<main class="chat-area">
+
+<header class="chat-header">
+
+<h1>OMGoracle AI Assistant</h1>
+
+<div class="header-icons">
+
+<i class="fas fa-moon"></i>
+
+<i class="fas fa-cog"></i>
+
+</div>
+
+</header>
+<!-- =========================
+WELCOME SCREEN
+========================= -->
+
+<section class="welcome-screen">
+
+<div class="welcome-box">
+
+<h2>Hello, Welcome to OMGoracle AI 👋</h2>
+
+<p>
+Ask anything, upload images, create resumes, edit passport photos,
+get government service guidance, and much more.
+</p>
+
+</div>
+
+<div class="suggestion-grid">
+
+<div class="suggestion-card">
+<i class="fas fa-file-alt"></i>
+<h3>Create Resume</h3>
+<p>Build a professional resume in minutes.</p>
+</div>
+
+<div class="suggestion-card">
+<i class="fas fa-camera"></i>
+<h3>Passport Photo</h3>
+<p>Convert your image into passport size.</p>
+</div>
+
+<div class="suggestion-card">
+<i class="fas fa-id-card"></i>
+<h3>PAN Card Help</h3>
+<p>Get guidance for PAN card services.</p>
+</div>
+
+<div class="suggestion-card">
+<i class="fas fa-file-pdf"></i>
+<h3>PDF Tools</h3>
+<p>Merge, split and compress PDF files.</p>
+</div>
+
+</div>
+
+<!-- =========================
+CHAT WINDOW
+========================= -->
+
+<div class="chat-window" id="chatWindow">
+
+<div class="message ai">
+
+<div class="avatar">
+🤖
+</div>
+
+<div class="bubble">
+
+<b>OMGoracle AI</b><br><br>
+
+Hello! 👋
+
+I can help you with:
+
+<ul>
+
+<li>📄 Resume Builder</li>
+
+<li>🖼 Passport Photo Editing</li>
+
+<li>🛂 PAN Card Guidance</li>
+
+<li>📑 PDF Tools</li>
+
+<li>🌍 Translation</li>
+
+<li>💡 General Questions</li>
+
+</ul>
+
+Start by typing your message below.
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+<!-- =========================
+CHAT INPUT AREA
+========================= -->
+
+<div class="chat-input-area">
+
+<div class="input-container">
+
+<button class="tool-btn" title="Upload File">
+
+<i class="fas fa-paperclip"></i>
+
+</button>
+
+<input type="file" id="fileUpload" hidden>
+
+<button class="tool-btn" title="Upload Image">
+
+<i class="fas fa-image"></i>
+
+</button>
+
+<input type="file" id="imageUpload" accept="image/*" hidden>
+
+<textarea
+id="chatInput"
+placeholder="Ask OMGoracle AI anything..."
+rows="1"></textarea>
+
+<button class="tool-btn" title="Voice Input">
+
+<i class="fas fa-microphone"></i>
+
+</button>
+
+<button class="send-btn" id="sendBtn">
+
+<i class="fas fa-paper-plane"></i>
+
+Send
+
+</button>
+
+</div>
+
+<div class="quick-actions">
+
+<button class="quick-btn">
+📄 Resume
+</button>
+
+<button class="quick-btn">
+🖼 Passport Photo
+</button>
+
+<button class="quick-btn">
+🛂 PAN Card
+</button>
+
+<button class="quick-btn">
+📑 PDF Tools
+</button>
+
+<button class="quick-btn">
+🌍 Translate
+</button>
+
+<button class="quick-btn">
+💡 Explain
+</button>
+
+</div>
+
+</div>
+
+</main>
+
+</div>
+
+<script src="ai-chat.js"></script>
+
+</body>
+
+</html>

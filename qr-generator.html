@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>QR Design Studio | OMGoracle AI Cyber Cafe</title>
+
+<link rel="stylesheet" href="qr-generator.css">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+</head>
+
+<body>
+
+<header>
+
+<div class="logo">
+<h2>OMGoracle AI Cyber Cafe</h2>
+</div>
+
+<nav>
+
+<a href="index.html">Home</a>
+<a href="services.html">Services</a>
+<a href="#">Contact</a>
+
+</nav>
+
+</header>
+
+<section class="hero">
+
+<h1>QR Design Studio</h1>
+
+<p>
+Create Beautiful QR Codes for Website, UPI, Wi-Fi, WhatsApp, Contact and Business.
+</p>
+
+</section>
+
+<div class="container">
+
+<div class="left-panel">
+
+<div class="card">
+
+<h2>QR Type</h2>
+
+<select id="qrType">
+
+<option>Website</option>
+<option>UPI Payment</option>
+<option>Wi-Fi</option>
+<option>WhatsApp</option>
+<option>Email</option>
+<option>Phone</option>
+<option>SMS</option>
+<option>Contact (vCard)</option>
+<option>Text</option>
+
+</select>
+
+</div>
+
+<div class="card">
+
+<h2>Enter Data</h2>
+
+<textarea
+id="qrData"
+placeholder="Enter Website URL, Text, UPI ID..."
+></textarea>
+
+</div>
+
+<div class="card">
+
+<button id="generateBtn">
+
+Generate QR
+
+</button>
+
+</div>
+
+</div>
+
+<!-- Center -->
+
+<div class="center-panel">
+
+<div class="preview-card">
+
+<h2>Live Preview</h2>
+
+<div class="preview-box" id="printArea">
+
+<div id="qrCode">
+    <img
+id="logoImage"
+class="logo-image">
+
+QR Preview
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- Right -->
+
+<div class="right-panel">
+
+<div class="card">
+
+<h2>Design</h2>
+
+<label>QR Color</label>
+
+<input type="color" id="qrColor">
+
+<label>Background</label>
+
+<input type="color" id="bgColor">
+
+<label>Size</label>
+
+<input
+type="range"
+id="qrSize"
+min="150"
+max="500"
+value="250">
+
+</div>
+<div class="card">
+
+    <h2>Logo Upload</h2>
+
+    <input
+        type="file"
+        id="logoUpload"
+        accept="image/*">
+
+</div>
+
+<div class="card">
+
+<h2>Download</h2>
+
+<button id="downloadPNG">
+
+PNG
+
+</button>
+
+<button id="downloadSVG">
+
+SVG
+
+</button>
+
+<button id="printQR">
+
+Print
+
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+<section class="features">
+
+<div class="feature">
+
+🌐 Website QR
+
+</div>
+
+<div class="feature">
+
+💳 UPI QR
+
+</div>
+
+<div class="feature">
+
+📶 Wi-Fi QR
+
+</div>
+
+<div class="feature">
+
+📞 Contact QR
+
+</div>
+
+<div class="feature">
+
+📱 WhatsApp QR
+
+</div>
+
+<div class="feature">
+
+🎨 Designer QR
+
+</div>
+
+</section>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
+<script src="qr-generator.js"></script>
+
+</body>
+
+</html>

@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>AI Translator | OMGoracle AI Cyber Cafe</title>
+
+<link rel="stylesheet" href="translator.css">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
+</head>
+
+<body>
+
+<header>
+
+<div class="container">
+
+<div class="logo">
+
+<img src="images/logo.png" alt="OMGoracle">
+
+<div>
+
+<h2>OMGoracle</h2>
+
+<p>AI Cyber Cafe</p>
+
+</div>
+
+</div>
+
+<nav>
+
+<ul>
+
+<li><a href="index.html">Home</a></li>
+
+<li><a href="services.html">Services</a></li>
+
+<li><a href="translator.html" class="active">Translator</a></li>
+
+<li><a href="ai-chat.html">AI</a></li>
+
+</ul>
+
+</nav>
+
+</div>
+
+</header>
+
+<section class="hero">
+
+<h1>AI Language Translator</h1>
+
+<p>
+
+Translate text into multiple languages instantly.
+
+</p>
+
+</section>
+
+<section class="translator-section">
+
+<div class="translator-card">
+
+<div class="language-row">
+
+<select id="fromLanguage">
+
+<option value="auto">Detect Language</option>
+
+<option value="en">English</option>
+
+<option value="hi">Hindi</option>
+
+<option value="te">Telugu</option>
+
+<option value="bn">Bengali</option>
+
+<option value="ta">Tamil</option>
+
+</select>
+
+<button id="swapBtn">
+
+<i class="fa-solid fa-right-left"></i>
+
+</button>
+
+<select id="toLanguage">
+
+<option value="hi">Hindi</option>
+
+<option value="en">English</option>
+
+<option value="te">Telugu</option>
+
+<option value="bn">Bengali</option>
+
+<option value="ta">Tamil</option>
+
+</select>
+
+</div>
+
+<textarea
+id="inputText"
+placeholder="Type your text here..."></textarea>
+
+<button id="translateBtn">
+
+<i class="fa-solid fa-language"></i>
+
+Translate
+
+</button>
+
+<textarea
+id="outputText"
+placeholder="Translation will appear here..."
+readonly></textarea>
+
+<div class="action-buttons">
+
+<button id="copyBtn">
+
+<i class="fa-solid fa-copy"></i>
+
+Copy
+
+</button>
+
+<button id="clearBtn">
+
+<i class="fa-solid fa-trash"></i>
+
+Clear
+
+</button>
+
+</div>
+
+</div>
+
+</section>
+
+<script src="translator.js"></script>
+
+</body>
+
+</html>

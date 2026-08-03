@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Passport Photo Tool | OMGoracle AI Cyber Cafe</title>
+
+    <link rel="stylesheet" href="passport-photo.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+</head>
+
+<body>
+
+<header>
+
+    <div class="logo">
+
+        <h2>OMGoracle AI Cyber Cafe</h2>
+
+    </div>
+
+    <nav>
+
+        <a href="index.html">Home</a>
+
+        <a href="#">Services</a>
+
+        <a href="#">Contact</a>
+
+    </nav>
+
+</header>
+
+<section class="hero">
+
+    <h1>Passport Photo Maker</h1>
+
+    <p>
+
+        Upload your photo and create professional passport-size photos in seconds.
+
+    </p>
+
+</section>
+
+<div class="main-container">
+        <!-- Upload & Editor Section -->
+
+    <section class="photo-tool">
+
+        <!-- Left Panel -->
+
+        <div class="left-panel">
+
+            <div class="upload-card">
+
+                <h2>Upload Photo</h2>
+
+                <p>Select a clear passport photo from your device.</p>
+
+                <input type="file" id="imageUpload" accept="image/*">
+
+                <button id="uploadBtn">Choose Image</button>
+
+            </div>
+
+            <div class="size-card">
+
+                <h2>Passport Size</h2>
+
+                <select id="passportSize">
+
+                    <option value="35x45">35 × 45 mm</option>
+
+                    <option value="2x2">2 × 2 inch</option>
+
+                    <option value="visa">Visa Photo</option>
+
+                    <option value="custom">Custom Size</option>
+
+                </select>
+
+            </div>
+
+        </div>
+
+        <!-- Preview Panel -->
+
+        <div class="center-panel">
+
+            <div class="preview-card">
+
+                <h2>Photo Preview</h2>
+
+                <div class="preview-box">
+
+    <img id="previewImage" src="" alt="Preview">
+
+    <p id="emptyText">No Image Selected</p>
+
+</div>
+
+            </div>
+
+        </div>
+
+        <!-- Right Panel -->
+
+        <div class="right-panel">
+
+            <div class="tool-card">
+
+                <h2>Quick Tools</h2>
+
+                <button id="cropBtn">✂ Crop</button>
+
+                <button id="rotateBtn">🔄 Rotate</button>
+
+                <button id="zoomInBtn">➕ Zoom In</button>
+
+                <button id="zoomOutBtn">➖ Zoom Out</button>
+
+            </div>
+
+        </div>
+
+    </section>
+            <!-- Advanced Editing Tools -->
+
+        <section class="editor-section">
+
+            <div class="editor-card">
+
+                <h2>Background</h2>
+
+                <div class="background-buttons">
+
+                    <button class="bg-btn" data-color="#ffffff">White</button>
+
+                    <button class="bg-btn" data-color="#87CEEB">Blue</button>
+
+                    <button class="bg-btn" data-color="#ff0000">Red</button>
+
+                    <button class="bg-btn" data-color="#d9d9d9">Grey</button>
+
+                </div>
+
+            </div>
+
+            <div class="editor-card">
+
+                <h2>Brightness</h2>
+
+                <input type="range"
+                       id="brightness"
+                       min="50"
+                       max="150"
+                       value="100">
+
+            </div>
+
+            <div class="editor-card">
+
+                <h2>Contrast</h2>
+
+                <input type="range"
+                       id="contrast"
+                       min="50"
+                       max="150"
+                       value="100">
+
+            </div>
+
+            <div class="editor-card">
+
+                <h2>Print Layout</h2>
+
+                <select id="printLayout">
+
+                    <option value="1">Single Photo</option>
+
+                    <option value="4">4 Photos</option>
+
+                    <option value="8">8 Photos</option>
+
+                    <option value="16">16 Photos</option>
+
+                </select>
+
+            </div>
+
+            <div class="editor-card">
+
+                <h2>Download</h2>
+
+                <button id="downloadJPG">Download JPG</button>
+
+                <button id="downloadPNG">Download PNG</button>
+
+                <button id="downloadPDF">Download PDF</button>
+
+                <button id="resetBtn">Reset</button>
+
+            </div>
+
+        </section>
+
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="passport-photo.js"></script>
+
+</body>
+
+</html>

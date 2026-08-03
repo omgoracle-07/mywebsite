@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resume Builder | OMGoracle AI Cyber Cafe</title>
+
+    <link rel="stylesheet" href="resume-builder.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+<header>
+
+    <div class="logo">
+        <h2>OMGoracle AI Cyber Cafe</h2>
+    </div>
+
+    <nav>
+        <a href="index.html">Home</a>
+        <a href="#">Templates</a>
+        <a href="#">Contact</a>
+    </nav>
+
+</header>
+
+<section class="hero">
+
+    <h1>Professional Resume Builder</h1>
+
+    <p>
+        Create ATS-friendly professional resumes in just a few minutes.
+    </p>
+
+</section>
+
+<div class="resume-container">
+
+    <!-- Left Sidebar -->
+    <aside class="template-panel">
+
+        <h2>Templates</h2>
+
+        <button>🎓 Fresher</button>
+        <button>💼 Professional</button>
+        <button>🖥 Computer Operator</button>
+        <button>🏢 Office Assistant</button>
+        <button>👨‍🏫 Teacher</button>
+        <button>💻 Software Developer</button>
+        <button>📄 ATS Friendly</button>
+
+    </aside>
+
+    <!-- Form -->
+    <section class="form-panel">
+
+        <h2>Resume Information</h2>
+
+        <div id="resumeForm">
+
+        <!-- अगले Part में पूरा Form आएगा -->
+            <!-- Personal Information -->
+
+<div class="form-group">
+    <label>Full Name</label>
+    <input type="text" id="fullName" placeholder="Enter Full Name">
+</div>
+
+<div class="form-group">
+    <label>Father's Name</label>
+    <input type="text" id="fatherName" placeholder="Enter Father's Name">
+</div>
+
+<div class="form-group">
+    <label>Date of Birth</label>
+    <input type="date" id="dob">
+</div>
+
+<div class="form-group">
+    <label>Mobile Number</label>
+    <input type="tel" id="mobile" placeholder="Enter Mobile Number">
+</div>
+
+<div class="form-group">
+    <label>Email</label>
+    <input type="email" id="email" placeholder="Enter Email">
+</div>
+
+<div class="form-group">
+    <label>Address</label>
+    <textarea id="address" rows="3" placeholder="Enter Address"></textarea>
+</div>
+
+<hr>
+
+<!-- Education -->
+
+<h3>Education</h3>
+
+<div class="form-group">
+    <label>Highest Qualification</label>
+    <input type="text" id="education" placeholder="B.Tech / BCA / 12th">
+</div>
+
+<div class="form-group">
+    <label>College / School</label>
+    <input type="text" id="college" placeholder="College Name">
+</div>
+
+<div class="form-group">
+    <label>Percentage / CGPA</label>
+    <input type="text" id="percentage" placeholder="Enter Percentage">
+</div>
+
+<hr>
+
+<!-- Skills -->
+
+<h3>Skills</h3>
+
+<div class="form-group">
+    <textarea id="skills" rows="4"
+    placeholder="Example: MS Office, Python, C++, HTML, CSS"></textarea>
+</div>
+
+<hr>
+
+<!-- Experience -->
+
+<h3>Experience</h3>
+
+<div class="form-group">
+    <textarea id="experience" rows="4"
+    placeholder="Write your experience or Fresher"></textarea>
+</div>
+
+<hr>
+
+<!-- Upload -->
+
+<h3>Photo</h3>
+
+<div class="form-group">
+    <input type="file" id="photoUpload" accept="image/*">
+</div>
+
+<button id="generateResume">
+    Generate Resume
+</button>
+        </div>
+
+    </section>
+
+    <!-- Preview -->
+    <aside class="preview-panel">
+
+        <h2>Live Preview</h2>
+
+       <div class="resume-preview" id="resumePreview">
+
+    <div class="resume-header">
+
+        <img id="previewPhoto"
+             src=""
+             alt="Photo">
+
+        <h1 id="previewName">Your Name</h1>
+
+        <p id="previewMobile">📞 Mobile Number</p>
+
+        <p id="previewEmail">📧 Email Address</p>
+
+        <p id="previewAddress">📍 Address</p>
+
+    </div>
+
+    <hr>
+
+    <h3>Father's Name</h3>
+    <p id="previewFather">Not Added</p>
+
+    <h3>Date of Birth</h3>
+    <p id="previewDob">Not Added</p>
+
+    <h3>Education</h3>
+    <p id="previewEducation">Not Added</p>
+
+    <h3>College</h3>
+    <p id="previewCollege">Not Added</p>
+
+    <h3>Percentage / CGPA</h3>
+    <p id="previewPercentage">Not Added</p>
+
+    <h3>Skills</h3>
+    <p id="previewSkills">Not Added</p>
+
+    <h3>Experience</h3>
+    <p id="previewExperience">Not Added</p>
+
+</div>
+
+    </aside>
+
+</div>
+
+<script src="resume-builder.js"></script>
+
+</body>
+</html>
