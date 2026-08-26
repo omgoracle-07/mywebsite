@@ -170,9 +170,12 @@
 
     .signup {
       text-align: center;
-      margin-top: 28px;
+      margin: 24px auto 0;
       color: #71889e;
       font-size: 15px;
+      line-height: 1.5;
+      max-width: 100%;
+      overflow-wrap: break-word;
     }
 
     .message {
@@ -192,43 +195,44 @@
       z-index: -4;
       overflow: hidden;
       pointer-events: none;
-      opacity: .52;
       background:
-        radial-gradient(circle at 50% 50%, rgba(24, 91, 145, .28), transparent 42%),
-        linear-gradient(135deg, #020b18 0%, #03172b 48%, #020914 100%);
+        radial-gradient(circle at 50% 50%, rgba(20, 91, 150, .28), transparent 43%),
+        linear-gradient(135deg, #010713 0%, #02182c 50%, #010611 100%);
     }
 
     .binary-bg::before,
     .binary-bg::after {
       content:
-        "0101011010010110 1010100110101101 0011010110100101 1101001010110100  "
-        "1011010010110101 0100110101101001 1101010010101101 0010101101010011  "
-        "0110100101011010 1010011010100101 0101101001011010 1100101011010010  "
-        "1001011010010110 0110101010011011 1010101101001010 0101010011010110";
+        "01010110 00110101 11001010 10110101 01011010 11100101 00101101 10101010  "
+        "11010010 01101001 10110100 01010110 11101001 00110110 10010101 01101100  "
+        "10101001 11010100 00110110 10101101 01001011 11100100 10011010 01101001  "
+        "01110101 10100110 01011011 11010010 00110101 10101001 01101010 10010110  ";
       position: absolute;
-      left: -10%;
-      width: 120%;
-      color: rgba(80, 190, 255, .23);
+      left: -120%;
+      width: 240%;
+      color: rgba(76, 194, 255, .27);
       font-family: "Courier New", monospace;
-      font-size: clamp(12px, 1.25vw, 19px);
-      line-height: 2.35;
-      letter-spacing: 4px;
+      font-size: clamp(11px, 1.15vw, 17px);
+      line-height: 2.8;
+      letter-spacing: 5px;
       white-space: pre-wrap;
+      word-spacing: 8px;
       word-break: break-all;
-      text-shadow: 0 0 8px rgba(42, 171, 255, .28);
-      transform: rotate(-7deg);
+      text-shadow: 0 0 8px rgba(40, 169, 255, .32);
+      will-change: transform;
     }
 
+    /* Main binary stream: right → left */
     .binary-bg::before {
-      top: -30%;
-      animation: binaryFlow 22s linear infinite;
+      top: -5%;
+      animation: binaryRightToLeft 18s linear infinite;
     }
 
+    /* Second stream: left → right */
     .binary-bg::after {
-      top: 45%;
-      opacity: .48;
-      transform: rotate(7deg);
-      animation: binaryFlowReverse 28s linear infinite;
+      top: 48%;
+      opacity: .42;
+      animation: binaryLeftToRight 24s linear infinite;
     }
 
     .binary-glow {
@@ -240,34 +244,42 @@
         repeating-linear-gradient(
           90deg,
           transparent 0,
-          transparent 48px,
-          rgba(70, 176, 255, .025) 49px,
-          transparent 50px
+          transparent 55px,
+          rgba(70, 176, 255, .022) 56px,
+          transparent 57px
         ),
         repeating-linear-gradient(
           0deg,
           transparent 0,
-          transparent 48px,
-          rgba(70, 176, 255, .025) 49px,
-          transparent 50px
+          transparent 55px,
+          rgba(70, 176, 255, .022) 56px,
+          transparent 57px
         );
-      mask-image: radial-gradient(circle at center, black 0%, transparent 78%);
+      mask-image: radial-gradient(circle at center, black 0%, transparent 82%);
       animation: gridPulse 5s ease-in-out infinite alternate;
     }
 
-    @keyframes binaryFlow {
-      0% { transform: translate3d(0, -5%, 0) rotate(-7deg); }
-      100% { transform: translate3d(-4%, 58%, 0) rotate(-7deg); }
+    @keyframes binaryRightToLeft {
+      0%   { transform: translateX(0); }
+      100% { transform: translateX(-38%); }
     }
 
-    @keyframes binaryFlowReverse {
-      0% { transform: translate3d(0, 4%, 0) rotate(7deg); }
-      100% { transform: translate3d(5%, -58%, 0) rotate(7deg); }
+    @keyframes binaryLeftToRight {
+      0%   { transform: translateX(-38%); }
+      100% { transform: translateX(0); }
     }
 
     @keyframes gridPulse {
       from { opacity: .45; }
-      to { opacity: .9; }
+      to   { opacity: .9; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .binary-bg::before,
+      .binary-bg::after,
+      .binary-glow {
+        animation: none !important;
+      }
     }
 
     /* Keep the login card bright and readable above the tech background */
@@ -279,14 +291,6 @@
         0 35px 80px rgba(0, 0, 0, .34),
         0 0 55px rgba(51, 177, 255, .15),
         inset 0 0 35px rgba(255,255,255,.95);
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-      .binary-bg::before,
-      .binary-bg::after,
-      .binary-glow {
-        animation: none !important;
-      }
     }
 
     /* ===== Modern animations ===== */
@@ -567,6 +571,31 @@
 
       .options {
         font-size: 12px;
+      }
+    }
+
+
+    @media (max-width: 600px) {
+      body {
+        overflow-x: hidden;
+      }
+
+      .login-wrap {
+        overflow: hidden;
+      }
+
+      .signup {
+        margin-top: 20px;
+        padding: 0 4px;
+        font-size: 12px;
+        line-height: 1.45;
+      }
+    }
+
+    @media (max-width: 380px) {
+      .signup {
+        font-size: 11px;
+        margin-top: 17px;
       }
     }
 
