@@ -3255,3 +3255,106 @@ height:400px;
 .nav-btn a:hover::after {
     transform: skewX(-45deg) scale(1, 1);
 }
+/* =========================
+   GLOWING LOGIN BUTTON
+   ========================= */
+
+.nav-btn a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 6.5em;
+    height: 2.3em;
+
+    background: #2563eb;
+    color: #fff !important;
+
+    border: none;
+    border-radius: 10px;
+
+    font-size: 16px;
+    font-weight: 700;
+    text-decoration: none;
+
+    cursor: pointer;
+    position: relative;
+    overflow: visible;
+    z-index: 1;
+
+    transition:
+        color 0.35s ease,
+        background 0.35s ease,
+        box-shadow 0.35s ease,
+        transform 0.35s ease;
+}
+
+/* Pink light/ray */
+.nav-btn a::before {
+    content: "";
+    position: absolute;
+
+    width: 120%;
+    height: 120%;
+
+    left: -10%;
+    top: -10%;
+
+    border-radius: 15px;
+
+    background: #ff9ed2;
+
+    opacity: 0;
+    filter: blur(18px);
+
+    z-index: -2;
+
+    transition:
+        opacity 0.4s ease,
+        transform 0.5s ease;
+}
+
+/* Pink light inside button */
+.nav-btn a::after {
+    content: "";
+
+    position: absolute;
+    inset: 0;
+
+    border-radius: 10px;
+
+    background: #ffb6dc;
+
+    transform: scaleX(0);
+    transform-origin: left;
+
+    z-index: -1;
+
+    transition: transform 0.5s ease;
+}
+
+/* HOVER */
+.nav-btn a:hover {
+    color: #111 !important;
+
+    background: #ffb6dc;
+
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 0 8px #ffb6dc,
+        0 0 20px #ff9ed2,
+        0 0 40px rgba(255, 158, 210, 0.7),
+        0 0 65px rgba(255, 158, 210, 0.45);
+}
+
+/* Glow appears */
+.nav-btn a:hover::before {
+    opacity: 1;
+    transform: scale(1.15);
+}
+
+/* Pink sweep animation */
+.nav-btn a:hover::after {
+    transform: scaleX(1);
+}
