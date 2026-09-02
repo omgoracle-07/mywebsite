@@ -3214,3 +3214,44 @@ height:400px;
     border-radius:18px;
 
 }
+/* Login Button Animation */
+.nav-btn a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 6.5em;
+    height: 2.3em;
+    background: #2563eb;
+    color: white !important;
+    border: none;
+    border-radius: 0.625em;
+    font-size: 16px;
+    font-weight: bold;
+    text-decoration: none;
+    cursor: pointer;
+    position: relative;
+    z-index: 1;
+    overflow: hidden;
+    transition: color 0.3s ease;
+}
+
+.nav-btn a:hover {
+    color: #222 !important;
+}
+
+.nav-btn a::after {
+    content: "";
+    background: #ffb6d9;
+    position: absolute;
+    z-index: -1;
+    left: -20%;
+    right: -20%;
+    top: 0;
+    bottom: 0;
+    transform: skewX(-45deg) scale(0, 1);
+    transition: transform 0.5s ease;
+}
+
+.nav-btn a:hover::after {
+    transform: skewX(-45deg) scale(1, 1);
+}
