@@ -3361,6 +3361,27 @@ height:400px;
 
 
 
+/* LOGIN BUTTON - FORCE BLUE */
+.button1 {
+    background: linear-gradient(135deg, #2563ff, #4f7cff) !important;
+    color: #ffffff !important;
+    border: none !important;
+    box-shadow:
+        0 0 8px rgba(37, 99, 255, 0.6),
+        0 0 20px rgba(37, 99, 255, 0.35);
+}
+
+.button1:hover {
+    background: linear-gradient(135deg, #4f7cff, #2563ff) !important;
+    color: #ffffff !important;
+    box-shadow:
+        0 0 10px #4f7cff,
+        0 0 25px rgba(37, 99, 255, 0.7),
+        0 0 45px rgba(37, 99, 255, 0.4);
+    transform: translateY(-2px);
+}
+
+
 
 
 
