@@ -182,38 +182,44 @@ nav a:hover{
     color:var(--primary);
 }
 /* Login Button */
-
-.nav-btn a{
-
-    display:inline-block;
-
-    padding:12px 28px;
-
-    text-decoration:none;
-
-    color:#fff;
-
-    background:var(--primary);
-
-    border-radius:50px;
-
-    font-weight:600;
-
-    transition:var(--transition);
-
-    box-shadow:
-
-    6px 6px 15px rgba(37,99,235,.25);
-
+.login-btn {
+  width: 6.5em;
+  height: 2.3em;
+  margin: 0.5em;
+  background: #1976d2;
+  color: white;
+  border: none;
+  border-radius: 0.625em;
+  font-size: 18px;
+  font-weight: bold;
+  cursor: pointer;
+  position: relative;
+  z-index: 1;
+  overflow: hidden;
+  transition: color 0.3s ease;
 }
 
-.nav-btn a:hover{
-
-    background:#1D4ED8;
-
-    transform:translateY(-3px);
-
+.login-btn:hover {
+  color: #222;
 }
+
+.login-btn::after {
+  content: "";
+  background: #ffb6d9;
+  position: absolute;
+  z-index: -1;
+  left: -20%;
+  right: -20%;
+  top: 0;
+  bottom: 0;
+  transform: skewX(-45deg) scale(0, 1);
+  transition: transform 0.5s ease;
+}
+
+.login-btn:hover::after {
+  transform: skewX(-45deg) scale(1, 1);
+}
+
 /* =========================================
    HERO SECTION
 ========================================= */
