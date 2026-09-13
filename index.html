@@ -1381,6 +1381,588 @@ Making digital services simple with the power of AI.
 </footer>
 
 <script src="script.js"></script>
+    <!-- =========================================================
+     OMGoracle AI FLOATING ROBOT
+     Paste this code before </body>
+========================================================= -->
+
+<div class="omg-ai-robot" id="omgAiRobot">
+
+    <!-- Glow Rings -->
+    <div class="robot-glow glow-one"></div>
+    <div class="robot-glow glow-two"></div>
+
+    <!-- Speech Bubble -->
+    <div class="omg-ai-bubble">
+        Hi! I'm <strong>OMGoracle AI</strong> 🤖
+    </div>
+
+    <!-- Robot -->
+    <div class="robot-body">
+
+        <!-- Antenna -->
+        <div class="robot-antenna">
+            <span></span>
+        </div>
+
+        <!-- Head -->
+        <div class="robot-head">
+
+            <div class="robot-ear robot-ear-left"></div>
+            <div class="robot-ear robot-ear-right"></div>
+
+            <div class="robot-face">
+
+                <!-- Eyes -->
+                <div class="robot-eyes">
+                    <span></span>
+                    <span></span>
+                </div>
+
+                <!-- Mouth -->
+                <div class="robot-mouth">
+                    <i></i>
+                    <i></i>
+                    <i></i>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+
+<style>
+
+/* =========================================================
+   OMGORACLE AI ROBOT
+========================================================= */
+
+.omg-ai-robot {
+    position: fixed;
+
+    /* IMPORTANT: bottom se upar */
+    right: 25px;
+    bottom: 100px;
+
+    width: 90px;
+    height: 110px;
+
+    z-index: 999999;
+
+    cursor: pointer;
+
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+
+    font-family: Arial, sans-serif;
+}
+
+
+/* =========================================================
+   GLOW RINGS
+========================================================= */
+
+.robot-glow {
+    position: absolute;
+    border-radius: 50%;
+    pointer-events: none;
+}
+
+.glow-one {
+    width: 72px;
+    height: 72px;
+
+    border: 2px solid rgba(0, 170, 255, .65);
+
+    box-shadow:
+        0 0 10px rgba(0, 170, 255, .7),
+        0 0 25px rgba(0, 170, 255, .35);
+
+    animation: robotPulse 2.2s infinite ease-in-out;
+}
+
+.glow-two {
+    width: 82px;
+    height: 82px;
+
+    border: 1px solid rgba(255, 205, 60, .35);
+
+    box-shadow:
+        0 0 18px rgba(255, 205, 60, .2);
+
+    animation: robotRotate 8s linear infinite;
+}
+
+
+@keyframes robotPulse {
+
+    0% {
+        transform: scale(.92);
+        opacity: .65;
+    }
+
+    50% {
+        transform: scale(1.08);
+        opacity: 1;
+    }
+
+    100% {
+        transform: scale(.92);
+        opacity: .65;
+    }
+}
+
+
+@keyframes robotRotate {
+
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+
+/* =========================================================
+   FLOATING ROBOT
+========================================================= */
+
+.robot-body {
+    position: relative;
+    z-index: 5;
+
+    animation: robotFloat 3s ease-in-out infinite;
+}
+
+
+@keyframes robotFloat {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-8px);
+    }
+}
+
+
+/* =========================================================
+   ANTENNA
+========================================================= */
+
+.robot-antenna {
+    position: absolute;
+
+    width: 3px;
+    height: 13px;
+
+    top: -9px;
+    left: 50%;
+
+    transform: translateX(-50%);
+
+    background: #aebdca;
+
+    border-radius: 5px;
+
+    z-index: 10;
+}
+
+
+.robot-antenna span {
+    position: absolute;
+
+    width: 8px;
+    height: 8px;
+
+    left: 50%;
+    top: -6px;
+
+    transform: translateX(-50%);
+
+    border-radius: 50%;
+
+    background: #ffd84a;
+
+    box-shadow:
+        0 0 6px #ffd84a,
+        0 0 14px rgba(255, 216, 74, .8);
+
+    animation: antennaBlink 1.5s infinite;
+}
+
+
+@keyframes antennaBlink {
+
+    0%,
+    45%,
+    100% {
+        opacity: 1;
+    }
+
+    50%,
+    75% {
+        opacity: .3;
+    }
+}
+
+
+/* =========================================================
+   ROBOT HEAD
+========================================================= */
+
+.robot-head {
+
+    position: relative;
+
+    width: 58px;
+    height: 54px;
+
+    border-radius: 18px;
+
+    background:
+        linear-gradient(
+            145deg,
+            #ffffff 0%,
+            #e8f1f7 48%,
+            #b9cad8 100%
+        );
+
+    border: 2px solid rgba(255,255,255,.9);
+
+    box-shadow:
+        0 6px 15px rgba(0,0,0,.3),
+        0 0 20px rgba(70,180,255,.45);
+
+    transition: .25s ease;
+}
+
+
+/* =========================================================
+   ROBOT EARS
+========================================================= */
+
+.robot-ear {
+
+    position: absolute;
+
+    top: 18px;
+
+    width: 8px;
+    height: 18px;
+
+    border-radius: 5px;
+
+    background: #9caebb;
+
+    box-shadow:
+        0 0 5px rgba(0,0,0,.15);
+}
+
+
+.robot-ear-left {
+    left: -7px;
+}
+
+
+.robot-ear-right {
+    right: -7px;
+}
+
+
+/* =========================================================
+   FACE
+========================================================= */
+
+.robot-face {
+
+    position: absolute;
+
+    top: 7px;
+    left: 7px;
+    right: 7px;
+    bottom: 7px;
+
+    border-radius: 13px;
+
+    background:
+        radial-gradient(
+            circle,
+            #ffffff 0%,
+            #edf5fa 55%,
+            #d5e3ed 100%
+        );
+
+    display: flex;
+
+    flex-direction: column;
+
+    justify-content: center;
+
+    align-items: center;
+}
+
+
+/* =========================================================
+   EYES
+========================================================= */
+
+.robot-eyes {
+
+    display: flex;
+
+    gap: 15px;
+
+    margin-top: 2px;
+}
+
+
+.robot-eyes span {
+
+    width: 8px;
+    height: 8px;
+
+    border-radius: 50%;
+
+    background: #7d8b98;
+
+    box-shadow:
+        0 0 5px rgba(0,0,0,.15);
+
+    animation: robotBlink 4s infinite;
+}
+
+
+@keyframes robotBlink {
+
+    0%,
+    91%,
+    100% {
+        transform: scaleY(1);
+    }
+
+    94%,
+    97% {
+        transform: scaleY(.12);
+    }
+}
+
+
+/* =========================================================
+   MOUTH
+========================================================= */
+
+.robot-mouth {
+
+    display: flex;
+
+    gap: 3px;
+
+    margin-top: 7px;
+}
+
+
+.robot-mouth i {
+
+    display: block;
+
+    width: 4px;
+    height: 5px;
+
+    border-radius: 3px;
+
+    background: #8997a3;
+
+    animation: robotTalk .8s infinite alternate;
+}
+
+
+.robot-mouth i:nth-child(2) {
+    height: 8px;
+    animation-delay: .15s;
+}
+
+
+.robot-mouth i:nth-child(3) {
+    animation-delay: .3s;
+}
+
+
+@keyframes robotTalk {
+
+    from {
+        transform: scaleY(.5);
+    }
+
+    to {
+        transform: scaleY(1.2);
+    }
+}
+
+
+/* =========================================================
+   AI MESSAGE
+========================================================= */
+
+.omg-ai-bubble {
+
+    position: absolute;
+
+    /* Robot ke bilkul upar */
+    right: -12px;
+    bottom: 91px;
+
+    z-index: 20;
+
+    background:
+        rgba(18, 20, 25, .96);
+
+    color: white;
+
+    padding: 9px 13px;
+
+    border-radius: 12px;
+
+    font-size: 13px;
+
+    white-space: nowrap;
+
+    box-shadow:
+        0 5px 18px rgba(0,0,0,.35),
+        0 0 12px rgba(0,170,255,.15);
+
+    border: 1px solid rgba(255,255,255,.08);
+
+    animation: bubbleFloat 3s ease-in-out infinite;
+}
+
+
+.omg-ai-bubble strong {
+    color: #ffd84a;
+}
+
+
+@keyframes bubbleFloat {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-3px);
+    }
+}
+
+
+/* =========================================================
+   HOVER
+========================================================= */
+
+.omg-ai-robot:hover .robot-head {
+
+    transform: scale(1.08);
+
+    box-shadow:
+        0 7px 18px rgba(0,0,0,.3),
+        0 0 28px rgba(0,170,255,.7);
+}
+
+
+.omg-ai-robot:hover .glow-one {
+
+    box-shadow:
+        0 0 15px #00aaff,
+        0 0 35px rgba(0,170,255,.6);
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 600px) {
+
+    .omg-ai-robot {
+
+        right: 14px;
+
+        /* Mobile par bhi bottom se safe distance */
+        bottom: 82px;
+
+        transform: scale(.88);
+
+        transform-origin:
+            bottom right;
+    }
+
+    .omg-ai-bubble {
+
+        right: -8px;
+
+        bottom: 88px;
+
+        font-size: 11px;
+
+        padding: 7px 10px;
+    }
+}
+
+
+/* =========================================================
+   VERY SMALL MOBILE
+========================================================= */
+
+@media (max-width: 380px) {
+
+    .omg-ai-robot {
+
+        right: 10px;
+        bottom: 78px;
+
+        transform: scale(.78);
+
+        transform-origin:
+            bottom right;
+    }
+
+    .omg-ai-bubble {
+
+        font-size: 10px;
+        padding: 6px 8px;
+    }
+}
+
+</style>
+
+
+<script>
+
+/* =========================================================
+   OMGoracle AI ROBOT CLICK
+========================================================= */
+
+document
+    .getElementById("omgAiRobot")
+    .addEventListener("click", function () {
+
+        window.location.href = "ai-chat.html";
+
+    });
+
+</script>
+
+<!-- =========================================================
+     END OMGoracle AI ROBOT
+========================================================= -->
 </body>
 
 </html>
