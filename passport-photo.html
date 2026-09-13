@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>OMGoracle AI Photo Studio</title>
+  <link rel="icon" type="image/png" href="images/omgoracle-favicon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
@@ -51,6 +52,10 @@ html, body {
   padding: 0 18px; z-index: 10; flex-shrink: 0;
 }
 #brand {
+  #brand {
+  text-decoration: none;
+  cursor: pointer;
+
   display: flex; align-items: center; gap: 10px;
   font-weight: 700; font-size: 17px; letter-spacing: 0.5px;
   color: var(--gold);
@@ -76,6 +81,16 @@ html, body {
   transition: all .15s ease; white-space: nowrap;
 }
 .btn:hover { border-color: var(--gold); color: var(--gold-light); }
+ .btn:hover { ... }
+
+.home-btn {
+ text-decoration: none;
+   color: var(--text);
+ }
+
+ .home-btn:hover {
+   border-color: var(--gold);
+  color: var(--gold-light); }
 .btn:disabled { opacity: 0.4; cursor: not-allowed; border-color: var(--border); color: var(--text-secondary); }
 .btn-primary {
   background: linear-gradient(135deg, var(--gold), #bfa230);
@@ -300,10 +315,10 @@ input[type="color"] { border: none; width: 32px; height: 32px; background: none;
 .toast.success { border-color: rgba(0,200,83,0.4); }
 @keyframes toastIn { from { opacity:0; transform: translateY(10px); } to { opacity:1; transform: translateY(0); } }
 
-/* Responsive */
-@media (max-width: 900px) {
-  #app { grid-template-columns: 200px 1fr 240px; }
-}
+ <a href="index.html" id="brand">
+ <div class="logo-icon">O</div>
+ <div>OMGoracle AI Photo Studio</div>
+ </a>
 </style>
 </head>
 <body>
@@ -318,6 +333,10 @@ input[type="color"] { border: none; width: 32px; height: 32px; background: none;
     <div id="top-actions">
       <button class="btn" id="btn-open"><span>+</span> Open</button>
       <button class="btn" id="btn-undo" title="Undo" disabled>&#8617; Undo</button>
+      <div id="top-actions">
+ <a href="index.html" class="btn home-btn">⌂ Home</a>
+ <button class="btn" id="btn-open"><span>+</span> Open</button>
+ <button class="btn" id="btn-undo" title="Undo" disabled>&#8617; Undo</button>
       <button class="btn" id="btn-redo" title="Redo" disabled>&#8618; Redo</button>
       <button class="btn" id="btn-reset">Reset All</button>
       <button class="btn" id="btn-before-after">Before / After</button>
