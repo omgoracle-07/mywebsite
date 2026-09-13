@@ -1,0 +1,1973 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OMGoracle AI Photo Studio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0a0a0a;
+  --surface: #141414;
+  --panel: #1a1a1a;
+  --elevated: #222222;
+  --border: #2a2a2a;
+  --gold: #d4af37;
+  --gold-light: #f1c40f;
+  --pink: #e91e63;
+  --pink-soft: #ff80ab;
+  --text: #e5e5e5;
+  --text-secondary: #a0a0a0;
+  --success: #00c853;
+  --error: #ff5252;
+  --warning: #ffb300;
+  --radius: 10px;
+  --space: 12px;
+  --shadow: 0 8px 24px rgba(0,0,0,0.45);
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body {
+  height: 100%;
+  background: var(--bg);
+  color: var(--text);
+  font-family: "Inter", "Hiragino Sans", "Noto Sans JP", sans-serif;
+  font-size: 13px;
+  overflow: hidden;
+}
+#app {
+  display: grid;
+  grid-template-rows: 56px 1fr 36px;
+  grid-template-columns: 270px 1fr 300px;
+  height: 100vh;
+}
+
+/* Top Bar */
+#top-bar {
+  grid-column: 1 / -1;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 18px; z-index: 10; flex-shrink: 0;
+}
+#brand {
+  display: flex; align-items: center; gap: 10px;
+  font-weight: 700; font-size: 17px; letter-spacing: 0.5px;
+  color: var(--gold);
+}
+#brand .logo-icon {
+  width: 28px; height: 28px; border: 2px solid var(--gold);
+  border-radius: 6px; display: grid; place-items: center;
+  color: var(--gold); font-size: 14px; font-weight: 800;
+}
+#top-actions, #top-right {
+  display: flex; align-items: center; gap: 8px;
+}
+.btn {
+  background: var(--elevated);
+  border: 1px solid var(--border);
+  color: var(--text);
+  padding: 7px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 500;
+  font-size: 12px;
+  display: inline-flex; align-items: center; gap: 6px;
+  transition: all .15s ease; white-space: nowrap;
+}
+.btn:hover { border-color: var(--gold); color: var(--gold-light); }
+.btn:disabled { opacity: 0.4; cursor: not-allowed; border-color: var(--border); color: var(--text-secondary); }
+.btn-primary {
+  background: linear-gradient(135deg, var(--gold), #bfa230);
+  color: #0a0a0a; border: none; font-weight: 700;
+}
+.btn-primary:hover { filter: brightness(1.1); color: #000; }
+.btn-primary:disabled { filter: grayscale(1); opacity: 0.4; }
+.btn-icon { padding: 7px; }
+.btn.active { border-color: var(--gold); color: var(--gold-light); box-shadow: inset 0 0 0 1px var(--gold); }
+.btn-danger { background: rgba(255,82,82,0.1); border-color: rgba(255,82,82,0.3); color: var(--error); }
+.btn-danger:hover { border-color: var(--error); color: #ff7777; }
+
+/* Sidebars */
+#left-sidebar, #right-sidebar {
+  background: var(--panel);
+  border-right: 1px solid var(--border);
+  display: flex; flex-direction: column;
+  overflow: hidden; min-width: 0;
+}
+#right-sidebar { border-right: none; border-left: 1px solid var(--border); }
+.sidebar-header {
+  padding: 14px var(--space);
+  font-weight: 600; font-size: 11px; text-transform: uppercase; letter-spacing: 1.2px;
+  color: var(--text-secondary); border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+}
+.tool-group { padding: 8px; display: flex; flex-direction: column; gap: 4px; overflow-y: auto; }
+.tool-btn {
+  display: flex; align-items: center; gap: 10px;
+  padding: 10px; border-radius: 8px; cursor: pointer;
+  border: 1px solid transparent;
+  color: var(--text-secondary);
+  transition: all .12s ease; position: relative;
+}
+.tool-btn:hover { background: var(--elevated); color: var(--text); }
+.tool-btn.active {
+  background: rgba(212,175,55,0.08);
+  border-left: 3px solid var(--gold);
+  color: var(--text);
+  padding-left: 7px;
+}
+.tool-btn .t-icon {
+  width: 22px; height: 22px; display: grid; place-items: center;
+  color: var(--gold); font-size: 15px; flex-shrink: 0;
+}
+.tool-status {
+  margin-left: auto; font-size: 10px; padding: 2px 6px; border-radius: 4px;
+  background: var(--elevated); color: var(--text-secondary); white-space: nowrap;
+}
+.tool-status.ready { background: rgba(0,200,83,0.12); color: var(--success); }
+.tool-status.loading { background: rgba(255,179,0,0.12); color: var(--warning); }
+.tool-status.error { background: rgba(255,82,82,0.12); color: var(--error); }
+
+/* Canvas Area */
+#canvas-area {
+  position: relative;
+  background: #0f0f0f;
+  display: flex; align-items: center; justify-content: center;
+  overflow: hidden; flex-direction: column;
+}
+#checkerboard {
+  position: absolute; inset: 0;
+  background-image:
+    linear-gradient(45deg, #1a1a1a 25%, transparent 25%),
+    linear-gradient(-45deg, #1a1a1a 25%, transparent 25%),
+    linear-gradient(45deg, transparent 75%, #1a1a1a 75%),
+    linear-gradient(-45deg, transparent 75%, #1a1a1a 75%);
+  background-size: 20px 20px;
+  background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
+  opacity: 0.6; z-index: 0;
+}
+#canvas-wrapper {
+  position: relative;
+  box-shadow: var(--shadow);
+  z-index: 1;
+  max-width: 100%; max-height: 100%;
+}
+#mainCanvas {
+  display: block;
+  max-width: 100%; max-height: 100%;
+}
+#before-after-slider {
+  position: absolute;
+  top: 0; bottom: 0;
+  width: 3px;
+  background: var(--gold);
+  cursor: ew-resize;
+  z-index: 5;
+  display: none;
+}
+#before-after-handle {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  width: 26px; height: 26px;
+  background: var(--gold);
+  border-radius: 50%;
+  box-shadow: 0 0 0 3px rgba(0,0,0,0.5);
+  display: grid; place-items: center;
+  font-size: 11px; color: #000; font-weight: 700;
+}
+
+/* Drop Zone */
+#drop-zone {
+  position: absolute; inset: 0;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  gap: 16px; z-index: 8; background: var(--bg);
+}
+#drop-zone.drag-active {
+  background: rgba(212,175,55,0.04);
+  border: 2px dashed var(--gold);
+}
+.drop-icon { font-size: 48px; color: var(--gold); }
+.drop-title { font-size: 18px; font-weight: 600; color: var(--text); }
+.drop-sub { font-size: 12px; color: var(--text-secondary); }
+.drop-formats { font-size: 11px; color: var(--text-secondary); margin-top: 4px; }
+
+/* Image Info Bar inside canvas area */
+#image-info-bar {
+  position: absolute; top: 10px; left: 50%; transform: translateX(-50%);
+  background: rgba(20,20,20,0.9);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 6px 16px;
+  display: none; align-items: center; gap: 12px;
+  font-size: 11px; color: var(--text-secondary);
+  z-index: 6; backdrop-filter: blur(8px);
+}
+#image-info-bar.visible { display: flex; }
+.info-filename { color: var(--text); font-weight: 500; max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.info-dims { }
+.info-status { color: var(--success); font-weight: 600; }
+
+/* Right Panel */
+.panel-content { padding: var(--space); display: flex; flex-direction: column; gap: 14px; overflow-y: auto; flex: 1; }
+.section-title { font-weight: 600; font-size: 13px; color: var(--text); margin-bottom: 2px; }
+.control-row { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+.control-label { color: var(--text-secondary); font-size: 12px; }
+input[type="range"] {
+  -webkit-appearance: none; appearance: none;
+  height: 4px; background: var(--elevated); border-radius: 2px; outline: none; flex: 1;
+}
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none; appearance: none;
+  width: 14px; height: 14px; background: var(--gold); border-radius: 50%; cursor: pointer; border: 2px solid #fff;
+}
+input[type="color"] { border: none; width: 32px; height: 32px; background: none; cursor: pointer; padding: 0; }
+.select {
+  background: var(--elevated); color: var(--text); border: 1px solid var(--border);
+  padding: 8px; border-radius: 6px; width: 100%; outline: none; font-size: 12px;
+}
+.preset-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; }
+.preset-card {
+  background: var(--elevated); border: 1px solid var(--border); border-radius: var(--radius);
+  padding: 10px; text-align: center; cursor: pointer; font-size: 12px;
+  transition: all .12s; color: var(--text-secondary);
+}
+.preset-card:hover { border-color: var(--gold); color: var(--text); transform: translateY(-1px); }
+.preset-card.active { border-color: var(--gold); color: var(--text); box-shadow: 0 0 0 2px rgba(212,175,55,0.12); }
+.swatch { width: 24px; height: 24px; border-radius: 50%; margin: 0 auto 6px; border: 2px solid rgba(255,255,255,0.1); }
+
+/* AI Processing Panel */
+#ai-panel {
+  position: fixed; top: 66px; right: 310px;
+  width: 280px;
+  background: rgba(20,20,20,0.96);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 14px;
+  z-index: 50;
+  display: none; flex-direction: column; gap: 10px;
+  box-shadow: var(--shadow); backdrop-filter: blur(10px);
+}
+#ai-panel.visible { display: flex; }
+.ai-panel-header { font-weight: 600; font-size: 13px; color: var(--gold); display: flex; align-items: center; justify-content: space-between; }
+.ai-step { display: flex; align-items: center; gap: 8px; font-size: 12px; color: var(--text-secondary); }
+.ai-step.done { color: var(--success); }
+.ai-step-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--elevated); border: 1px solid var(--border); flex-shrink: 0; }
+.ai-step.done .ai-step-dot { background: var(--success); border-color: var(--success); }
+.ai-step.active .ai-step-dot { background: var(--warning); border-color: var(--warning); animation: pulse 1s infinite; }
+@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.5} }
+.ai-progress-bar {
+  height: 3px; background: var(--elevated); border-radius: 2px; overflow: hidden; margin-top: 4px;
+}
+.ai-progress-fill {
+  height: 100%; background: var(--gold); width: 0%; transition: width .3s ease;
+}
+
+/* Bottom Bar */
+#bottom-bar {
+  grid-column: 1 / -1;
+  background: var(--surface);
+  border-top: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 14px; color: var(--text-secondary); font-size: 12px; flex-shrink: 0;
+}
+#zoom-controls { display: flex; align-items: center; gap: 6px; }
+#status-message { font-size: 11px; color: var(--text-secondary); }
+
+/* Utility */
+.hidden { display: none !important; }
+.mt-2 { margin-top: 8px; }
+.w-full { width: 100%; }
+.text-xs { font-size: 11px; }
+.text-secondary { color: var(--text-secondary); }
+.text-success { color: var(--success); }
+.text-error { color: var(--error); }
+.text-warning { color: var(--warning); }
+
+/* Toast */
+#toast-container {
+  position: fixed; bottom: 50px; left: 50%; transform: translateX(-50%);
+  z-index: 100; display: flex; flex-direction: column; gap: 8px; align-items: center;
+}
+.toast {
+  background: var(--elevated); border: 1px solid var(--border);
+  color: var(--text); padding: 10px 18px; border-radius: 8px;
+  font-size: 12px; box-shadow: var(--shadow); animation: toastIn .3s ease;
+}
+.toast.error { border-color: rgba(255,82,82,0.4); }
+.toast.success { border-color: rgba(0,200,83,0.4); }
+@keyframes toastIn { from { opacity:0; transform: translateY(10px); } to { opacity:1; transform: translateY(0); } }
+
+/* Responsive */
+@media (max-width: 900px) {
+  #app { grid-template-columns: 200px 1fr 240px; }
+}
+</style>
+</head>
+<body>
+
+<div id="app">
+  <!-- Top Bar -->
+  <div id="top-bar">
+    <div id="brand">
+      <div class="logo-icon">O</div>
+      <div>OMGoracle AI Photo Studio</div>
+    </div>
+    <div id="top-actions">
+      <button class="btn" id="btn-open"><span>+</span> Open</button>
+      <button class="btn" id="btn-undo" title="Undo" disabled>&#8617; Undo</button>
+      <button class="btn" id="btn-redo" title="Redo" disabled>&#8618; Redo</button>
+      <button class="btn" id="btn-reset">Reset All</button>
+      <button class="btn" id="btn-before-after">Before / After</button>
+    </div>
+    <div id="top-right">
+      <button class="btn btn-primary" id="btn-export">Export</button>
+    </div>
+  </div>
+
+  <!-- Left Sidebar -->
+  <div id="left-sidebar">
+    <div class="sidebar-header">AI Tools</div>
+    <div class="tool-group" id="tools-list">
+      <div class="tool-btn active" data-tool="removeBackground" data-ai="segmentation">
+        <div class="t-icon">&#9673;</div>
+        <div>Remove Background</div>
+        <div class="tool-status" id="status-segmentation">Ready</div>
+      </div>
+      <div class="tool-btn" data-tool="changeBackground" data-ai="segmentation">
+        <div class="t-icon">&#9638;</div>
+        <div>Change Background</div>
+        <div class="tool-status" id="status-segmentation2">Ready</div>
+      </div>
+      <div class="tool-btn" data-tool="uniformChange" data-ai="segmentation">
+        <div class="t-icon">&#9733;</div>
+        <div>AI Uniform Change</div>
+        <div class="tool-status" id="status-uniform">Ready</div>
+      </div>
+      <div class="tool-btn" data-tool="dressChange" data-ai="segmentation">
+        <div class="t-icon">&#9734;</div>
+        <div>Dress Change</div>
+        <div class="tool-status" id="status-dress">Ready</div>
+      </div>
+      <div class="tool-btn" data-tool="faceEnhance" data-ai="face">
+        <div class="t-icon">&#9787;</div>
+        <div>Face Enhancement</div>
+        <div class="tool-status" id="status-face">Ready</div>
+      </div>
+      <div class="tool-btn" data-tool="relight" data-ai="none">
+        <div class="t-icon">&#9728;</div>
+        <div>AI Relight</div>
+        <div class="tool-status ready">Ready</div>
+      </div>
+      <div class="tool-btn" data-tool="bgBlur" data-ai="segmentation">
+        <div class="t-icon">&#9680;</div>
+        <div>Background Blur</div>
+        <div class="tool-status" id="status-blur">Ready</div>
+      </div>
+      <div class="tool-btn" data-tool="portraitEnhance" data-ai="none">
+        <div class="t-icon">&#9786;</div>
+        <div>Portrait Enhance</div>
+        <div class="tool-status ready">Ready</div>
+      </div>
+      <div class="tool-btn" data-tool="maskEditor" data-ai="segmentation">
+        <div class="t-icon">&#9874;</div>
+        <div>Mask Editor</div>
+        <div class="tool-status" id="status-mask">Ready</div>
+      </div>
+      <div class="tool-btn" data-tool="restore" data-ai="none">
+        <div class="t-icon">&#9850;</div>
+        <div>Restore Original</div>
+        <div class="tool-status ready">Ready</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Center Canvas -->
+  <div id="canvas-area">
+    <div id="checkerboard"></div>
+
+    <!-- Drop Zone -->
+    <div id="drop-zone">
+      <div class="drop-icon">&#8681;</div>
+      <div class="drop-title">Drop your photo here</div>
+      <div class="drop-sub">or</div>
+      <button class="btn btn-primary" id="btn-drop-open" style="font-size:13px;padding:10px 20px">
+        <span>+</span> Open Image
+      </button>
+      <div class="drop-formats">JPG &bull; PNG &bull; WEBP &bull; Paste from clipboard</div>
+    </div>
+
+    <!-- Image Info Bar -->
+    <div id="image-info-bar">
+      <span class="info-filename" id="info-filename"></span>
+      <span class="info-dims" id="info-dims"></span>
+      <span class="info-status" id="info-status">Loaded &#10003;</span>
+    </div>
+
+    <!-- Canvas Wrapper -->
+    <div id="canvas-wrapper">
+      <canvas id="mainCanvas"></canvas>
+      <div id="before-after-slider"><div id="before-after-handle">&#9664;&#9654;</div></div>
+    </div>
+  </div>
+
+  <!-- Right Sidebar -->
+  <div id="right-sidebar">
+    <div class="sidebar-header" id="right-header">Properties</div>
+    <div class="panel-content" id="right-panel">
+      <div class="text-secondary" style="text-align:center;margin-top:40px">
+        Upload a photo to begin editing<br>
+        <span style="font-size:11px;opacity:0.7">Drag & drop, click Open, or paste (Ctrl+V)</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bottom Bar -->
+  <div id="bottom-bar">
+    <div id="zoom-controls">
+      <button class="btn btn-icon" id="zoom-out">-</button>
+      <span id="zoom-label">100%</span>
+      <button class="btn btn-icon" id="zoom-in">+</button>
+      <button class="btn" id="zoom-fit">Fit</button>
+      <button class="btn" id="zoom-100">1:1</button>
+    </div>
+    <div id="status-message">Ready</div>
+    <div id="image-info"></div>
+  </div>
+</div>
+
+<!-- AI Processing Panel -->
+<div id="ai-panel">
+  <div class="ai-panel-header">
+    <span>AI Processing</span>
+    <button class="btn btn-danger btn-icon" id="btn-cancel-ai" title="Cancel">&#10005;</button>
+  </div>
+  <div class="ai-progress-bar"><div class="ai-progress-fill" id="ai-progress-fill"></div></div>
+  <div id="ai-steps"></div>
+</div>
+
+<!-- Toast Container -->
+<div id="toast-container"></div>
+
+<!-- Hidden file inputs -->
+<input type="file" id="fileInput" accept="image/jpeg,image/jpg,image/png,image/webp" class="hidden">
+<input type="file" id="bgFileInput" accept="image/*" class="hidden">
+<input type="file" id="uniformFileInput" accept="image/*" class="hidden">
+
+<script>
+/* ============================================================
+   OMGoracle AI Photo Studio v2
+   Architecture: IMAGE ENGINE | AI ENGINE | UI ENGINE
+   ============================================================ */
+
+/* ===================== CONSTANTS ===================== */
+const PRESETS = {
+  schoolUniform: { name: 'School Uniform', color: '#1e3a8a', pattern: 'none' },
+  collegeUniform: { name: 'College Uniform', color: '#065f46', pattern: 'none' },
+  formalShirt: { name: 'Formal Shirt', color: '#f8fafc', pattern: 'fine-stripes', patternColor: '#cbd5e1' },
+  corporateSuit: { name: 'Corporate Suit', color: '#1e293b', pattern: 'none' },
+  policeUniform: { name: 'Police Uniform', color: '#1d4ed8', pattern: 'none' },
+  securityUniform: { name: 'Security Uniform', color: '#111827', pattern: 'none' },
+  medicalCoat: { name: 'Medical Coat', color: '#ffffff', pattern: 'none' },
+  blazer: { name: 'Blazer', color: '#334155', pattern: 'none' },
+  tshirt: { name: 'T-Shirt', color: '#dc2626', pattern: 'none' },
+  indianOutfit: { name: 'Indian Outfit', color: '#f59e0b', pattern: 'ornate', patternColor: '#92400e' }
+};
+
+const BG_TYPES = [
+  { id: 'original', name: 'Original Background' },
+  { id: 'transparent', name: 'Transparent' },
+  { id: 'solid', name: 'Solid Color' },
+  { id: 'gradient', name: 'Gradient' },
+  { id: 'blur', name: 'Blur Background' },
+  { id: 'studio', name: 'Studio Background' },
+  { id: 'office', name: 'Office Background' },
+  { id: 'classroom', name: 'Classroom Background' },
+  { id: 'passport', name: 'Passport Background' },
+  { id: 'custom', name: 'Custom Image' },
+  { id: 'ai', name: 'AI Generated' }
+];
+
+/* ===================== STATE ===================== */
+const state = {
+  // Image Engine
+  hasImage: false,
+  originalFile: null,
+  originalImage: null,
+  previewImage: null,
+  originalWidth: 0,
+  originalHeight: 0,
+  previewWidth: 0,
+  previewHeight: 0,
+  filename: '',
+
+  // AI Engine
+  models: { segmentation: null, face: null },
+  modelStatus: { segmentation: 'ready', face: 'ready' }, // ready, loading, error
+  aiProcessing: false,
+  aiCancelled: false,
+  segmentation: null,
+  faceDetection: null,
+
+  // Masks (ImageData or null)
+  personMask: null,
+  faceMask: null,
+  hairMask: null,
+  clothingMask: null,
+  skinMask: null,
+  handMask: null,
+  backgroundMask: null,
+
+  // Editing State
+  tool: 'removeBackground',
+  background: { type: 'original', color: '#ffffff', gradient: { from: '#2a2a2a', to: '#000000' }, image: null, prompt: 'modern corporate office', blurAmount: 8 },
+  clothing: { enabled: false, preset: 'corporateSuit', customImage: null, color: '#1e293b', pattern: 'none', opacity: 1 },
+  adjustments: { exposure: 0, contrast: 0, highlights: 0, shadows: 0, temperature: 0, saturation: 0, sharpness: 0, noiseReduction: 0, hdr: 0 },
+  relight: { enabled: false, x: 0.5, y: 0.3, intensity: 0.4, color: '#ffddb0' },
+  enhancements: { skinTone: 0, eyeEnhance: 0, hairEnhance: 0, portraitDepth: 0 },
+  maskEdit: { activeMask: 'person', brushSize: 18, feather: 0, mode: 'brush' },
+
+  // View
+  zoom: 1,
+  beforeAfter: false,
+  split: 0.5,
+  showMask: false,
+
+  // History (non-destructive)
+  history: [],
+  historyIndex: -1,
+  maxHistory: 15,
+};
+
+/* ===================== DOM ===================== */
+const $ = (s) => document.querySelector(s);
+const mainCanvas = $('#mainCanvas');
+const ctx = mainCanvas.getContext('2d');
+const canvasWrapper = $('#canvas-wrapper');
+const dropZone = $('#drop-zone');
+const imageInfoBar = $('#image-info-bar');
+const aiPanel = $('#ai-panel');
+const aiProgressFill = $('#ai-progress-fill');
+const aiSteps = $('#ai-steps');
+const statusMessage = $('#status-message');
+const fileInput = $('#fileInput');
+const bgFileInput = $('#bgFileInput');
+const uniformFileInput = $('#uniformFileInput');
+
+/* ===================== UTILITIES ===================== */
+function createEl(tag, cls, text) {
+  const el = document.createElement(tag);
+  if (cls) el.className = cls;
+  if (text !== undefined) el.textContent = text;
+  return el;
+}
+function clamp(v, min, max) { return Math.max(min, Math.min(max, v)); }
+function toast(msg, type='info') {
+  const container = $('#toast-container');
+  const t = createEl('div', 'toast ' + type, msg);
+  container.appendChild(t);
+  setTimeout(() => t.remove(), 3000);
+}
+function setStatus(msg) { statusMessage.textContent = msg; }
+function formatDims(w, h) { return w + ' × ' + h; }
+
+/* ===================== IMAGE ENGINE ===================== */
+
+// Offscreen canvases for layers
+const layerOriginal = document.createElement('canvas');
+const layerPerson = document.createElement('canvas');
+const layerClothing = document.createElement('canvas');
+const layerLighting = document.createElement('canvas');
+const layerMask = document.createElement('canvas');
+
+function resetAllLayers() {
+  [layerOriginal, layerPerson, layerClothing, layerLighting, layerMask].forEach(c => {
+    c.width = 0; c.height = 0;
+  });
+}
+
+function fitCanvasToWrapper() {
+  if (!state.hasImage) return;
+  const area = $('#canvas-area');
+  const padding = 40;
+  const availW = area.clientWidth - padding * 2;
+  const availH = area.clientHeight - padding * 2;
+  const scale = Math.min(availW / state.previewWidth, availH / state.previewHeight, 1);
+  canvasWrapper.style.width = (state.previewWidth * scale) + 'px';
+  canvasWrapper.style.height = (state.previewHeight * scale) + 'px';
+  state.zoom = scale;
+  $('#zoom-label').textContent = Math.round(state.zoom * 100) + '%';
+}
+
+function resizeImageForPreview(img, maxDim = 1600) {
+  let w = img.naturalWidth || img.width;
+  let h = img.naturalHeight || img.height;
+  const scale = maxDim / Math.max(w, h);
+  if (scale < 1) { w = Math.round(w * scale); h = Math.round(h * scale); }
+  const c = document.createElement('canvas');
+  c.width = w; c.height = h;
+  c.getContext('2d').drawImage(img, 0, 0, w, h);
+  const out = new Image();
+  out.src = c.toDataURL('image/png');
+  return { image: out, width: w, height: h };
+}
+
+async function handleImageFile(file) {
+  if (!file || !file.type.startsWith('image/')) {
+    toast('Please upload a valid image file (JPG, PNG, WEBP)', 'error'); return;
+  }
+
+  setStatus('Reading image...');
+  state.originalFile = file;
+  state.filename = file.name;
+
+  // Use URL.createObjectURL for instant preview
+  const url = URL.createObjectURL(file);
+  const img = new Image();
+
+  img.onload = () => {
+    URL.revokeObjectURL(url);
+
+    // Store original dimensions
+    state.originalImage = img;
+    state.originalWidth = img.naturalWidth;
+    state.originalHeight = img.naturalHeight;
+
+    // Create preview version for responsive editing
+    const preview = resizeImageForPreview(img, 1600);
+    state.previewImage = preview.image;
+    state.previewWidth = preview.width;
+    state.previewHeight = preview.height;
+    state.hasImage = true;
+
+    // Setup canvases
+    mainCanvas.width = state.previewWidth;
+    mainCanvas.height = state.previewHeight;
+    [layerOriginal, layerPerson, layerClothing, layerLighting, layerMask].forEach(c => {
+      c.width = state.previewWidth; c.height = state.previewHeight;
+    });
+
+    // Draw original to layerOriginal
+    const octx = layerOriginal.getContext('2d');
+    octx.clearRect(0, 0, state.previewWidth, state.previewHeight);
+    octx.drawImage(state.previewImage, 0, 0);
+
+    // Reset editing state
+    resetEditingState();
+
+    // Show image, hide drop zone
+    dropZone.style.display = 'none';
+    imageInfoBar.classList.add('visible');
+    $('#info-filename').textContent = state.filename;
+    $('#info-dims').textContent = formatDims(state.originalWidth, state.originalHeight);
+    $('#image-info').textContent = formatDims(state.originalWidth, state.originalHeight);
+
+    fitCanvasToWrapper();
+    renderImageOnly();
+    pushHistory();
+    selectTool('removeBackground');
+    setStatus('Image loaded. Choose an AI tool to begin editing.');
+    toast('Image loaded successfully', 'success');
+  };
+
+  img.onerror = () => {
+    URL.revokeObjectURL(url);
+    toast('Failed to load image', 'error');
+    setStatus('Error loading image');
+  };
+
+  img.src = url;
+}
+
+function resetEditingState() {
+  state.segmentation = null;
+  state.faceDetection = null;
+  state.personMask = null;
+  state.faceMask = null;
+  state.hairMask = null;
+  state.clothingMask = null;
+  state.skinMask = null;
+  state.handMask = null;
+  state.backgroundMask = null;
+  state.background = { type: 'original', color: '#ffffff', gradient: { from: '#2a2a2a', to: '#000000' }, image: null, prompt: 'modern corporate office', blurAmount: 8 };
+  state.clothing = { enabled: false, preset: 'corporateSuit', customImage: null, color: '#1e293b', pattern: 'none', opacity: 1 };
+  state.adjustments = { exposure: 0, contrast: 0, highlights: 0, shadows: 0, temperature: 0, saturation: 0, sharpness: 0, noiseReduction: 0, hdr: 0 };
+  state.relight = { enabled: false, x: 0.5, y: 0.3, intensity: 0.4, color: '#ffddb0' };
+  state.enhancements = { skinTone: 0, eyeEnhance: 0, hairEnhance: 0, portraitDepth: 0 };
+  state.history = [];
+  state.historyIndex = -1;
+  updateUndoRedoButtons();
+}
+
+/* ===================== RENDERING ENGINE ===================== */
+
+function buildAdjustmentFilter() {
+  const a = state.adjustments;
+  const brightness = 1 + a.exposure * 0.01 + a.highlights * 0.005;
+  const contrast = 1 + a.contrast * 0.01;
+  const saturate = 1 + a.saturation * 0.01;
+  const temp = a.temperature;
+  const sepia = temp > 0 ? temp * 0.002 : 0;
+  const hue = temp < 0 ? temp * 0.1 : 0;
+  const shadow = 1 + a.shadows * 0.01;
+  const sharp = a.sharpness * 0.1;
+  const hdr = a.hdr * 0.01;
+  let s = `brightness(${brightness * shadow}) contrast(${contrast + hdr}) saturate(${saturate}) sepia(${sepia}) hue-rotate(${hue}deg)`;
+  if (sharp > 0) s += ` contrast(${1 + sharp * 0.05})`;
+  return s;
+}
+
+function renderImageOnly() {
+  // Just the original image, no AI edits
+  ctx.clearRect(0, 0, state.previewWidth, state.previewHeight);
+  ctx.drawImage(layerOriginal, 0, 0);
+}
+
+function renderComposite() {
+  if (!state.hasImage) return;
+  const w = state.previewWidth, h = state.previewHeight;
+  ctx.clearRect(0, 0, w, h);
+
+  // 1. Background Layer
+  renderBackground(ctx, w, h);
+
+  // 2. Person Layer (with adjustments if person mask exists, else full image)
+  if (state.personMask) {
+    ctx.save();
+    ctx.filter = buildAdjustmentFilter();
+    ctx.drawImage(layerPerson, 0, 0);
+    ctx.filter = 'none';
+    ctx.restore();
+  } else {
+    // No segmentation yet: show original with adjustments applied
+    ctx.save();
+    ctx.filter = buildAdjustmentFilter();
+    ctx.drawImage(layerOriginal, 0, 0);
+    ctx.filter = 'none';
+    ctx.restore();
+  }
+
+  // 3. Clothing Layer
+  if (state.clothing.enabled && state.clothingMask) {
+    ctx.save();
+    ctx.globalAlpha = state.clothing.opacity;
+    ctx.drawImage(layerClothing, 0, 0);
+    ctx.globalAlpha = 1;
+    ctx.restore();
+  }
+
+  // 4. Lighting Layer
+  if (state.relight.enabled) {
+    ctx.save();
+    ctx.globalCompositeOperation = 'soft-light';
+    ctx.drawImage(layerLighting, 0, 0);
+    ctx.globalCompositeOperation = 'source-over';
+    ctx.restore();
+  }
+
+  // 5. Mask Preview
+  if (state.showMask) renderMaskPreview(ctx, w, h);
+
+  // 6. Before / After
+  if (state.beforeAfter) renderBeforeAfter(ctx, w, h);
+}
+
+function renderBackground(ctx, w, h) {
+  const bg = state.background;
+  switch (bg.type) {
+    case 'original':
+      ctx.drawImage(layerOriginal, 0, 0); break;
+    case 'transparent':
+      drawCheckerboard(ctx, w, h); break;
+    case 'solid':
+      ctx.fillStyle = bg.color; ctx.fillRect(0, 0, w, h); break;
+    case 'gradient': {
+      const g = ctx.createLinearGradient(0, 0, w, h);
+      g.addColorStop(0, bg.gradient.from); g.addColorStop(1, bg.gradient.to);
+      ctx.fillStyle = g; ctx.fillRect(0, 0, w, h); break;
+    }
+    case 'blur': {
+      ctx.filter = `blur(${bg.blurAmount}px)`;
+      ctx.drawImage(layerOriginal, 0, 0, w, h);
+      ctx.filter = 'none';
+      break;
+    }
+    case 'studio': drawStudioBackground(ctx, w, h); break;
+    case 'office': drawOfficeBackground(ctx, w, h); break;
+    case 'classroom': drawClassroomBackground(ctx, w, h); break;
+    case 'passport': drawPassportBackground(ctx, w, h); break;
+    case 'custom':
+      if (bg.image) ctx.drawImage(bg.image, 0, 0, w, h);
+      else drawCheckerboard(ctx, w, h);
+      break;
+    case 'ai':
+      drawAIGeneratedBackground(ctx, w, h, bg.prompt);
+      break;
+  }
+}
+
+function drawCheckerboard(ctx, w, h) {
+  ctx.fillStyle = '#0f0f0f'; ctx.fillRect(0, 0, w, h);
+  ctx.fillStyle = '#1a1a1a';
+  const s = 20;
+  for (let y = 0; y < h; y += s) {
+    for (let x = 0; x < w; x += s) {
+      if ((x / s + y / s) % 2 === 0) ctx.fillRect(x, y, s, s);
+    }
+  }
+}
+
+function drawStudioBackground(ctx, w, h) {
+  const g = ctx.createRadialGradient(w / 2, h / 3, w * 0.1, w / 2, h / 2, w * 0.8);
+  g.addColorStop(0, '#3a3a3a'); g.addColorStop(1, '#0a0a0a');
+  ctx.fillStyle = g; ctx.fillRect(0, 0, w, h);
+  const fg = ctx.createLinearGradient(0, h * 0.6, 0, h);
+  fg.addColorStop(0, 'rgba(255,255,255,0)'); fg.addColorStop(1, 'rgba(255,255,255,0.04)');
+  ctx.fillStyle = fg; ctx.fillRect(0, h * 0.6, w, h * 0.4);
+}
+
+function drawOfficeBackground(ctx, w, h) {
+  ctx.fillStyle = '#e2e8f0'; ctx.fillRect(0, 0, w, h);
+  ctx.fillStyle = '#bfdbfe';
+  ctx.fillRect(w * 0.1, h * 0.05, w * 0.35, h * 0.4);
+  ctx.strokeStyle = '#fff'; ctx.lineWidth = 4;
+  ctx.strokeRect(w * 0.1, h * 0.05, w * 0.35, h * 0.4);
+  ctx.beginPath(); ctx.moveTo(w * 0.275, h * 0.05); ctx.lineTo(w * 0.275, h * 0.45); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(w * 0.1, h * 0.25); ctx.lineTo(w * 0.45, h * 0.25); ctx.stroke();
+  ctx.fillStyle = '#cbd5e1';
+  ctx.fillRect(0, h * 0.75, w, h * 0.05);
+  ctx.fillStyle = '#f8fafc';
+  ctx.fillRect(w * 0.6, h * 0.2, w * 0.3, h * 0.35);
+  ctx.strokeStyle = '#e2e8f0'; ctx.strokeRect(w * 0.6, h * 0.2, w * 0.3, h * 0.35);
+}
+
+function drawClassroomBackground(ctx, w, h) {
+  ctx.fillStyle = '#f1f5f9'; ctx.fillRect(0, 0, w, h);
+  ctx.fillStyle = '#14532d';
+  ctx.fillRect(w * 0.05, h * 0.08, w * 0.9, h * 0.45);
+  ctx.strokeStyle = '#92400e'; ctx.lineWidth = 6;
+  ctx.strokeRect(w * 0.05, h * 0.08, w * 0.9, h * 0.45);
+  ctx.fillStyle = '#cbd5e1';
+  for (let i = 0; i < 3; i++) {
+    ctx.fillRect(w * (0.1 + i * 0.3), h * 0.65, w * 0.22, h * 0.06);
+    ctx.fillRect(w * (0.12 + i * 0.3), h * 0.71, w * 0.02, h * 0.15);
+    ctx.fillRect(w * (0.26 + i * 0.3), h * 0.71, w * 0.02, h * 0.15);
+  }
+}
+
+function drawPassportBackground(ctx, w, h) {
+  ctx.fillStyle = '#f8fafc'; ctx.fillRect(0, 0, w, h);
+  const g = ctx.createLinearGradient(0, 0, 0, h);
+  g.addColorStop(0, '#ffffff'); g.addColorStop(1, '#f1f5f9');
+  ctx.fillStyle = g; ctx.fillRect(0, 0, w, h);
+}
+
+function drawAIGeneratedBackground(ctx, w, h, prompt) {
+  const p = prompt.toLowerCase();
+  if (p.includes('office') || p.includes('corporate')) { drawOfficeBackground(ctx, w, h); return; }
+  if (p.includes('class') || p.includes('school')) { drawClassroomBackground(ctx, w, h); return; }
+  if (p.includes('studio') || p.includes('luxury')) { drawStudioBackground(ctx, w, h); return; }
+  if (p.includes('passport') || p.includes('document')) { drawPassportBackground(ctx, w, h); return; }
+  const g = ctx.createLinearGradient(0, 0, w, h);
+  g.addColorStop(0, '#1e293b'); g.addColorStop(1, '#0f172a');
+  ctx.fillStyle = g; ctx.fillRect(0, 0, w, h);
+  ctx.fillStyle = 'rgba(212,175,55,0.06)';
+  ctx.beginPath(); ctx.arc(w * 0.8, h * 0.2, w * 0.3, 0, Math.PI * 2); ctx.fill();
+  ctx.fillStyle = 'rgba(233,30,99,0.05)';
+  ctx.beginPath(); ctx.arc(w * 0.2, h * 0.8, w * 0.25, 0, Math.PI * 2); ctx.fill();
+}
+
+function renderMaskPreview(ctx, w, h) {
+  const mask = getActiveMaskImageData();
+  if (!mask) return;
+  const color = state.maskEdit.activeMask === 'person' ? '0,255,128' :
+                state.maskEdit.activeMask === 'clothing' ? '0,128,255' :
+                state.maskEdit.activeMask === 'face' ? '255,64,64' : '255,200,0';
+  const temp = document.createElement('canvas');
+  temp.width = w; temp.height = h;
+  const tctx = temp.getContext('2d');
+  tctx.fillStyle = `rgba(${color}, 0.35)`;
+  const d = mask.data;
+  for (let y = 0; y < h; y++) {
+    for (let x = 0; x < w; x++) {
+      if (d[(y * w + x) * 4] > 128) tctx.fillRect(x, y, 1, 1);
+    }
+  }
+  ctx.drawImage(temp, 0, 0);
+}
+
+function renderBeforeAfter(ctx, w, h) {
+  const split = clamp(state.split, 0.02, 0.98);
+  const splitX = Math.round(w * split);
+  ctx.save();
+  ctx.beginPath();
+  ctx.rect(splitX, 0, w - splitX, h);
+  ctx.clip();
+  ctx.drawImage(layerOriginal, 0, 0, w, h);
+  ctx.restore();
+  $('#before-after-slider').style.display = 'block';
+  $('#before-after-slider').style.left = (splitX / w * 100) + '%';
+}
+
+function getActiveMaskImageData() {
+  switch (state.maskEdit.activeMask) {
+    case 'person': return state.personMask;
+    case 'clothing': return state.clothingMask;
+    case 'face': return state.faceMask;
+    case 'background': return state.backgroundMask;
+    default: return state.personMask;
+  }
+}
+
+/* ===================== AI ENGINE (Lazy Loaded) ===================== */
+
+let tfLib = null;
+let bodyPixLib = null;
+let faceApiLib = null;
+
+async function loadScript(src) {
+  return new Promise((resolve, reject) => {
+    const s = document.createElement('script');
+    s.src = src;
+    s.onload = () => resolve();
+    s.onerror = () => reject(new Error('Failed to load ' + src));
+    document.head.appendChild(s);
+  });
+}
+
+async function ensureTensorFlow() {
+  if (window.tf) return window.tf;
+  await loadScript('https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@3.18.0/dist/tf.min.js');
+  return window.tf;
+}
+
+async function ensureBodyPix() {
+  if (window.bodyPix) return window.bodyPix;
+  await ensureTensorFlow();
+  await loadScript('https://cdn.jsdelivr.net/npm/@tensorflow-models/body-pix@2.0.5/dist/body-pix.min.js');
+  return window.bodyPix;
+}
+
+async function ensureFaceApi() {
+  if (window.faceapi) return window.faceapi;
+  await loadScript('https://cdn.jsdelivr.net/npm/face-api.js@0.22.2/dist/face-api.min.js');
+  return window.faceapi;
+}
+
+function setModelStatus(type, status, msg) {
+  state.modelStatus[type] = status;
+  const els = document.querySelectorAll('.tool-status');
+  els.forEach(el => {
+    const tool = el.closest('.tool-btn');
+    if (!tool) return;
+    const ai = tool.dataset.ai;
+    if (ai === type || (type === 'segmentation' && (ai === 'segmentation' || ai === 'face'))) {
+      el.textContent = msg || status;
+      el.className = 'tool-status ' + (status === 'ready' ? 'ready' : status === 'loading' ? 'loading' : 'error');
+    }
+  });
+}
+
+function showAIProgress(steps, currentStep) {
+  aiSteps.innerHTML = '';
+  steps.forEach((step, i) => {
+    const div = createEl('div', 'ai-step' + (i === currentStep ? ' active' : i < currentStep ? ' done' : ''));
+    div.innerHTML = `<div class="ai-step-dot"></div><span>${step}</span>`;
+    aiSteps.appendChild(div);
+  });
+  aiProgressFill.style.width = (currentStep / steps.length * 100) + '%';
+}
+
+function showAIPanel(title, steps) {
+  aiPanel.querySelector('.ai-panel-header span').textContent = title || 'AI Processing';
+  aiPanel.classList.add('visible');
+  state.aiProcessing = true;
+  state.aiCancelled = false;
+  showAIProgress(steps, 0);
+  setStatus('AI processing...');
+}
+
+function hideAIPanel() {
+  aiPanel.classList.remove('visible');
+  state.aiProcessing = false;
+  setStatus('Ready');
+}
+
+$('#btn-cancel-ai').addEventListener('click', () => {
+  state.aiCancelled = true;
+  hideAIPanel();
+  toast('AI processing cancelled', 'error');
+});
+
+async function loadSegmentationModel() {
+  if (state.models.segmentation) return state.models.segmentation;
+  setModelStatus('segmentation', 'loading', 'Loading...');
+  try {
+    const bodyPix = await ensureBodyPix();
+    const model = await bodyPix.load({ architecture: 'MobileNetV1', outputStride: 16, multiplier: 0.5, quantBytes: 2 });
+    state.models.segmentation = model;
+    setModelStatus('segmentation', 'ready', 'Ready');
+    return model;
+  } catch (e) {
+    console.error(e);
+    setModelStatus('segmentation', 'error', 'Error');
+    throw e;
+  }
+}
+
+async function loadFaceModel() {
+  if (state.models.face) return state.models.face;
+  setModelStatus('face', 'loading', 'Loading...');
+  try {
+    const faceapi = await ensureFaceApi();
+    await faceapi.nets.tinyFaceDetector.loadFromUri('https://cdn.jsdelivr.net/npm/face-api.js@0.22.2/weights');
+    await faceapi.nets.faceLandmark68Net.loadFromUri('https://cdn.jsdelivr.net/npm/face-api.js@0.22.2/weights');
+    state.models.face = true;
+    setModelStatus('face', 'ready', 'Ready');
+    return true;
+  } catch (e) {
+    console.error(e);
+    setModelStatus('face', 'error', 'Error');
+    throw e;
+  }
+}
+
+async function runSegmentation() {
+  if (!state.hasImage) { toast('Please upload an image first', 'error'); return; }
+  if (state.personMask) { toast('Segmentation already completed', 'success'); return; }
+
+  showAIPanel('Segmenting Subject', ['Preparing image', 'Loading segmentation model', 'Detecting person', 'Creating mask', 'Finalizing']);
+
+  try {
+    const model = await loadSegmentationModel();
+    if (state.aiCancelled) return;
+
+    showAIProgress(['Preparing image', 'Loading segmentation model', 'Detecting person', 'Creating mask', 'Finalizing'], 2);
+
+    const personSeg = await model.segmentPerson(state.previewImage, { segmentationThreshold: 0.7 });
+    if (state.aiCancelled) return;
+
+    showAIProgress(['Preparing image', 'Loading segmentation model', 'Detecting person', 'Creating mask', 'Finalizing'], 3);
+
+    const w = state.previewWidth, h = state.previewHeight;
+    const len = w * h;
+    const personMask = new Uint8ClampedArray(len * 4);
+    const bgMask = new Uint8ClampedArray(len * 4);
+
+    for (let i = 0; i < len; i++) {
+      const v = personSeg.data[i] ? 255 : 0;
+      personMask[i * 4] = v; personMask[i * 4 + 1] = v; personMask[i * 4 + 2] = v; personMask[i * 4 + 3] = 255;
+      bgMask[i * 4] = v ? 0 : 255; bgMask[i * 4 + 1] = v ? 0 : 255; bgMask[i * 4 + 2] = v ? 0 : 255; bgMask[i * 4 + 3] = 255;
+    }
+
+    state.personMask = new ImageData(personMask, w, h);
+    state.backgroundMask = new ImageData(bgMask, w, h);
+
+    // Build person layer
+    const pctx = layerPerson.getContext('2d');
+    pctx.clearRect(0, 0, w, h);
+    pctx.drawImage(layerOriginal, 0, 0);
+    pctx.globalCompositeOperation = 'destination-in';
+    const maskC = document.createElement('canvas');
+    maskC.width = w; maskC.height = h;
+    maskC.getContext('2d').putImageData(state.personMask, 0, 0);
+    pctx.drawImage(maskC, 0, 0);
+    pctx.globalCompositeOperation = 'source-over';
+
+    showAIProgress(['Preparing image', 'Loading segmentation model', 'Detecting person', 'Creating mask', 'Finalizing'], 4);
+
+    hideAIPanel();
+    renderComposite();
+    pushHistory();
+    toast('Background removed successfully', 'success');
+    setStatus('Subject segmented. Background removed.');
+  } catch (e) {
+    hideAIPanel();
+    toast('Segmentation failed: ' + e.message, 'error');
+    setStatus('Segmentation failed');
+  }
+}
+
+async function runFullAnalysis() {
+  if (!state.hasImage) { toast('Please upload an image first', 'error'); return; }
+  if (state.clothingMask) { toast('Analysis already completed', 'success'); return; }
+
+  showAIPanel('AI Analyzing Photo', [
+    'Preparing image',
+    'Loading segmentation model',
+    'Loading face model',
+    'Detecting person & body',
+    'Detecting face & landmarks',
+    'Detecting hair',
+    'Detecting clothing',
+    'Generating masks',
+    'Finalizing'
+  ]);
+
+  try {
+    // Load models in parallel
+    showAIProgress(aiSteps.querySelectorAll('.ai-step').length ? Array.from(aiSteps.children).map(c => c.textContent) : ['Preparing image','Loading segmentation model','Loading face model','Detecting person & body','Detecting face & landmarks','Detecting hair','Detecting clothing','Generating masks','Finalizing'], 1);
+
+    const [bodyPixModel, faceReady] = await Promise.all([
+      loadSegmentationModel().catch(e => { console.error('BodyPix load failed', e); return null; }),
+      loadFaceModel().catch(e => { console.error('FaceAPI load failed', e); return null; })
+    ]);
+
+    if (state.aiCancelled) return;
+
+    if (!bodyPixModel && !faceReady) {
+      throw new Error('No AI models available. Check your connection.');
+    }
+
+    showAIProgress(['Preparing image','Loading segmentation model','Loading face model','Detecting person & body','Detecting face & landmarks','Detecting hair','Detecting clothing','Generating masks','Finalizing'], 3);
+
+    const w = state.previewWidth, h = state.previewHeight;
+    const len = w * h;
+
+    let personSegData = null;
+    let partsData = null;
+
+    if (bodyPixModel) {
+      const personSeg = await bodyPixModel.segmentPerson(state.previewImage, { segmentationThreshold: 0.7 });
+      const partsSeg = await bodyPixModel.segmentPersonParts(state.previewImage, { segmentationThreshold: 0.7 });
+      personSegData = personSeg.data;
+      partsData = partsSeg.data;
+    }
+
+    if (state.aiCancelled) return;
+    showAIProgress(['Preparing image','Loading segmentation model','Loading face model','Detecting person & body','Detecting face & landmarks','Detecting hair','Detecting clothing','Generating masks','Finalizing'], 4);
+
+    // Face detection
+    let detections = null;
+    if (faceReady) {
+      detections = await faceapi.detectAllFaces(state.previewImage, new faceapi.TinyFaceDetectorOptions()).withFaceLandmarks();
+    }
+
+    if (state.aiCancelled) return;
+    showAIProgress(['Preparing image','Loading segmentation model','Loading face model','Detecting person & body','Detecting face & landmarks','Detecting hair','Detecting clothing','Generating masks','Finalizing'], 5);
+
+    // Build masks
+    const personMask = new Uint8ClampedArray(len * 4);
+    const faceMask = new Uint8ClampedArray(len * 4);
+    const hairMask = new Uint8ClampedArray(len * 4);
+    const clothingMask = new Uint8ClampedArray(len * 4);
+    const handMask = new Uint8ClampedArray(len * 4);
+    const skinMask = new Uint8ClampedArray(len * 4);
+    const bgMask = new Uint8ClampedArray(len * 4);
+
+    // Person & background
+    if (personSegData) {
+      for (let i = 0; i < len; i++) {
+        const v = personSegData[i] ? 255 : 0;
+        personMask[i * 4] = v; personMask[i * 4 + 1] = v; personMask[i * 4 + 2] = v; personMask[i * 4 + 3] = 255;
+        bgMask[i * 4] = v ? 0 : 255; bgMask[i * 4 + 1] = v ? 0 : 255; bgMask[i * 4 + 2] = v ? 0 : 255; bgMask[i * 4 + 3] = 255;
+      }
+    }
+
+    // Face mask from landmarks
+    const faceCanvas = document.createElement('canvas');
+    faceCanvas.width = w; faceCanvas.height = h;
+    const fctx = faceCanvas.getContext('2d');
+    if (detections && detections.length > 0) {
+      const d = detections[0];
+      const jaw = d.landmarks.getJawOutline();
+      fctx.beginPath(); fctx.moveTo(jaw[0].x, jaw[0].y);
+      for (let p of jaw) fctx.lineTo(p.x, p.y);
+      fctx.closePath();
+      const leftEye = d.landmarks.getLeftEye();
+      const rightEye = d.landmarks.getRightEye();
+      const eyeY = (leftEye[0].y + rightEye[0].y) / 2;
+      const box = d.detection.box;
+      const foreheadY = Math.max(0, eyeY - (box.bottom - box.top) * 0.6);
+      fctx.lineTo(jaw[jaw.length - 1].x, foreheadY);
+      fctx.lineTo(jaw[0].x, foreheadY);
+      fctx.closePath(); fctx.fillStyle = '#fff'; fctx.fill();
+
+      [d.landmarks.getLeftEye(), d.landmarks.getRightEye(), d.landmarks.getLeftEyeBrow(), d.landmarks.getRightEyeBrow(), d.landmarks.getNose(), d.landmarks.getMouth()].forEach(part => {
+        fctx.beginPath(); fctx.moveTo(part[0].x, part[0].y);
+        for (let p of part) fctx.lineTo(p.x, p.y);
+        fctx.closePath(); fctx.fill();
+      });
+    }
+    const faceData = fctx.getImageData(0, 0, w, h).data;
+    for (let i = 0; i < len; i++) {
+      faceMask[i * 4] = faceData[i * 4] > 128 ? 255 : 0;
+      faceMask[i * 4 + 1] = faceMask[i * 4];
+      faceMask[i * 4 + 2] = faceMask[i * 4];
+      faceMask[i * 4 + 3] = 255;
+    }
+
+    if (state.aiCancelled) return;
+    showAIProgress(['Preparing image','Loading segmentation model','Loading face model','Detecting person & body','Detecting face & landmarks','Detecting hair','Detecting clothing','Generating masks','Finalizing'], 6);
+
+    // Skin detection from original image
+    const workC = document.createElement('canvas');
+    workC.width = w; workC.height = h;
+    workC.getContext('2d').drawImage(state.previewImage, 0, 0);
+    const workData = workC.getContext('2d').getImageData(0, 0, w, h);
+    for (let i = 0; i < len; i++) {
+      const idx = i * 4;
+      const r = workData.data[idx], g = workData.data[idx + 1], b = workData.data[idx + 2];
+      if (r > 95 && g > 40 && b > 20 && (r > g) && (r > b) && (Math.abs(r - g) > 15) && (Math.max(r, g, b) - Math.min(r, g, b) > 15)) {
+        skinMask[i * 4] = 255; skinMask[i * 4 + 1] = 255; skinMask[i * 4 + 2] = 255; skinMask[i * 4 + 3] = 255;
+      }
+    }
+    state.skinMask = new ImageData(new Uint8ClampedArray(skinMask), w, h);
+
+    // Hair mask: person above face
+    const faceTopY = (detections && detections[0]) ? detections[0].detection.box.top + (detections[0].detection.box.height * 0.4) : h * 0.4;
+    for (let y = 0; y < h; y++) {
+      for (let x = 0; x < w; x++) {
+        const i = y * w + x;
+        if (personMask[i * 4] > 128 && faceMask[i * 4] < 128 && y < faceTopY) {
+          hairMask[i * 4] = 255; hairMask[i * 4 + 1] = 255; hairMask[i * 4 + 2] = 255; hairMask[i * 4 + 3] = 255;
+        }
+      }
+    }
+
+    if (state.aiCancelled) return;
+    showAIProgress(['Preparing image','Loading segmentation model','Loading face model','Detecting person & body','Detecting face & landmarks','Detecting hair','Detecting clothing','Generating masks','Finalizing'], 7);
+
+    // Clothing from body parts
+    if (partsData) {
+      const PART_TORSO_FRONT = 13, PART_TORSO_BACK = 14;
+      const PART_LEFT_ARM_UPPER = 2, PART_RIGHT_ARM_UPPER = 4;
+      const PART_LEFT_ARM_LOWER = 6, PART_RIGHT_ARM_LOWER = 8;
+      const PART_LEFT_HAND = 10, PART_RIGHT_HAND = 11;
+      for (let i = 0; i < len; i++) {
+        const part = partsData[i];
+        const isTorso = (part === PART_TORSO_FRONT || part === PART_TORSO_BACK);
+        const isArm = (part === PART_LEFT_ARM_UPPER || part === PART_RIGHT_ARM_UPPER || part === PART_LEFT_ARM_LOWER || part === PART_RIGHT_ARM_LOWER);
+        if (part === PART_LEFT_HAND || part === PART_RIGHT_HAND) {
+          handMask[i * 4] = 255; handMask[i * 4 + 1] = 255; handMask[i * 4 + 2] = 255; handMask[i * 4 + 3] = 255;
+        }
+        if ((isTorso || isArm) && faceMask[i * 4] < 128 && hairMask[i * 4] < 128 && handMask[i * 4] < 128 && skinMask[i * 4] < 128) {
+          clothingMask[i * 4] = 255; clothingMask[i * 4 + 1] = 255; clothingMask[i * 4 + 2] = 255; clothingMask[i * 4 + 3] = 255;
+        }
+      }
+    }
+
+    showAIProgress(['Preparing image','Loading segmentation model','Loading face model','Detecting person & body','Detecting face & landmarks','Detecting hair','Detecting clothing','Generating masks','Finalizing'], 8);
+
+    state.personMask = new ImageData(personMask, w, h);
+    state.faceMask = new ImageData(faceMask, w, h);
+    state.hairMask = new ImageData(hairMask, w, h);
+    state.clothingMask = new ImageData(clothingMask, w, h);
+    state.handMask = new ImageData(handMask, w, h);
+    state.backgroundMask = new ImageData(bgMask, w, h);
+
+    // Build person layer
+    const pctx = layerPerson.getContext('2d');
+    pctx.clearRect(0, 0, w, h);
+    pctx.drawImage(layerOriginal, 0, 0);
+    pctx.globalCompositeOperation = 'destination-in';
+    const pmC = document.createElement('canvas');
+    pmC.width = w; pmC.height = h;
+    pmC.getContext('2d').putImageData(state.personMask, 0, 0);
+    pctx.drawImage(pmC, 0, 0);
+    pctx.globalCompositeOperation = 'source-over';
+
+    hideAIPanel();
+    renderComposite();
+    pushHistory();
+    toast('AI analysis complete', 'success');
+    setStatus('AI analysis complete. All masks generated.');
+  } catch (e) {
+    hideAIPanel();
+    toast('AI analysis failed: ' + e.message, 'error');
+    setStatus('AI analysis failed');
+  }
+}
+
+/* ===================== CLOTHING ENGINE ===================== */
+function renderClothingLayer() {
+  const w = state.previewWidth, h = state.previewHeight;
+  if (!w || !h || !state.clothingMask) return;
+  layerClothing.width = w; layerClothing.height = h;
+  const c = layerClothing.getContext('2d');
+  c.clearRect(0, 0, w, h);
+  if (!state.clothing.enabled) return;
+
+  const t = document.createElement('canvas');
+  t.width = w; t.height = h;
+  const tctx = t.getContext('2d');
+
+  if (state.clothing.preset === 'custom' && state.clothing.customImage) {
+    const bbox = getMaskBBox(state.clothingMask);
+    if (bbox) tctx.drawImage(state.clothing.customImage, bbox.x, bbox.y, bbox.w, bbox.h);
+  } else {
+    const preset = PRESETS[state.clothing.preset] || PRESETS.corporateSuit;
+    tctx.fillStyle = preset.color;
+    tctx.fillRect(0, 0, w, h);
+    if (preset.pattern && preset.pattern !== 'none') {
+      drawPattern(tctx, w, h, preset.pattern, preset.patternColor || 'rgba(0,0,0,0.15)');
+    }
+  }
+
+  // Apply fold shading from original luminance
+  const origData = layerOriginal.getContext('2d').getImageData(0, 0, w, h);
+  const texData = tctx.getImageData(0, 0, w, h);
+  for (let i = 0; i < origData.data.length; i += 4) {
+    const lum = 0.299 * origData.data[i] + 0.587 * origData.data[i + 1] + 0.114 * origData.data[i + 2];
+    const factor = lum / 128;
+    texData.data[i] = Math.min(255, texData.data[i] * factor);
+    texData.data[i + 1] = Math.min(255, texData.data[i + 1] * factor);
+    texData.data[i + 2] = Math.min(255, texData.data[i + 2] * factor);
+  }
+  tctx.putImageData(texData, 0, 0);
+
+  c.drawImage(t, 0, 0);
+  c.globalCompositeOperation = 'destination-in';
+  const cmC = document.createElement('canvas');
+  cmC.width = w; cmC.height = h;
+  cmC.getContext('2d').putImageData(state.clothingMask, 0, 0);
+  if (state.maskEdit.feather > 0) {
+    c.filter = `blur(${state.maskEdit.feather}px)`;
+  }
+  c.drawImage(cmC, 0, 0);
+  c.filter = 'none';
+  c.globalCompositeOperation = 'source-over';
+}
+
+function drawPattern(ctx, w, h, pattern, color) {
+  ctx.fillStyle = color;
+  if (pattern === 'fine-stripes') {
+    for (let x = 0; x < w; x += 4) ctx.fillRect(x, 0, 1, h);
+  } else if (pattern === 'stripes') {
+    for (let x = 0; x < w; x += 12) ctx.fillRect(x, 0, 4, h);
+  } else if (pattern === 'dots') {
+    for (let y = 0; y < h; y += 14) {
+      for (let x = 0; x < w; x += 14) {
+        ctx.beginPath(); ctx.arc(x + (y % 28 === 0 ? 7 : 0), y + 7, 2, 0, Math.PI * 2); ctx.fill();
+      }
+    }
+  } else if (pattern === 'ornate') {
+    ctx.beginPath();
+    for (let i = -h; i < w + h; i += 10) { ctx.moveTo(i, 0); ctx.lineTo(i + h, h); }
+    ctx.strokeStyle = color; ctx.lineWidth = 1; ctx.stroke();
+  }
+}
+
+function getMaskBBox(imageData) {
+  const w = imageData.width, h = imageData.height;
+  const d = imageData.data;
+  let minX = w, minY = h, maxX = 0, maxY = 0;
+  for (let y = 0; y < h; y++) {
+    for (let x = 0; x < w; x++) {
+      if (d[(y * w + x) * 4] > 128) {
+        minX = Math.min(minX, x); minY = Math.min(minY, y);
+        maxX = Math.max(maxX, x); maxY = Math.max(maxY, y);
+      }
+    }
+  }
+  if (maxX === 0) return null;
+  return { x: minX, y: minY, w: maxX - minX + 1, h: maxY - minY + 1 };
+}
+
+/* ===================== LIGHTING ENGINE ===================== */
+function renderLightingLayer() {
+  const w = state.previewWidth, h = state.previewHeight;
+  if (!w || !h) return;
+  layerLighting.width = w; layerLighting.height = h;
+  const lctx = layerLighting.getContext('2d');
+  lctx.clearRect(0, 0, w, h);
+  if (!state.relight.enabled) return;
+  const rx = state.relight.x * w;
+  const ry = state.relight.y * h;
+  const r = Math.max(w, h) * 0.6;
+  const g = lctx.createRadialGradient(rx, ry, r * 0.1, rx, ry, r);
+  g.addColorStop(0, state.relight.color);
+  g.addColorStop(1, 'rgba(0,0,0,0)');
+  lctx.fillStyle = g;
+  lctx.globalAlpha = state.relight.intensity;
+  lctx.fillRect(0, 0, w, h);
+  lctx.globalAlpha = 1;
+}
+
+/* ===================== HISTORY ===================== */
+function pushHistory() {
+  if (state.historyIndex < state.history.length - 1) {
+    state.history = state.history.slice(0, state.historyIndex + 1);
+  }
+  const snap = {
+    personMask: state.personMask ? cloneImageData(state.personMask) : null,
+    clothingMask: state.clothingMask ? cloneImageData(state.clothingMask) : null,
+    faceMask: state.faceMask ? cloneImageData(state.faceMask) : null,
+    backgroundMask: state.backgroundMask ? cloneImageData(state.backgroundMask) : null,
+    hairMask: state.hairMask ? cloneImageData(state.hairMask) : null,
+    handMask: state.handMask ? cloneImageData(state.handMask) : null,
+    params: JSON.parse(JSON.stringify({
+      background: state.background, clothing: state.clothing,
+      adjustments: state.adjustments, relight: state.relight,
+      enhancements: state.enhancements, maskEdit: state.maskEdit
+    }))
+  };
+  state.history.push(snap);
+  if (state.history.length > state.maxHistory) state.history.shift();
+  else state.historyIndex++;
+  updateUndoRedoButtons();
+}
+
+function undo() {
+  if (state.historyIndex > 0) {
+    state.historyIndex--;
+    restoreHistory(state.history[state.historyIndex]);
+  }
+}
+function redo() {
+  if (state.historyIndex < state.history.length - 1) {
+    state.historyIndex++;
+    restoreHistory(state.history[state.historyIndex]);
+  }
+}
+function restoreHistory(snap) {
+  state.personMask = snap.personMask ? cloneImageData(snap.personMask) : null;
+  state.clothingMask = snap.clothingMask ? cloneImageData(snap.clothingMask) : null;
+  state.faceMask = snap.faceMask ? cloneImageData(snap.faceMask) : null;
+  state.backgroundMask = snap.backgroundMask ? cloneImageData(snap.backgroundMask) : null;
+  state.hairMask = snap.hairMask ? cloneImageData(snap.hairMask) : null;
+  state.handMask = snap.handMask ? cloneImageData(snap.handMask) : null;
+  Object.assign(state.background, snap.params.background);
+  Object.assign(state.clothing, snap.params.clothing);
+  Object.assign(state.adjustments, snap.params.adjustments);
+  Object.assign(state.relight, snap.params.relight);
+  Object.assign(state.enhancements, snap.params.enhancements);
+  Object.assign(state.maskEdit, snap.params.maskEdit);
+  renderClothingLayer(); renderLightingLayer(); renderComposite(); updateUIFromState(); updateUndoRedoButtons();
+}
+function cloneImageData(im) {
+  return new ImageData(new Uint8ClampedArray(im.data), im.width, im.height);
+}
+function updateUndoRedoButtons() {
+  $('#btn-undo').disabled = state.historyIndex <= 0;
+  $('#btn-redo').disabled = state.historyIndex >= state.history.length - 1;
+}
+
+/* ===================== UI ENGINE ===================== */
+function selectTool(toolId) {
+  if (!state.hasImage && toolId !== 'restore') {
+    toast('Upload an image first', 'error'); return;
+  }
+  state.tool = toolId;
+  document.querySelectorAll('.tool-btn').forEach(b => b.classList.toggle('active', b.dataset.tool === toolId));
+  rebuildRightPanel();
+
+  // Trigger AI when needed
+  if (toolId === 'removeBackground') {
+    if (!state.personMask) runSegmentation();
+  } else if (toolId === 'changeBackground') {
+    if (!state.personMask) runSegmentation();
+  } else if (toolId === 'uniformChange' || toolId === 'dressChange') {
+    if (!state.clothingMask) runFullAnalysis();
+    else if (!state.clothing.enabled) { state.clothing.enabled = true; renderClothingLayer(); renderComposite(); pushHistory(); }
+  } else if (toolId === 'faceEnhance') {
+    if (!state.faceMask) runFullAnalysis();
+  } else if (toolId === 'bgBlur') {
+    state.background.type = 'blur';
+    renderComposite(); pushHistory();
+  } else if (toolId === 'restore') {
+    restoreOriginal();
+    selectTool('removeBackground');
+  }
+}
+
+function rebuildRightPanel() {
+  const panel = $('#right-panel');
+  panel.innerHTML = '';
+  const t = state.tool;
+  if (!state.hasImage) {
+    panel.innerHTML = '<div class="text-secondary" style="text-align:center;margin-top:40px">Upload a photo to begin editing<br><span style="font-size:11px;opacity:0.7">Drag & drop, click Open, or paste (Ctrl+V)</span></div>';
+    return;
+  }
+  if (t === 'removeBackground') buildRemoveBgPanel();
+  else if (t === 'changeBackground') buildChangeBgPanel();
+  else if (t === 'uniformChange' || t === 'dressChange') buildUniformPanel();
+  else if (t === 'faceEnhance') buildFaceEnhancePanel();
+  else if (t === 'relight') buildRelightPanel();
+  else if (t === 'bgBlur') buildBgBlurPanel();
+  else if (t === 'portraitEnhance') buildPortraitPanel();
+  else if (t === 'maskEditor') buildMaskEditorPanel();
+}
+
+function section(title) {
+  const el = createEl('div', 'section-title', title);
+  $('#right-panel').appendChild(el);
+}
+function slider(label, value, min, max, step, onChange) {
+  const row = createEl('div', 'control-row');
+  const lbl = createEl('span', 'control-label', label);
+  const input = createEl('input');
+  input.type = 'range'; input.min = min; input.max = max; input.step = step; input.value = value;
+  input.className = 'w-full';
+  const val = createEl('span', 'control-label', String(value));
+  val.style.minWidth = '32px'; val.style.textAlign = 'right';
+  input.addEventListener('input', (e) => { val.textContent = e.target.value; onChange(parseFloat(e.target.value)); });
+  row.appendChild(lbl); row.appendChild(input); row.appendChild(val);
+  $('#right-panel').appendChild(row);
+  return input;
+}
+function btn(text, onClick, primary) {
+  const b = createEl('button', primary ? 'btn btn-primary w-full mt-2' : 'btn w-full mt-2', text);
+  b.addEventListener('click', onClick);
+  $('#right-panel').appendChild(b);
+  return b;
+}
+
+function buildRemoveBgPanel() {
+  section('Background Removal');
+  $('#right-panel').appendChild(createEl('div', 'text-secondary text-xs', 'The AI segments the person from the background. If segmentation is not done yet, it will run automatically when you select this tool.'));
+  if (!state.personMask) {
+    btn('Run Segmentation Now', () => runSegmentation(), true);
+  } else {
+    btn('View Person Mask', () => { state.maskEdit.activeMask = 'person'; state.showMask = true; renderComposite(); });
+    btn('View Background Mask', () => { state.maskEdit.activeMask = 'background'; state.showMask = true; renderComposite(); });
+    btn('Clear Mask Preview', () => { state.showMask = false; renderComposite(); });
+  }
+}
+
+function buildChangeBgPanel() {
+  section('Change Background');
+  const grid = createEl('div', 'preset-grid');
+  BG_TYPES.forEach(bg => {
+    const card = createEl('div', 'preset-card' + (state.background.type === bg.id ? ' active' : ''), bg.name);
+    card.addEventListener('click', () => {
+      state.background.type = bg.id;
+      Array.from(grid.children).forEach(c => c.classList.remove('active'));
+      card.classList.add('active');
+      renderComposite(); pushHistory();
+      rebuildRightPanel();
+    });
+    grid.appendChild(card);
+  });
+  $('#right-panel').appendChild(grid);
+
+  if (state.background.type === 'solid') {
+    const row = createEl('div', 'control-row');
+    row.appendChild(createEl('span', 'control-label', 'Color'));
+    const picker = createEl('input'); picker.type = 'color'; picker.value = state.background.color;
+    picker.addEventListener('input', (e) => { state.background.color = e.target.value; renderComposite(); });
+    row.appendChild(picker); $('#right-panel').appendChild(row);
+  }
+  if (state.background.type === 'gradient') {
+    const row1 = createEl('div', 'control-row');
+    row1.appendChild(createEl('span', 'control-label', 'From'));
+    const p1 = createEl('input'); p1.type = 'color'; p1.value = state.background.gradient.from;
+    p1.addEventListener('input', (e) => { state.background.gradient.from = e.target.value; renderComposite(); });
+    row1.appendChild(p1); $('#right-panel').appendChild(row1);
+    const row2 = createEl('div', 'control-row');
+    row2.appendChild(createEl('span', 'control-label', 'To'));
+    const p2 = createEl('input'); p2.type = 'color'; p2.value = state.background.gradient.to;
+    p2.addEventListener('input', (e) => { state.background.gradient.to = e.target.value; renderComposite(); });
+    row2.appendChild(p2); $('#right-panel').appendChild(row2);
+  }
+  if (state.background.type === 'blur') {
+    slider('Blur Amount', state.background.blurAmount, 0, 40, 1, (v) => { state.background.blurAmount = v; renderComposite(); });
+  }
+  if (state.background.type === 'custom') {
+    btn('Upload Background Image', () => bgFileInput.click());
+  }
+  if (state.background.type === 'ai') {
+    const row = createEl('div', 'control-row');
+    row.appendChild(createEl('span', 'control-label', 'Prompt'));
+    const inp = createEl('input'); inp.className = 'select'; inp.value = state.background.prompt;
+    inp.addEventListener('change', (e) => { state.background.prompt = e.target.value; renderComposite(); pushHistory(); });
+    row.appendChild(inp); $('#right-panel').appendChild(row);
+    $('#right-panel').appendChild(createEl('div', 'text-secondary text-xs', 'Procedurally generates a background from keywords. Connect a generative AI API for photorealistic results.'));
+  }
+}
+
+function buildUniformPanel() {
+  section('AI Uniform & Dress Change');
+  $('#right-panel').appendChild(createEl('div', 'text-secondary text-xs', 'Preserves face, hair, hands and skin. Replaces only the detected clothing region using original body geometry and lighting.'));
+
+  if (!state.clothingMask) {
+    btn('Run Full AI Analysis', () => runFullAnalysis(), true);
+    return;
+  }
+
+  const grid = createEl('div', 'preset-grid');
+  Object.entries(PRESETS).forEach(([key, preset]) => {
+    const card = createEl('div', 'preset-card' + (state.clothing.preset === key ? ' active' : ''));
+    const swatch = createEl('div', 'swatch'); swatch.style.background = preset.color;
+    card.appendChild(swatch);
+    card.appendChild(createEl('div', '', preset.name));
+    card.addEventListener('click', () => {
+      state.clothing.enabled = true;
+      state.clothing.preset = key;
+      state.clothing.pattern = preset.pattern || 'none';
+      state.clothing.color = preset.color;
+      Array.from(grid.children).forEach(c => c.classList.remove('active'));
+      card.classList.add('active');
+      renderClothingLayer(); renderComposite(); pushHistory();
+    });
+    grid.appendChild(card);
+  });
+  $('#right-panel').appendChild(grid);
+
+  slider('Opacity', state.clothing.opacity, 0, 1, 0.01, (v) => { state.clothing.opacity = v; renderComposite(); });
+  btn('Upload Custom Uniform', () => uniformFileInput.click());
+  $('#right-panel').appendChild(createEl('div', 'text-secondary text-xs mt-2', 'Upload a fabric texture or uniform reference. The design maps to the clothing mask area.'));
+  btn('Disable Clothing Edit', () => { state.clothing.enabled = false; renderComposite(); });
+}
+
+function buildFaceEnhancePanel() {
+  section('Face-Preserving Enhancement');
+  $('#right-panel').appendChild(createEl('div', 'text-secondary text-xs', 'Enhancements are applied while preserving facial identity, landmarks and skin texture.'));
+  if (!state.faceMask) {
+    btn('Run Face Analysis', () => runFullAnalysis(), true);
+    return;
+  }
+  slider('Skin Tone', state.enhancements.skinTone, -30, 30, 1, (v) => { state.enhancements.skinTone = v; renderComposite(); });
+  slider('Eye Enhance', state.enhancements.eyeEnhance, 0, 100, 1, (v) => { state.enhancements.eyeEnhance = v; renderComposite(); });
+  slider('Hair Enhance', state.enhancements.hairEnhance, 0, 100, 1, (v) => { state.enhancements.hairEnhance = v; renderComposite(); });
+}
+
+function buildRelightPanel() {
+  section('AI Relighting');
+  $('#right-panel').appendChild(createEl('div', 'text-secondary text-xs', 'Click on the canvas to place the virtual light source.'));
+  const en = createEl('div', 'control-row');
+  en.appendChild(createEl('span', 'control-label', 'Enable Relight'));
+  const chk = createEl('input'); chk.type = 'checkbox'; chk.checked = state.relight.enabled;
+  chk.addEventListener('change', (e) => { state.relight.enabled = e.target.checked; renderLightingLayer(); renderComposite(); pushHistory(); });
+  en.appendChild(chk); $('#right-panel').appendChild(en);
+  slider('Intensity', state.relight.intensity, 0, 1, 0.01, (v) => { state.relight.intensity = v; renderLightingLayer(); renderComposite(); });
+  const row = createEl('div', 'control-row');
+  row.appendChild(createEl('span', 'control-label', 'Light Color'));
+  const picker = createEl('input'); picker.type = 'color'; picker.value = state.relight.color;
+  picker.addEventListener('input', (e) => { state.relight.color = e.target.value; renderLightingLayer(); renderComposite(); });
+  row.appendChild(picker); $('#right-panel').appendChild(row);
+}
+
+function buildBgBlurPanel() {
+  section('Background Blur');
+  slider('Blur Radius', state.background.blurAmount, 0, 40, 1, (v) => { state.background.blurAmount = v; renderComposite(); });
+  btn('Apply', () => { state.background.type = 'blur'; renderComposite(); pushHistory(); }, true);
+}
+
+function buildPortraitPanel() {
+  section('Portrait Enhance');
+  slider('Exposure', state.adjustments.exposure, -50, 50, 1, (v) => { state.adjustments.exposure = v; renderComposite(); });
+  slider('Contrast', state.adjustments.contrast, -50, 50, 1, (v) => { state.adjustments.contrast = v; renderComposite(); });
+  slider('Highlights', state.adjustments.highlights, -50, 50, 1, (v) => { state.adjustments.highlights = v; renderComposite(); });
+  slider('Shadows', state.adjustments.shadows, -50, 50, 1, (v) => { state.adjustments.shadows = v; renderComposite(); });
+  slider('Temperature', state.adjustments.temperature, -50, 50, 1, (v) => { state.adjustments.temperature = v; renderComposite(); });
+  slider('Saturation', state.adjustments.saturation, -50, 50, 1, (v) => { state.adjustments.saturation = v; renderComposite(); });
+  slider('Sharpness', state.adjustments.sharpness, 0, 100, 1, (v) => { state.adjustments.sharpness = v; renderComposite(); });
+  slider('Noise Reduction', state.adjustments.noiseReduction, 0, 100, 1, (v) => { state.adjustments.noiseReduction = v; renderComposite(); });
+  slider('HDR', state.adjustments.hdr, 0, 100, 1, (v) => { state.adjustments.hdr = v; renderComposite(); });
+  slider('Portrait Depth', state.enhancements.portraitDepth, 0, 100, 1, (v) => {
+    state.enhancements.portraitDepth = v;
+    if (v > 0) { state.background.type = 'blur'; state.background.blurAmount = v * 0.3; }
+    renderComposite();
+  });
+}
+
+function buildMaskEditorPanel() {
+  section('Professional Mask Editor');
+  if (!state.personMask) {
+    btn('Run Segmentation First', () => runSegmentation(), true);
+    return;
+  }
+  const masks = [
+    { id: 'person', name: 'Foreground Mask' },
+    { id: 'background', name: 'Background Mask' },
+    { id: 'clothing', name: 'Clothing Mask' },
+    { id: 'face', name: 'Face Protection Mask' }
+  ];
+  const sel = createEl('select', 'select');
+  masks.forEach(m => { const opt = createEl('option', '', m.name); opt.value = m.id; if (state.maskEdit.activeMask === m.id) opt.selected = true; sel.appendChild(opt); });
+  sel.addEventListener('change', (e) => { state.maskEdit.activeMask = e.target.value; state.showMask = true; renderComposite(); });
+  $('#right-panel').appendChild(sel);
+
+  const modes = [{ id: 'brush', name: 'Brush (Add)' }, { id: 'eraser', name: 'Eraser (Remove)' }, { id: 'restore', name: 'Restore Original' }];
+  const modeSel = createEl('select', 'select mt-2');
+  modes.forEach(m => { const opt = createEl('option', '', m.name); opt.value = m.id; modeSel.appendChild(opt); });
+  modeSel.value = state.maskEdit.mode;
+  modeSel.addEventListener('change', (e) => state.maskEdit.mode = e.target.value);
+  $('#right-panel').appendChild(modeSel);
+
+  slider('Brush Size', state.maskEdit.brushSize, 3, 120, 1, (v) => state.maskEdit.brushSize = v);
+  slider('Feather', state.maskEdit.feather, 0, 10, 0.5, (v) => { state.maskEdit.feather = v; renderComposite(); });
+
+  btn('Clear Edits on This Mask', () => {
+    const orig = state.history[0];
+    if (!orig) return;
+    if (state.maskEdit.activeMask === 'person') state.personMask = orig.personMask ? cloneImageData(orig.personMask) : null;
+    if (state.maskEdit.activeMask === 'clothing') state.clothingMask = orig.clothingMask ? cloneImageData(orig.clothingMask) : null;
+    if (state.maskEdit.activeMask === 'face') state.faceMask = orig.faceMask ? cloneImageData(orig.faceMask) : null;
+    if (state.maskEdit.activeMask === 'background') state.backgroundMask = orig.backgroundMask ? cloneImageData(orig.backgroundMask) : null;
+    renderClothingLayer(); renderLightingLayer(); renderComposite(); pushHistory();
+  });
+  $('#right-panel').appendChild(createEl('div', 'text-secondary text-xs mt-2', 'Paint directly on the canvas to refine the selected mask. Switch between masks to correct AI segmentation errors.'));
+}
+
+function restoreOriginal() {
+  if (!state.history.length) return;
+  restoreHistory(state.history[0]);
+  state.history = [state.history[0]];
+  state.historyIndex = 0;
+  renderComposite();
+  toast('Restored to original', 'success');
+}
+
+function updateUIFromState() {
+  rebuildRightPanel();
+}
+
+/* ===================== CANVAS INTERACTION ===================== */
+let isDrawing = false;
+let isDraggingSlider = false;
+
+function getCanvasCoords(evt) {
+  const rect = mainCanvas.getBoundingClientRect();
+  const scaleX = state.previewWidth / rect.width;
+  const scaleY = state.previewHeight / rect.height;
+  return {
+    x: clamp((evt.clientX - rect.left) * scaleX, 0, state.previewWidth),
+    y: clamp((evt.clientY - rect.top) * scaleY, 0, state.previewHeight)
+  };
+}
+
+mainCanvas.addEventListener('mousedown', (e) => {
+  if (!state.hasImage) return;
+  if (state.beforeAfter) {
+    const rect = mainCanvas.getBoundingClientRect();
+    const x = (e.clientX - rect.left) / rect.width;
+    if (Math.abs(x - state.split) < 0.03) { isDraggingSlider = true; return; }
+  }
+  if (state.tool !== 'maskEditor' || !state.personMask) return;
+  isDrawing = true;
+  drawBrush(e);
+});
+window.addEventListener('mousemove', (e) => {
+  if (isDraggingSlider) {
+    const rect = mainCanvas.getBoundingClientRect();
+    state.split = clamp((e.clientX - rect.left) / rect.width, 0, 1);
+    renderComposite();
+    return;
+  }
+  if (!isDrawing) return;
+  drawBrush(e);
+});
+window.addEventListener('mouseup', () => {
+  if (isDrawing) { isDrawing = false; pushHistory(); }
+  isDraggingSlider = false;
+});
+
+function drawBrush(e) {
+  const { x, y } = getCanvasCoords(e);
+  const mode = state.maskEdit.mode;
+  const size = state.maskEdit.brushSize;
+  const mask = getActiveMaskImageData();
+  if (!mask) return;
+  const w = state.previewWidth, h = state.previewHeight;
+  const c = document.createElement('canvas');
+  c.width = w; c.height = h;
+  const mctx = c.getContext('2d');
+  mctx.putImageData(mask, 0, 0);
+
+  mctx.beginPath();
+  mctx.arc(x, y, size / 2, 0, Math.PI * 2);
+  if (mode === 'brush') {
+    mctx.fillStyle = 'rgba(255,255,255,1)'; mctx.fill();
+  } else if (mode === 'eraser') {
+    mctx.fillStyle = 'rgba(0,0,0,1)'; mctx.fill();
+  } else if (mode === 'restore') {
+    const orig = state.history[0];
+    let origMask = null;
+    if (state.maskEdit.activeMask === 'person') origMask = orig.personMask;
+    if (state.maskEdit.activeMask === 'clothing') origMask = orig.clothingMask;
+    if (state.maskEdit.activeMask === 'face') origMask = orig.faceMask;
+    if (state.maskEdit.activeMask === 'background') origMask = orig.backgroundMask;
+    if (origMask) {
+      mctx.save();
+      mctx.beginPath(); mctx.arc(x, y, size / 2, 0, Math.PI * 2); mctx.clip();
+      mctx.drawImage(imageDataToCanvas(origMask), 0, 0);
+      mctx.restore();
+    }
+  }
+
+  const newData = mctx.getImageData(0, 0, w, h);
+  if (state.maskEdit.activeMask === 'person') state.personMask = newData;
+  if (state.maskEdit.activeMask === 'clothing') state.clothingMask = newData;
+  if (state.maskEdit.activeMask === 'face') state.faceMask = newData;
+  if (state.maskEdit.activeMask === 'background') state.backgroundMask = newData;
+
+  // Rebuild dependent layers
+  if (state.maskEdit.activeMask === 'person') rebuildPersonLayer();
+  if (state.maskEdit.activeMask === 'clothing') renderClothingLayer();
+  renderComposite();
+}
+
+function imageDataToCanvas(im) {
+  const c = document.createElement('canvas');
+  c.width = im.width; c.height = im.height;
+  c.getContext('2d').putImageData(im, 0, 0);
+  return c;
+}
+
+function rebuildPersonLayer() {
+  const w = state.previewWidth, h = state.previewHeight;
+  const pctx = layerPerson.getContext('2d');
+  pctx.clearRect(0, 0, w, h);
+  pctx.drawImage(layerOriginal, 0, 0);
+  pctx.globalCompositeOperation = 'destination-in';
+  pctx.drawImage(imageDataToCanvas(state.personMask), 0, 0);
+  pctx.globalCompositeOperation = 'source-over';
+}
+
+/* ===================== EXPORT ===================== */
+function exportImage(format, resolution) {
+  if (!state.originalImage) { toast('Upload an image first', 'error'); return; }
+  let w = state.originalWidth;
+  let h = state.originalHeight;
+  if (resolution === '2K') { const s = 2048 / Math.max(w, h); if (s < 1) { w = Math.round(w * s); h = Math.round(h * s); } }
+  if (resolution === '4K') { const s = 4096 / Math.max(w, h); if (s < 1) { w = Math.round(w * s); h = Math.round(h * s); } }
+
+  const exportCanvas = document.createElement('canvas');
+  exportCanvas.width = w; exportCanvas.height = h;
+  const ectx = exportCanvas.getContext('2d');
+  const scale = w / state.previewWidth;
+  ectx.save();
+  ectx.scale(scale, scale);
+
+  renderBackground(ectx, state.previewWidth, state.previewHeight);
+  ectx.save();
+  ectx.filter = buildAdjustmentFilter();
+  if (state.personMask) ectx.drawImage(layerPerson, 0, 0);
+  else ectx.drawImage(layerOriginal, 0, 0);
+  ectx.filter = 'none';
+  ectx.restore();
+  if (state.clothing.enabled && state.clothingMask) {
+    ectx.globalAlpha = state.clothing.opacity;
+    ectx.drawImage(layerClothing, 0, 0);
+    ectx.globalAlpha = 1;
+  }
+  if (state.relight.enabled) {
+    ectx.globalCompositeOperation = 'soft-light';
+    ectx.drawImage(layerLighting, 0, 0);
+    ectx.globalCompositeOperation = 'source-over';
+  }
+  ectx.restore();
+
+  const mime = format === 'jpg' ? 'image/jpeg' : format === 'webp' ? 'image/webp' : 'image/png';
+  const url = exportCanvas.toDataURL(mime, 0.92);
+  const a = document.createElement('a');
+  a.href = url; a.download = `OMGoracle_export.${format === 'jpg' ? 'jpg' : format}`;
+  a.click();
+}
+
+/* ===================== EVENT WIRING ===================== */
+$('#btn-open').addEventListener('click', () => fileInput.click());
+$('#btn-drop-open').addEventListener('click', () => fileInput.click());
+fileInput.addEventListener('change', (e) => { if (e.target.files[0]) handleImageFile(e.target.files[0]); });
+
+bgFileInput.addEventListener('change', (e) => {
+  if (e.target.files[0]) {
+    const url = URL.createObjectURL(e.target.files[0]);
+    const img = new Image();
+    img.onload = () => { URL.revokeObjectURL(url); state.background.image = img; renderComposite(); pushHistory(); };
+    img.src = url;
+  }
+});
+
+uniformFileInput.addEventListener('change', (e) => {
+  if (e.target.files[0]) {
+    const url = URL.createObjectURL(e.target.files[0]);
+    const img = new Image();
+    img.onload = () => {
+      URL.revokeObjectURL(url);
+      state.clothing.customImage = img;
+      state.clothing.preset = 'custom';
+      state.clothing.enabled = true;
+      renderClothingLayer(); renderComposite(); pushHistory();
+    };
+    img.src = url;
+  }
+});
+
+$('#btn-undo').addEventListener('click', undo);
+$('#btn-redo').addEventListener('click', redo);
+$('#btn-reset').addEventListener('click', () => {
+  if (!state.hasImage) return;
+  if (confirm('Reset all edits? The original image will be preserved.')) restoreOriginal();
+});
+
+$('#btn-before-after').addEventListener('click', () => {
+  if (!state.hasImage) { toast('Upload an image first', 'error'); return; }
+  state.beforeAfter = !state.beforeAfter;
+  $('#before-after-slider').style.display = state.beforeAfter ? 'block' : 'none';
+  if (!state.beforeAfter) renderComposite();
+  else renderComposite();
+});
+
+$('#btn-export').addEventListener('click', () => {
+  if (!state.originalImage) { toast('Upload an image first', 'error'); return; }
+  const fmt = prompt('Choose format: png, jpg, webp', 'png');
+  if (!fmt) return;
+  const res = prompt('Resolution: original, 2K, 4K', 'original');
+  exportImage(fmt.trim().toLowerCase(), res.trim().toLowerCase());
+});
+
+// Zoom
+document.getElementById('zoom-in').addEventListener('click', () => { state.zoom = clamp(state.zoom + 0.15, 0.2, 4); updateZoom(); });
+document.getElementById('zoom-out').addEventListener('click', () => { state.zoom = clamp(state.zoom - 0.15, 0.2, 4); updateZoom(); });
+document.getElementById('zoom-fit').addEventListener('click', () => fitCanvasToWrapper());
+document.getElementById('zoom-100').addEventListener('click', () => { state.zoom = 1; updateZoom(); });
+function updateZoom() {
+  canvasWrapper.style.width = (state.previewWidth * state.zoom) + 'px';
+  canvasWrapper.style.height = (state.previewHeight * state.zoom) + 'px';
+  $('#zoom-label').textContent = Math.round(state.zoom * 100) + '%';
+}
+
+// Drag & Drop
+document.body.addEventListener('dragover', (e) => { e.preventDefault(); if (!state.hasImage) dropZone.classList.add('drag-active'); });
+document.body.addEventListener('dragleave', () => dropZone.classList.remove('drag-active'));
+document.body.addEventListener('drop', (e) => {
+  e.preventDefault();
+  dropZone.classList.remove('drag-active');
+  if (e.dataTransfer.files && e.dataTransfer.files[0]) handleImageFile(e.dataTransfer.files[0]);
+});
+
+// Clipboard paste
+window.addEventListener('paste', (e) => {
+  const items = e.clipboardData && e.clipboardData.items;
+  if (!items) return;
+  for (let i = 0; i < items.length; i++) {
+    if (items[i].type.indexOf('image') !== -1) {
+      const blob = items[i].getAsFile();
+      if (blob) handleImageFile(blob);
+      break;
+    }
+  }
+});
+
+// Tool selection
+document.getElementById('tools-list').addEventListener('click', (e) => {
+  const btn = e.target.closest('.tool-btn');
+  if (!btn) return;
+  selectTool(btn.dataset.tool);
+});
+
+// Relight click
+mainCanvas.addEventListener('click', (e) => {
+  if (!state.hasImage) return;
+  if (state.tool === 'relight' && state.relight.enabled) {
+    const { x, y } = getCanvasCoords(e);
+    state.relight.x = x / state.previewWidth;
+    state.relight.y = y / state.previewHeight;
+    renderLightingLayer(); renderComposite(); pushHistory();
+  }
+});
+
+// Window resize
+window.addEventListener('resize', () => { if (state.hasImage) fitCanvasToWrapper(); });
+
+// Init
+rebuildRightPanel();
+setStatus('Ready. Upload an image to begin.');
+</script>
+</body>
+</html>
