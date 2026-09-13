@@ -4,7 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>OMGoracle AI Photo Studio</title>
-  <link rel="icon" type="image/png" href="images/omgoracle-favicon.png">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230a0a0a'/%3E%3Crect x='8' y='8' width='48' height='48' rx='10' fill='none' stroke='%23d4af37' stroke-width='4'/%3E%3Ctext x='32' y='41' text-anchor='middle' font-family='Arial' font-size='25' font-weight='700' fill='%23d4af37'%3EO%3C/text%3E%3C/svg%3E">
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
@@ -52,10 +53,6 @@ html, body {
   padding: 0 18px; z-index: 10; flex-shrink: 0;
 }
 #brand {
-  #brand {
-  text-decoration: none;
-  cursor: pointer;
-
   display: flex; align-items: center; gap: 10px;
   font-weight: 700; font-size: 17px; letter-spacing: 0.5px;
   color: var(--gold);
@@ -81,16 +78,6 @@ html, body {
   transition: all .15s ease; white-space: nowrap;
 }
 .btn:hover { border-color: var(--gold); color: var(--gold-light); }
- .btn:hover { ... }
-
-.home-btn {
- text-decoration: none;
-   color: var(--text);
- }
-
- .home-btn:hover {
-   border-color: var(--gold);
-  color: var(--gold-light); }
 .btn:disabled { opacity: 0.4; cursor: not-allowed; border-color: var(--border); color: var(--text-secondary); }
 .btn-primary {
   background: linear-gradient(135deg, var(--gold), #bfa230);
@@ -102,6 +89,68 @@ html, body {
 .btn.active { border-color: var(--gold); color: var(--gold-light); box-shadow: inset 0 0 0 1px var(--gold); }
 .btn-danger { background: rgba(255,82,82,0.1); border-color: rgba(255,82,82,0.3); color: var(--error); }
 .btn-danger:hover { border-color: var(--error); color: #ff7777; }
+.btn-home,
+.btn-login {
+  text-decoration: none;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.btn-home {
+  border-color: rgba(212,175,55,0.45);
+  color: var(--gold-light);
+  background: rgba(212,175,55,0.08);
+}
+
+.btn-home:hover {
+  background: rgba(212,175,55,0.16);
+  border-color: var(--gold);
+  color: #fff4b0;
+  box-shadow: 0 0 14px rgba(212,175,55,0.18);
+}
+
+.btn-login {
+  border-color: rgba(0,200,255,0.45);
+  color: #d9f8ff;
+  background: rgba(0,200,255,0.08);
+}
+
+.btn-login:hover {
+  border-color: #00c8ff;
+  color: #ffffff;
+  background: rgba(0,200,255,0.16);
+  box-shadow: 0 0 14px rgba(0,200,255,0.22);
+}
+
+#brand {
+  text-decoration: none;
+  cursor: pointer;
+  color: var(--gold);
+}
+
+#brand:hover .logo-icon {
+  box-shadow: 0 0 12px rgba(212,175,55,0.35);
+}
+
+@media (max-width: 900px) {
+  #top-bar { padding: 0 10px; }
+  #top-actions { gap: 5px; }
+  #top-actions .btn { padding: 6px 8px; font-size: 11px; }
+  #top-right .btn { padding: 6px 8px; font-size: 11px; }
+}
+
+@media (max-width: 680px) {
+  #top-actions .btn-undo,
+  #top-actions .btn-redo,
+  #top-actions #btn-before-after {
+    display: none;
+  }
+  #brand { font-size: 13px; }
+  #brand .logo-icon { width: 24px; height: 24px; font-size: 12px; }
+  #top-actions .btn-home { display: inline-flex; }
+  #top-right .btn-login { display: inline-flex; }
+}
+
 
 /* Sidebars */
 #left-sidebar, #right-sidebar {
@@ -315,10 +364,10 @@ input[type="color"] { border: none; width: 32px; height: 32px; background: none;
 .toast.success { border-color: rgba(0,200,83,0.4); }
 @keyframes toastIn { from { opacity:0; transform: translateY(10px); } to { opacity:1; transform: translateY(0); } }
 
- <a href="index.html" id="brand">
- <div class="logo-icon">O</div>
- <div>OMGoracle AI Photo Studio</div>
- </a>
+/* Responsive */
+@media (max-width: 900px) {
+  #app { grid-template-columns: 200px 1fr 240px; }
+}
 </style>
 </head>
 <body>
@@ -326,22 +375,20 @@ input[type="color"] { border: none; width: 32px; height: 32px; background: none;
 <div id="app">
   <!-- Top Bar -->
   <div id="top-bar">
-    <div id="brand">
+    <a href="index.html" id="brand" aria-label="Go to OMGoracle Home">
       <div class="logo-icon">O</div>
       <div>OMGoracle AI Photo Studio</div>
-    </div>
+    </a>
     <div id="top-actions">
+      <a href="index.html" class="btn btn-home" id="btn-home" aria-label="Home">⌂&nbsp; Home</a>
       <button class="btn" id="btn-open"><span>+</span> Open</button>
       <button class="btn" id="btn-undo" title="Undo" disabled>&#8617; Undo</button>
-      <div id="top-actions">
- <a href="index.html" class="btn home-btn">⌂ Home</a>
- <button class="btn" id="btn-open"><span>+</span> Open</button>
- <button class="btn" id="btn-undo" title="Undo" disabled>&#8617; Undo</button>
       <button class="btn" id="btn-redo" title="Redo" disabled>&#8618; Redo</button>
       <button class="btn" id="btn-reset">Reset All</button>
       <button class="btn" id="btn-before-after">Before / After</button>
     </div>
     <div id="top-right">
+      <a href="login.html" class="btn btn-login" id="btn-login" aria-label="Login">Login</a>
       <button class="btn btn-primary" id="btn-export">Export</button>
     </div>
   </div>
@@ -480,6 +527,15 @@ input[type="color"] { border: none; width: 32px; height: 32px; background: none;
    OMGoracle AI Photo Studio v2
    Architecture: IMAGE ENGINE | AI ENGINE | UI ENGINE
    ============================================================ */
+
+// Navigation
+document.addEventListener('DOMContentLoaded', () => {
+  const home = document.getElementById('btn-home');
+  if (home) home.addEventListener('click', () => { window.location.href = 'index.html'; });
+
+  const brand = document.getElementById('brand');
+  if (brand) brand.addEventListener('click', () => { window.location.href = 'index.html'; });
+});
 
 /* ===================== CONSTANTS ===================== */
 const PRESETS = {
