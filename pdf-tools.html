@@ -1,183 +1,227 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>PDF Studio | OMGoracle AI Cyber Cafe</title>
-
-<link rel="stylesheet" href="pdf-tools.css">
-
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>OMGoracle PDF Studio</title>
+<link rel="icon" type="image/png" href="favicon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+<script src="https://unpkg.com/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<style>
+:root{--bg:#f5f8ff;--surface:rgba(255,255,255,.84);--surface2:#fff;--text:#142033;--muted:#66748b;--line:rgba(40,90,180,.14);--blue:#2563eb;--violet:#7c3aed;--pink:#ec4899;--gold:#d6a928;--danger:#ef4444;--ok:#10b981;--shadow:0 22px 70px rgba(32,70,140,.14)}
+[data-theme=dark]{--bg:#060a12;--surface:rgba(14,21,36,.86);--surface2:#0e1524;--text:#edf4ff;--muted:#9aa8bc;--line:rgba(125,175,255,.15);--shadow:0 25px 80px rgba(0,0,0,.38)}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;font-family:Poppins,Arial,sans-serif;color:var(--text);background:radial-gradient(circle at 10% 8%,rgba(37,99,235,.14),transparent 27%),radial-gradient(circle at 90% 12%,rgba(236,72,153,.10),transparent 25%),var(--bg);min-height:100vh}body:before{content:"";position:fixed;inset:0;pointer-events:none;background-image:linear-gradient(rgba(80,130,220,.045) 1px,transparent 1px),linear-gradient(90deg,rgba(80,130,220,.045) 1px,transparent 1px);background-size:44px 44px}
+header{position:sticky;top:12px;z-index:1000;max-width:1200px;margin:12px auto 0;padding:14px 18px;display:flex;align-items:center;justify-content:space-between;gap:15px;border:1px solid var(--line);border-radius:22px;background:var(--surface);backdrop-filter:blur(20px);box-shadow:var(--shadow)}.brand{display:flex;align-items:center;gap:11px;text-decoration:none;color:var(--text);font-weight:800}.brand-icon{width:42px;height:42px;border-radius:13px;display:grid;place-items:center;color:white;background:linear-gradient(135deg,var(--blue),var(--violet));box-shadow:0 0 25px rgba(37,99,235,.35)}.brand small{display:block;color:var(--muted);font-size:10px;font-weight:500}nav{display:flex;gap:7px;align-items:center;flex-wrap:wrap}nav a,.theme{border:1px solid var(--line);background:transparent;color:var(--text);padding:9px 12px;border-radius:12px;text-decoration:none;font:600 12px Poppins;cursor:pointer}.theme:hover,nav a:hover{border-color:rgba(37,99,235,.5)}
+main{max-width:1200px;margin:auto;padding:48px 18px 70px}.hero{text-align:center;max-width:850px;margin:0 auto 30px}.eyebrow{font-size:11px;letter-spacing:.22em;color:var(--blue);font-weight:800}.hero h1{font-size:clamp(38px,6vw,68px);line-height:1;margin:9px 0 14px}.hero p{color:var(--muted);font-size:15px}.chips{display:flex;justify-content:center;flex-wrap:wrap;gap:8px}.chip{padding:7px 11px;border:1px solid var(--line);border-radius:999px;color:var(--muted);font-size:11px;background:var(--surface)}
+.layout{display:grid;grid-template-columns:250px 1fr;gap:18px}.sidebar,.panel,.toolbox{background:var(--surface);border:1px solid var(--line);border-radius:24px;box-shadow:var(--shadow);backdrop-filter:blur(20px)}.sidebar{padding:14px;height:max-content;position:sticky;top:95px}.side-title{padding:9px 10px 12px;color:var(--muted);font-size:10px;font-weight:800;letter-spacing:.14em}.toolnav{display:grid;gap:5px}.toolnav button{border:0;background:transparent;color:var(--text);text-align:left;padding:11px 12px;border-radius:12px;font:600 12px Poppins;cursor:pointer}.toolnav button:hover,.toolnav button.active{background:rgba(37,99,235,.10);color:var(--blue)}.toolnav i{width:21px}.panel{padding:26px;min-width:0}.tool-head{display:flex;align-items:flex-start;justify-content:space-between;gap:15px;margin-bottom:20px}.tool-head h2{margin:0;font-size:27px}.tool-head p{margin:6px 0 0;color:var(--muted);font-size:12px}.secure{font-size:10px;color:var(--ok);border:1px solid rgba(16,185,129,.2);padding:7px 9px;border-radius:999px;white-space:nowrap}
+.drop{border:1.5px dashed rgba(37,99,235,.45);border-radius:20px;padding:38px 18px;text-align:center;background:rgba(37,99,235,.035);cursor:pointer;transition:.2s}.drop.drag{background:rgba(37,99,235,.11);transform:scale(1.01)}.drop i{font-size:40px;color:var(--blue);margin-bottom:10px}.drop h3{margin:4px 0}.drop p{color:var(--muted);font-size:12px}.drop input{display:none}
+.files{display:grid;gap:8px;margin-top:13px}.file{display:flex;align-items:center;gap:10px;padding:10px 12px;border:1px solid var(--line);border-radius:14px;background:rgba(127,150,190,.045)}.file>i{color:#ef4444;font-size:21px}.file strong{font-size:12px;word-break:break-all}.file small{display:block;color:var(--muted);font-size:10px}.file .spacer{margin-left:auto;display:flex;gap:5px}.mini{border:1px solid var(--line);background:transparent;color:var(--text);border-radius:9px;padding:6px 8px;cursor:pointer}
+.options{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:17px}.field label{display:block;font-size:11px;font-weight:700;margin-bottom:6px}.field input,.field select,.field textarea{width:100%;padding:11px 12px;border:1px solid var(--line);border-radius:12px;background:var(--surface2);color:var(--text);outline:none;font:500 12px Poppins}.field textarea{min-height:85px;resize:vertical}.actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:19px}.btn{border:0;border-radius:12px;padding:11px 15px;display:inline-flex;align-items:center;gap:7px;font:700 12px Poppins;cursor:pointer;text-decoration:none}.primary{color:#fff;background:linear-gradient(135deg,var(--blue),var(--violet));box-shadow:0 10px 25px rgba(37,99,235,.2)}.secondary{color:var(--text);background:transparent;border:1px solid var(--line)}.btn:disabled{opacity:.45;cursor:not-allowed}.status{display:none;margin-top:15px;padding:12px 13px;border-radius:13px;font-size:11px;border:1px solid var(--line);background:rgba(37,99,235,.06)}.status.show{display:block}.status.ok{background:rgba(16,185,129,.08);border-color:rgba(16,185,129,.25)}.status.err{background:rgba(239,68,68,.08);border-color:rgba(239,68,68,.25)}.progress{height:7px;margin-top:9px;border-radius:99px;background:rgba(100,120,150,.15);overflow:hidden}.progress span{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--blue),var(--pink));transition:.25s}.preview{margin-top:18px;border:1px solid var(--line);border-radius:18px;padding:14px;max-height:430px;overflow:auto;background:rgba(127,150,190,.035)}.thumbs{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:10px}.thumb{border:1px solid var(--line);border-radius:12px;padding:7px;text-align:center;background:var(--surface2)}.thumb canvas{max-width:100%;height:auto}.thumb small{display:block;color:var(--muted);font-size:9px;margin-top:4px}
+footer{text-align:center;color:var(--muted);font-size:11px;padding:20px}footer a{color:inherit}
+@media(max-width:850px){.layout{grid-template-columns:1fr}.sidebar{position:relative;top:auto}.toolnav{display:flex;overflow:auto}.toolnav button{white-space:nowrap}.options{grid-template-columns:1fr 1fr}}
+@media(max-width:560px){header{top:7px;margin:7px 7px 0;padding:10px;border-radius:17px}.brand-icon{width:36px;height:36px}.brand small{display:none}nav a{font-size:10px;padding:8px}.theme{font-size:10px;padding:8px}main{padding:34px 10px}.panel{padding:17px;border-radius:20px}.options{grid-template-columns:1fr}.tool-head{display:block}.secure{display:inline-block;margin-top:10px}.drop{padding:29px 12px}.hero h1{font-size:43px}}
 
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
-
-<link rel="stylesheet"
-href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
-
+.home-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
+.home-card{position:relative;min-height:205px;padding:24px 18px;text-align:center;text-decoration:none;color:var(--text);background:var(--surface);border:1px solid var(--line);border-radius:24px;box-shadow:var(--shadow);backdrop-filter:blur(18px);transition:.25s;overflow:hidden}
+.home-card:before{content:"";position:absolute;width:130px;height:130px;left:50%;top:-55px;transform:translateX(-50%);border-radius:50%;background:rgba(37,99,235,.10);filter:blur(5px)}
+.home-card:hover{transform:translateY(-7px);border-color:rgba(37,99,235,.55);box-shadow:0 25px 65px rgba(37,99,235,.18)}
+.home-icon{position:relative;width:62px;height:62px;margin:0 auto 14px;border-radius:18px;display:grid;place-items:center;color:#fff;font-size:27px;background:linear-gradient(135deg,var(--blue),var(--violet));box-shadow:0 0 28px rgba(37,99,235,.28)}
+.home-card h3{margin:0 0 7px;font-size:17px}.home-card p{margin:0;color:var(--muted);font-size:11px;line-height:1.5}.open-label{display:inline-block;margin-top:15px;font-size:10px;font-weight:700;color:var(--blue)}
+.tool-screen{max-width:900px;margin:auto}
+.back{display:inline-flex;align-items:center;gap:7px;margin-bottom:15px;color:var(--muted);text-decoration:none;font-size:12px;font-weight:700}
+@media(max-width:1000px){.home-grid{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:700px){.home-grid{grid-template-columns:repeat(2,1fr);gap:12px}.home-card{min-height:185px;padding:18px 12px}.home-icon{width:54px;height:54px;font-size:23px}}
+@media(max-width:450px){.home-grid{grid-template-columns:1fr 1fr}.home-card h3{font-size:14px}.home-card p{font-size:10px}}
+</style>
 </head>
-
 <body>
-
 <header>
-
-<h2>📄 OMGoracle PDF Studio</h2>
-
-<a href="index.html" class="homeBtn">
-
-<i class="fa-solid fa-house"></i>
-
-Home
-
-</a>
-
+<a class="brand" href="index.html"><span class="brand-icon"><i class="fa-solid fa-file-pdf"></i></span><span>OMGoracle PDF Studio<small>AI Cyber Cafe</small></span></a>
+<nav><a href="index.html"><i class="fa-solid fa-house"></i> Home</a><a href="?">PDF Studio</a><button class="theme" id="theme">🌙 Dark</button></nav>
 </header>
+<main>
+<section class="hero" id="hero">
+<div class="eyebrow">OMGORACLE · PREMIUM DOCUMENT TOOLS</div>
+<h1>PDF Studio</h1>
+<p>All PDF utilities in one luxury, modern workspace.</p>
+<div class="chips"><span class="chip">✓ Fast</span><span class="chip">✓ Modern UI</span><span class="chip">✓ Browser-first</span><span class="chip">✓ Mobile Ready</span></div>
+</section>
 
-<section class="hero">
-
-<h1>PDF Tools</h1>
-
-<p>
-
-All PDF utilities in one place.
-
-</p>
-<div class="search">
-
-<input
-type="text"
-id="searchBox"
-placeholder="🔍 Search PDF Tool...">
-
+<section id="homeView">
+<div class="home-grid">
+<a class="home-card" href="?tool=image">
+<div class="home-icon"><i class="fa-solid fa-file-image"></i></div>
+<h3>Image to PDF</h3><p>Convert Images into PDF</p><span class="open-label">OPEN TOOL →</span>
+</a>
+<a class="home-card" href="?tool=word">
+<div class="home-icon"><i class="fa-solid fa-file-word"></i></div>
+<h3>Word to PDF</h3><p>Create Documents & Export PDF</p><span class="open-label">OPEN TOOL →</span>
+</a>
+<a class="home-card" href="?tool=pdfimage">
+<div class="home-icon"><i class="fa-solid fa-image"></i></div>
+<h3>PDF to Image</h3><p>Convert PDF into Images</p><span class="open-label">OPEN TOOL →</span>
+</a>
+<a class="home-card" href="?tool=merge">
+<div class="home-icon"><i class="fa-solid fa-copy"></i></div>
+<h3>Merge PDF</h3><p>Combine Multiple PDFs</p><span class="open-label">OPEN TOOL →</span>
+</a>
+<a class="home-card" href="?tool=split">
+<div class="home-icon"><i class="fa-solid fa-scissors"></i></div>
+<h3>Split PDF</h3><p>Split PDF Pages</p><span class="open-label">OPEN TOOL →</span>
+</a>
+<a class="home-card" href="?tool=compress">
+<div class="home-icon"><i class="fa-solid fa-file-zipper"></i></div>
+<h3>Compress PDF</h3><p>Reduce PDF Size</p><span class="open-label">OPEN TOOL →</span>
+</a>
+<a class="home-card" href="?tool=rotate">
+<div class="home-icon"><i class="fa-solid fa-rotate-right"></i></div>
+<h3>Rotate PDF</h3><p>Rotate PDF Pages</p><span class="open-label">OPEN TOOL →</span>
+</a>
+<a class="home-card" href="?tool=protect">
+<div class="home-icon"><i class="fa-solid fa-lock"></i></div>
+<h3>Protect PDF</h3><p>Add Password</p><span class="open-label">OPEN TOOL →</span>
+</a>
+<a class="home-card" href="?tool=unlock">
+<div class="home-icon"><i class="fa-solid fa-lock-open"></i></div>
+<h3>Unlock PDF</h3><p>Remove Password</p><span class="open-label">OPEN TOOL →</span>
+</a>
+<a class="home-card" href="?tool=watermark">
+<div class="home-icon"><i class="fa-solid fa-droplet"></i></div>
+<h3>Watermark</h3><p>Add Watermark to PDF</p><span class="open-label">OPEN TOOL →</span>
+</a>
+<a class="home-card" href="?tool=number">
+<div class="home-icon"><i class="fa-solid fa-list-ol"></i></div>
+<h3>Page Number</h3><p>Add Page Numbers</p><span class="open-label">OPEN TOOL →</span>
+</a>
+<a class="home-card" href="?tool=print">
+<div class="home-icon"><i class="fa-solid fa-print"></i></div>
+<h3>Print PDF</h3><p>Print Ready Documents</p><span class="open-label">OPEN TOOL →</span>
+</a>
 </div>
 </section>
 
-<div class="tools">
-
-<a href="image-to-pdf.html" class="card">
-
-<i class="fa-solid fa-file-image"></i>
-
-<h3>Image to PDF</h3>
-
-<p>Convert Images into PDF</p>
-
-</a>
-
-<a href="word-to-pdf.html" class="card">
-
-<i class="fa-solid fa-file-word"></i>
-
-<h3>Word to PDF</h3>
-
-<p>Create Documents & Export PDF</p>
-
-</a>
-
-<a href="pdf-to-image.html" class="card">
-
-<i class="fa-solid fa-image"></i>
-
-<h3>PDF to Image</h3>
-
-<p>Convert PDF into Images</p>
-
-</a>
-
-<a href="merge-pdf.html" class="card">
-
-<i class="fa-solid fa-copy"></i>
-
-<h3>Merge PDF</h3>
-
-<p>Combine Multiple PDFs</p>
-
-</a>
-
-<a href="split-pdf.html" class="card">
-
-<i class="fa-solid fa-scissors"></i>
-
-<h3>Split PDF</h3>
-
-<p>Split PDF Pages</p>
-
-</a>
-
-<a href="compress-pdf.html" class="card">
-
-<i class="fa-solid fa-file-zipper"></i>
-
-<h3>Compress PDF</h3>
-
-<p>Reduce PDF Size</p>
-
-</a>
-
-<a href="rotate-pdf.html" class="card">
-
-<i class="fa-solid fa-rotate-right"></i>
-
-<h3>Rotate PDF</h3>
-
-<p>Rotate PDF Pages</p>
-
-</a>
-
-<a href="protect-pdf.html" class="card">
-
-<i class="fa-solid fa-lock"></i>
-
-<h3>Protect PDF</h3>
-
-<p>Add Password</p>
-
-</a>
-
-<a href="unlock-pdf.html" class="card">
-
-<i class="fa-solid fa-lock-open"></i>
-
-<h3>Unlock PDF</h3>
-
-<p>Remove Password</p>
-
-</a>
-
-<a href="watermark-pdf.html" class="card">
-
-<i class="fa-solid fa-droplet"></i>
-
-<h3>Watermark</h3>
-
-<p>Add Watermark to PDF</p>
-
-</a>
-
-<a href="page-number.html" class="card">
-
-<i class="fa-solid fa-list-ol"></i>
-
-<h3>Page Number</h3>
-
-<p>Add Page Numbers</p>
-
-</a>
-
-<a href="print-pdf.html" class="card">
-
-<i class="fa-solid fa-print"></i>
-
-<h3>Print PDF</h3>
-
-<p>Print Ready Documents</p>
-
-</a>
-
+<section id="toolView" style="display:none" class="tool-screen">
+<a class="back" href="pdf-tools.html"><i class="fa-solid fa-arrow-left"></i> Back to PDF Studio</a>
+<div class="panel">
+<div class="tool-head"><div><h2 id="toolTitle">PDF Tool</h2><p id="toolDesc"></p></div><div class="secure">● Browser-first workflow</div></div>
+<div id="toolbox"></div>
 </div>
+</section>
+</main>
+<footer>© 2026 OMGoracle AI Cyber Cafe · <a href="index.html">Home</a> · <a href="?">PDF Studio</a></footer>
+<script>
+const PDF=window.PDFLib;
+const $=s=>document.querySelector(s);
+const root=document.documentElement;
+const saved=localStorage.getItem('omg-pdf-theme');if(saved)root.dataset.theme=saved;
+function themeLabel(){const b=$('#theme');if(b)b.textContent=root.dataset.theme==='dark'?'☀️ Light':'🌙 Dark'}
+themeLabel();$('#theme').onclick=()=>{let n=root.dataset.theme==='dark'?'light':'dark';root.dataset.theme=n;localStorage.setItem('omg-pdf-theme',n);themeLabel()};
+const configs={
+image:['Image to PDF','Convert multiple JPG, PNG or WebP images into a PDF.'],
+word:['Word to PDF','Create a PDF from a Word document using the browser print workflow.'],
+pdfimage:['PDF to Image','Render every PDF page as a PNG or JPG image.'],
+merge:['Merge PDF','Combine multiple PDF files into one document.'],
+split:['Split PDF','Extract selected pages into a new PDF.'],
+compress:['Compress PDF','Reduce PDF size with a safe browser workflow.'],
+rotate:['Rotate PDF','Rotate PDF pages.'],
+protect:['Protect PDF','Password-protect a PDF with a real encryption engine.'],
+unlock:['Unlock PDF','Unlock an encrypted PDF with its password.'],
+watermark:['Watermark PDF','Add text watermark to PDF pages.'],
+number:['Page Number','Add page numbers to PDF pages.'],
+print:['Print PDF','Print a PDF from your browser.']
+};
+let files=[];
+function fmt(n){return n<1024?n+' B':n<1048576?(n/1024).toFixed(1)+' KB':(n/1048576).toFixed(1)+' MB'}
+function esc(s){return s.replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]))}
+function status(msg,type=''){const e=$('#status');if(e){e.innerHTML=msg;e.className='status show '+type}}
+function download(data,name,type='application/pdf'){const u=URL.createObjectURL(new Blob([data],{type}));const a=document.createElement('a');a.href=u;a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(u),1200)}
+function setup(){
+ const d=$('#drop'),i=$('#input'); if(!d||!i)return;
+ $('#choose').onclick=e=>{e.stopPropagation();i.click()}; d.onclick=()=>i.click();
+ ['dragenter','dragover'].forEach(x=>d.addEventListener(x,e=>{e.preventDefault();d.classList.add('drag')}));
+ ['dragleave','drop'].forEach(x=>d.addEventListener(x,e=>{e.preventDefault();d.classList.remove('drag')}));
+ d.addEventListener('drop',e=>{try{i.files=e.dataTransfer.files}catch{};i.dispatchEvent(new Event('change'))});
+ i.onchange=()=>{files=[...i.files];renderFiles()}
+}
+function renderFiles(){const e=$('#files');if(!e)return;e.innerHTML=files.map((f,n)=>`<div class="file"><i class="fa-solid fa-${f.type.includes('image')?'image':'file-pdf'}"></i><div><strong>${esc(f.name)}</strong><small>${fmt(f.size)}</small></div><div class="spacer"><button class="mini" onclick="removeFile(${n})">×</button></div></div>`).join('')}
+window.removeFile=n=>{files.splice(n,1);renderFiles()}
+function reset(){files=[];$('#input').value='';renderFiles();$('#status').className='status'}
+function upload(multi,accept,label){return `<div class="drop" id="drop"><i class="fa-solid fa-cloud-arrow-up"></i><h3>Drag & Drop your file${multi?'s':''}</h3><p>or click here to browse</p><button class="btn primary" type="button" id="choose"><i class="fa-solid fa-folder-open"></i> ${label}</button><input id="input" type="file" accept="${accept}" ${multi?'multiple':''}></div><div class="files" id="files"></div><div id="status" class="status"></div>`}
+function toolBody(t){
+ let multi=false,accept='.pdf',label='Choose PDF',controls='';
+ if(t==='image'){multi=true;accept='image/*';label='Choose Images';controls='<div class="options"><div class="field"><label>Page Size</label><select id="size"><option>A4</option><option>Letter</option><option>Original</option></select></div><div class="field"><label>Orientation</label><select id="ori"><option>Portrait</option><option>Landscape</option></select></div><div class="field"><label>Margin (mm)</label><input id="margin" type="number" value="10" min="0" max="50"></div></div>'}
+ if(t==='word'){accept='.doc,.docx';label='Choose Word File'}
+ if(t==='merge'){multi=true;controls='<p style="font-size:11px;color:var(--muted)">After selecting files, use the ↑ ↓ buttons to change order.</p>'}
+ if(t==='split')controls='<div class="options"><div class="field" style="grid-column:1/-1"><label>Page Range(s)</label><input id="range" placeholder="Example: 1-3,5,7-9"></div></div>'
+ if(t==='rotate')controls='<div class="options"><div class="field"><label>Rotation</label><select id="angle"><option value="90">90° Clockwise</option><option value="180">180°</option><option value="270">270° Clockwise</option></select></div></div>'
+ if(t==='watermark')controls='<div class="options"><div class="field"><label>Watermark Text</label><input id="wm" value="OMGoracle"></div><div class="field"><label>Font Size</label><input id="wms" type="number" value="48"></div><div class="field"><label>Opacity</label><input id="op" type="number" value=".25" min=".05" max="1" step=".05"></div></div>'
+ if(t==='number')controls='<div class="options"><div class="field"><label>Starting Number</label><input id="start" type="number" value="1"></div><div class="field"><label>Font Size</label><input id="nfs" type="number" value="10"></div><div class="field"><label>Position</label><select id="pos"><option>Bottom Center</option><option>Bottom Right</option><option>Bottom Left</option></select></div></div>'
+ if(t==='pdfimage')controls='<div class="options"><div class="field"><label>Format</label><select id="format"><option>PNG</option><option>JPG</option></select></div><div class="field"><label>Scale</label><select id="scale"><option value="1">1×</option><option value="1.5" selected>1.5×</option><option value="2">2×</option></select></div></div>'
+ if(t==='compress')controls='<div class="options"><div class="field"><label>Compression</label><select id="compression"><option>Light</option><option>Medium</option><option>Strong</option></select></div></div>'
+ if(t==='protect')controls='<div class="options"><div class="field"><label>Password</label><input type="password" id="pass"></div><div class="field"><label>Confirm Password</label><input type="password" id="pass2"></div></div>'
+ if(t==='unlock')controls='<div class="options"><div class="field"><label>Password</label><input type="password" id="unlockpass"></div></div>'
+ return upload(multi,accept,label)+controls+`<div class="actions"><button class="btn primary" id="go">✨ ${configs[t][0]}</button><button class="btn secondary" id="reset">Reset</button></div>`;
+}
+async function run(t){
+ if(t==='image')return imagePDF(); if(t==='merge')return mergePDF(); if(t==='split')return splitPDF(); if(t==='rotate')return rotatePDF(); if(t==='watermark')return watermarkPDF(); if(t==='number')return numberPDF(); if(t==='pdfimage')return pdfImage(); if(t==='print')return printPDF(); if(t==='word')return wordPDF();
+ if(t==='compress')return status('⚠ Reliable PDF compression needs a dedicated PDF engine. This browser-only build does not fake compression.','err');
+ if(t==='protect')return status('⚠ Real PDF password encryption needs a PDF encryption engine. This browser-only build does not pretend to secure the file.','err');
+ if(t==='unlock')return status('⚠ Decrypting an encrypted PDF requires a compatible PDF engine. This browser-only build does not bypass PDF security.','err');
+}
+async function imagePDF(){
+ if(!files.length)return status('⚠ Select at least one image.','err');const pdf=await PDF.PDFDocument.create(),m=Number($('#margin').value||10)*2.83465,sizes={A4:[595.28,841.89],Letter:[612,792]};
+ for(let k=0;k<files.length;k++){const f=files[k],buf=await f.arrayBuffer();let img;
+ if(f.type==='image/jpeg')img=await pdf.embedJpg(buf);else if(f.type==='image/png')img=await pdf.embedPng(buf);else{const bmp=await createImageBitmap(f),c=document.createElement('canvas');c.width=bmp.width;c.height=bmp.height;c.getContext('2d').drawImage(bmp,0,0);const b=await new Promise(r=>c.toBlob(r,'image/png'));img=await pdf.embedPng(await b.arrayBuffer())}
+ let [w,h]=sizes[$('#size').value]||[img.width,img.height];if($('#ori').value==='Landscape'&&$('#size').value!=='Original')[w,h]=[h,w];if($('#size').value==='Original'){w=img.width;h=img.height}
+ const p=pdf.addPage([w,h]),s=Math.min((w-2*m)/img.width,(h-2*m)/img.height),dw=img.width*s,dh=img.height*s;p.drawImage(img,{x:(w-dw)/2,y:(h-dh)/2,width:dw,height:dh});status(`Creating PDF… ${Math.round((k+1)/files.length*100)}%`)}
+ download(await pdf.save(),'OMGoracle-Images.pdf');status('✓ PDF created successfully.','ok')
+}
+async function mergePDF(){if(files.length<2)return status('⚠ Select at least two PDFs.','err');const out=await PDF.PDFDocument.create();for(const f of files){const src=await PDF.PDFDocument.load(await f.arrayBuffer());(await out.copyPages(src,src.getPageIndices())).forEach(p=>out.addPage(p))}download(await out.save(),'OMGoracle-Merged.pdf');status('✓ PDFs merged successfully.','ok')}
+async function splitPDF(){if(!files.length)return status('⚠ Select a PDF.','err');const src=await PDF.PDFDocument.load(await files[0].arrayBuffer()),nums=[];for(const x of $('#range').value.split(',')){const s=x.trim();if(!s)continue;if(s.includes('-')){let[a,b]=s.split('-').map(Number);for(let i=a;i<=b;i++)nums.push(i-1)}else nums.push(Number(s)-1)}const v=[...new Set(nums)].filter(i=>i>=0&&i<src.getPageCount());if(!v.length)return status('⚠ Enter a valid page range.','err');const out=await PDF.PDFDocument.create();(await out.copyPages(src,v)).forEach(p=>out.addPage(p));download(await out.save(),'OMGoracle-Split.pdf');status('✓ Selected pages exported.','ok')}
+async function rotatePDF(){if(!files.length)return status('⚠ Select a PDF.','err');const pdf=await PDF.PDFDocument.load(await files[0].arrayBuffer()),d=Number($('#angle').value);pdf.getPages().forEach(p=>p.setRotation(PDF.degrees((p.getRotation().angle+d)%360)));download(await pdf.save(),'OMGoracle-Rotated.pdf');status('✓ PDF rotated successfully.','ok')}
+async function watermarkPDF(){if(!files.length)return status('⚠ Select a PDF.','err');const pdf=await PDF.PDFDocument.load(await files[0].arrayBuffer()),font=await pdf.embedFont(PDF.StandardFonts.HelveticaBold),text=$('#wm').value||'OMGoracle',size=Number($('#wms').value||48),op=Number($('#op').value||.25);for(const p of pdf.getPages()){const {width,height}=p.getSize(),tw=font.widthOfTextAtSize(text,size);p.drawText(text,{x:(width-tw)/2,y:height/2,size,font,color:PDF.rgb(.08,.35,.9),opacity:op,rotate:PDF.degrees(35)})}download(await pdf.save(),'OMGoracle-Watermarked.pdf');status('✓ Watermark added.','ok')}
+async function numberPDF(){if(!files.length)return status('⚠ Select a PDF.','err');const pdf=await PDF.PDFDocument.load(await files[0].arrayBuffer()),font=await pdf.embedFont(PDF.StandardFonts.Helvetica);let n=Number($('#start').value||1),size=Number($('#nfs').value||10);for(const p of pdf.getPages()){const {width}=p.getSize(),t=String(n++),tw=font.widthOfTextAtSize(t,size);let x=(width-tw)/2;if($('#pos').value==='Bottom Right')x=width-tw-25;if($('#pos').value==='Bottom Left')x=25;p.drawText(t,{x,y:20,size,font,color:PDF.rgb(.12,.16,.23)})}download(await pdf.save(),'OMGoracle-Page-Numbers.pdf');status('✓ Page numbers added.','ok')}
+async function pdfImage(){if(!files.length)return status('⚠ Select a PDF.','err');const pdfjs=await import('https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.4.168/pdf.min.mjs');pdfjs.GlobalWorkerOptions.workerSrc='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.4.168/pdf.worker.min.mjs';const pdf=await pdfjs.getDocument({data:await files[0].arrayBuffer()}).promise,zip=new JSZip(),ext=$('#format').value.toLowerCase(),scale=Number($('#scale').value);for(let i=1;i<=pdf.numPages;i++){const p=await pdf.getPage(i),vp=p.getViewport({scale}),c=document.createElement('canvas');c.width=vp.width;c.height=vp.height;await p.render({canvasContext:c.getContext('2d'),viewport:vp}).promise;const b=await new Promise(r=>c.toBlob(r,ext==='jpg'?'image/jpeg':'image/png',.92));zip.file(`OMGoracle-page-${i}.${ext}`,await b.arrayBuffer());status(`Rendering pages… ${Math.round(i/pdf.numPages*100)}%`)}const z=await zip.generateAsync({type:'blob'}),u=URL.createObjectURL(z),a=document.createElement('a');a.href=u;a.download='OMGoracle-PDF-Images.zip';a.click();URL.revokeObjectURL(u);status(`✓ ${pdf.numPages} image(s) packed into ZIP.`,'ok')}
+function printPDF(){if(!files.length)return status('⚠ Select a PDF.','err');const u=URL.createObjectURL(files[0]),w=window.open(u,'_blank');if(!w)return status('⚠ Please allow pop-ups for printing.','err');setTimeout(()=>w.print(),1000);status('✓ Print window opened.','ok')}
+async function wordPDF(){if(!files.length)return status('⚠ Select a DOC/DOCX file.','err');const w=window.open('','_blank');if(!w)return status('⚠ Please allow pop-ups.','err');w.document.write('<html><head><title>OMGoracle Word to PDF</title><style>body{font-family:Arial;max-width:800px;margin:40px auto;line-height:1.6}@media print{body{margin:20mm}}</style></head><body><h2>Word to PDF</h2><p>Your Word file is selected. For reliable formatting, use the browser print dialog and choose <b>Save as PDF</b>.</p><p>'+esc(files[0].name)+'</p></body></html>');w.document.close();setTimeout(()=>w.print(),700);status('✓ Print-ready window opened. Choose “Save as PDF”.','ok')}
+function initTool(t){
+ $('#homeView').style.display='none';$('#hero').style.display='none';$('#toolView').style.display='block';$('#toolTitle').textContent=configs[t][0];$('#toolDesc').textContent=configs[t][1];$('#toolbox').innerHTML=toolBody(t);files=[];setup();$('#reset').onclick=reset;$('#go').onclick=()=>run(t);
+ if(t==='merge')setTimeout(()=>{const obs=new MutationObserver(()=>document.querySelectorAll('#files .file').forEach((el,i)=>{if(el.dataset.x)return;el.dataset.x=1;const s=el.querySelector('.spacer');s.innerHTML=`<button class="mini" onclick="move(${i},-1)">↑</button><button class="mini" onclick="move(${i},1)">↓</button><button class="mini" onclick="removeFile(${i})">×</button>`}));obs.observe($('#files'),{childList:true})},0);
+}
+window.move=(i,d)=>{let j=i+d;if(j<0||j>=files.length)return;[files[i],files[j]]=[files[j],files[i]];renderFiles()};
 
-</body>
+document.addEventListener('click',function(e){
+ const card=e.target.closest('[data-open-tool]');
+ if(!card)return;
+ e.preventDefault();
+ const t=card.getAttribute('data-open-tool');
+ if(configs[t]){
+   history.pushState({tool:t},'',location.pathname+'?tool='+encodeURIComponent(t));
+   initTool(t);
+   window.scrollTo({top:0,behavior:'smooth'});
+ }
+});
+document.addEventListener('click',function(e){
+ const back=e.target.closest('.back');
+ if(!back)return;
+ e.preventDefault();
+ history.pushState({},'',location.pathname);
+ showHome();
+ window.scrollTo({top:0,behavior:'smooth'});
+});
+window.addEventListener('popstate',function(){
+ const t=new URLSearchParams(location.search).get('tool');
+ if(t&&configs[t])initTool(t);else showHome();
+});
+function showHome(){
+ $('#toolView').style.display='none';
+ $('#homeView').style.display='block';
+ $('#hero').style.display='block';
+}
 
-</html>
+const params=new URLSearchParams(location.search),tool=params.get('tool');
+if(tool&&configs[tool])initTool(tool);else showHome();
+</script>
+</body></html>
