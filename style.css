@@ -3390,3 +3390,154 @@ height:400px;
     background: red !important;
     color: white !important;
 }
+
+
+
+/* =================================
+   OMGoracle SOCIAL MEDIA SECTION
+================================= */
+
+.social-section {
+    text-align: center;
+    padding: 50px 20px;
+    background: linear-gradient(135deg, #10121b, #1b1b29);
+}
+
+.social-section h2 {
+    color: #d4af37;
+    font-size: 28px;
+    font-weight: 700;
+    margin-bottom: 10px;
+}
+
+.social-section p {
+    color: #cccccc;
+    font-size: 15px;
+    margin-bottom: 28px;
+}
+
+.social-links {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 18px;
+}
+
+.social-links a {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+    color: #ffffff;
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(212,175,55,0.35);
+    padding: 14px 23px;
+    border-radius: 12px;
+    font-size: 15px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.social-links a:hover {
+    transform: translateY(-6px);
+    background: #d4af37;
+    color: #111111;
+    box-shadow: 0 8px 22px rgba(212,175,55,0.25);
+}
+
+.social-links i {
+    font-size: 21px;
+}
+
+/* MOBILE RESPONSIVE */
+
+@media (max-width: 600px) {
+    .social-section {
+        padding: 35px 15px;
+    }
+
+    .social-links {
+        gap: 12px;
+    }
+
+    .social-links a {
+        padding: 12px 16px;
+        font-size: 13px;
+    }
+}
+
+/* =================================
+   OMGoracle SOCIAL MEDIA SECTION
+================================= */
+
+.social-section {
+    text-align: center;
+    padding: 50px 20px;
+    background: linear-gradient(135deg, #10121b, #1b1b29);
+}
+
+.social-section h2 {
+    color: #d4af37;
+    font-size: 28px;
+    font-weight: 700;
+    margin-bottom: 10px;
+}
+
+.social-section p {
+    color: #cccccc;
+    font-size: 15px;
+    margin-bottom: 28px;
+}
+
+.social-links {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 18px;
+}
+
+.social-links a {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+    color: #ffffff;
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(212,175,55,0.35);
+    padding: 14px 23px;
+    border-radius: 12px;
+    font-size: 15px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.social-links a:hover {
+    transform: translateY(-6px);
+    background: #d4af37;
+    color: #111111;
+    box-shadow: 0 8px 22px rgba(212,175,55,0.25);
+}
+
+.social-links i {
+    font-size: 21px;
+}
+
+/* MOBILE RESPONSIVE */
+
+@media (max-width: 600px) {
+    .social-section {
+        padding: 35px 15px;
+    }
+
+    .social-links {
+        gap: 12px;
+    }
+
+    .social-links a {
+        padding: 12px 16px;
+        font-size: 13px;
+    }
+}
+
